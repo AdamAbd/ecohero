@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:ecohero/home/presentation/screens/screens.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +20,9 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: PageView(
           controller: pageController,
+          onPageChanged: (i) => setState(() {
+            index = i;
+          }),
           children: [
             const DashboardScreen(),
             Container(color: Colors.amber),
@@ -21,6 +31,14 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: index,
+        onTap: (index) {
+          pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),
