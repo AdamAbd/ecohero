@@ -23,10 +23,10 @@ class _HomePageState extends State<HomePage> {
           onPageChanged: (i) => setState(() {
             index = i;
           }),
-          children: [
-            const DashboardScreen(),
-            const ChallengeScreen(),
-            Container(color: Colors.greenAccent),
+          children: const [
+            DashboardScreen(),
+            ChallengeScreen(),
+            ProfileScreen(),
           ],
         ),
       ),
