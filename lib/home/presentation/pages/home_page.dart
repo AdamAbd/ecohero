@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           }),
           children: [
             const DashboardScreen(),
-            Container(color: Colors.amber),
+            const ChallengeScreen(),
             Container(color: Colors.greenAccent),
           ],
         ),

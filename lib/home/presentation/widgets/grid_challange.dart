@@ -18,7 +18,7 @@ class GridChallange extends StatelessWidget {
           mainAxisSpacing: 12,
           childAspectRatio: 5 / 6,
         ),
-        itemCount: 4,
+        itemCount: 8,
         itemBuilder: (context, index) => Column(
           children: [
             Container(
