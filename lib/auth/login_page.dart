@@ -1,4 +1,4 @@
-import 'package:ecohero/home/home_page.dart';
+import 'package:ecohero/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
