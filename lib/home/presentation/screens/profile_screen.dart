@@ -14,8 +14,17 @@ class ProfileScreen extends StatelessWidget {
           const Stack(
             alignment: Alignment.bottomRight,
             children: [
-              CircleAvatar(radius: 60),
-              CircleAvatar(radius: 15, backgroundColor: Colors.amber),
+              CircleAvatar(
+                radius: 60,
+                backgroundImage: NetworkImage(
+                  'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
+                ),
+              ),
+              CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.amber,
+                child: Icon(Icons.edit_rounded, size: 18),
+              ),
             ],
           ),
           const SizedBox(height: 16),

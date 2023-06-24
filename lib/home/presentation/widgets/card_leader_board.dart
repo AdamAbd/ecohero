@@ -16,7 +16,12 @@ class CardLeaderBoard extends StatelessWidget {
           children: [
             Column(
               children: [
-                const CircleAvatar(radius: 36),
+                const CircleAvatar(
+                  radius: 36,
+                  backgroundImage: NetworkImage(
+                    'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.only(top: 4),
                   width: 36,
@@ -34,7 +39,12 @@ class CardLeaderBoard extends StatelessWidget {
             const SizedBox(width: 8),
             Column(
               children: [
-                const CircleAvatar(radius: 50),
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                    'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.only(top: 4),
                   width: 48,
@@ -52,7 +62,12 @@ class CardLeaderBoard extends StatelessWidget {
             const SizedBox(width: 8),
             Column(
               children: [
-                const CircleAvatar(radius: 36),
+                const CircleAvatar(
+                  radius: 36,
+                  backgroundImage: NetworkImage(
+                    'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.only(top: 4),
                   width: 36,
