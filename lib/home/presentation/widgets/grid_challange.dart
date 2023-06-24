@@ -1,3 +1,4 @@
+import 'package:ecohero/challenge/challenge_page.dart';
 import 'package:flutter/material.dart';
 
 class GridChallange extends StatelessWidget {
@@ -19,42 +20,48 @@ class GridChallange extends StatelessWidget {
           childAspectRatio: 5 / 6,
         ),
         itemCount: 8,
-        itemBuilder: (context, index) => Column(
-          children: [
-            Container(
-              height: 120,
-              decoration: BoxDecoration(
-                color: Colors.lightGreen[200],
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            const SizedBox(height: 2),
-            const Text(
-              'Kurangi polusi kendaraan dengan menggukan angkutan umum',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 2),
-            const Row(
-              children: [
-                Icon(Icons.money),
-                SizedBox(width: 2),
-                Text(
-                  '5 | Diikuti 250+',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChallengePage()),
+          ),
+          child: Column(
+            children: [
+              Container(
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Colors.lightGreen[200],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 2),
+              const Text(
+                'Kurangi polusi kendaraan dengan menggukan angkutan umum',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 2),
+              const Row(
+                children: [
+                  Icon(Icons.money),
+                  SizedBox(width: 2),
+                  Text(
+                    '5 | Diikuti 250+',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
