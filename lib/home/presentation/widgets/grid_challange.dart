@@ -1,4 +1,5 @@
 import 'package:ecohero/challenge/challenge_page.dart';
+import 'package:ecohero/common/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class GridChallange extends StatelessWidget {
@@ -23,17 +24,54 @@ class GridChallange extends StatelessWidget {
         itemBuilder: (context, index) => GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ChallengePage()),
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  ChallengePage(index: index),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            ),
           ),
           child: Column(
             children: [
-              Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.lightGreen[200],
-                  borderRadius: BorderRadius.circular(10),
+              Hero(
+                tag: 'imageHeroTransition_$index',
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.lightGreen[200],
+                    borderRadius: BorderRadius.circular(10),
+                    image: const DecorationImage(
+                      image: AssetImage(AppIllustration.mockImage),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
+              // Container(
+              //   height: 120,
+              //   decoration: BoxDecoration(
+              //     color: Colors.lightGreen[200],
+              //     borderRadius: BorderRadius.circular(10),
+              //     // image: const DecorationImage(
+              //     //   image: AssetImage(AppIllustration.mockImage),
+              //     //   fit: BoxFit.cover,
+              //     // ),
+              //   ),
+              //   child: Hero(
+              //     tag: 'imageHeroTransition_$index',
+              //     child: Image.asset(
+              //       AppIllustration.mockImage,
+              //       width: double.infinity,
+              //       // height: 260,
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 2),
               const Text(
                 'Kurangi polusi kendaraan dengan menggukan angkutan umum',

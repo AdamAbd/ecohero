@@ -1,7 +1,10 @@
+import 'package:ecohero/common/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class ChallengePage extends StatelessWidget {
-  const ChallengePage({super.key});
+  const ChallengePage({required this.index, super.key});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,14 @@ class ChallengePage extends StatelessWidget {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                Container(
-                  height: 260,
-                  color: Colors.amberAccent,
+                Hero(
+                  tag: 'imageHeroTransition_$index',
+                  child: Image.asset(
+                    AppIllustration.mockImage,
+                    width: double.infinity,
+                    height: 260,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Container(
                   width: 28,
@@ -80,12 +88,7 @@ class ChallengePage extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
             ),
-            const SizedBox(height: 12),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Divider(),
-            ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: IntrinsicHeight(
@@ -144,6 +147,22 @@ class ChallengePage extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.only(left: 24),
+              child: Text(
+                'Aktivitas Terbaru',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 2),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Tantangan ini bertujuan untuk mengurangi jumlah kendaraan pribadi di jalan yang menyebabkan kemacetan dan polusi udara. Anda dapat beralih ke bus, kereta, atau Transjakarta untuk pergi ke tempat kerja atau tempat lain yang Anda tuju. Anda akan mendapatkan manfaat hemat waktu dan biaya dari tantangan ini. Jangan lupa untuk membagikan rute dan jadwal Anda di media sosial dengan tagar #BeralihKeBusKeretaAtauTransjakarta.',
+                style: TextStyle(fontSize: 14),
               ),
             ),
             const SizedBox(height: 100),
