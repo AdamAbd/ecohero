@@ -25,4 +25,22 @@ class Converter {
     print(conc);
     return conc;
   }
+
+  String getAqiCategory(int aqi) {
+    if (aqi >= 0 && aqi <= 50) {
+      return "Baik";
+    } else if (aqi > 50 && aqi <= 100) {
+      return "Sedang";
+    } else if (aqi > 100 && aqi <= 150) {
+      return "Tidak Sehat bagi Kelompok Sensitif";
+    } else if (aqi > 150 && aqi <= 200) {
+      return "Tidak Sehat";
+    } else if (aqi > 200 && aqi <= 300) {
+      return "Sangat Tidak Sehat";
+    } else if (aqi > 300 && aqi <= 500) {
+      return "Berbahaya";
+    } else {
+      return "Nilai AQI Tidak Valid";
+    }
+  }
 }

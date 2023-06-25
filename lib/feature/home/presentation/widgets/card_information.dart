@@ -42,9 +42,9 @@ class CardInformation extends StatelessWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Text(
-                          'Udara Sehat',
-                          style: TextStyle(
+                        Text(
+                          Converter().getAqiCategory(aqius),
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
