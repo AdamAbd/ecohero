@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
             child: const Text(
               'Logout',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 60),

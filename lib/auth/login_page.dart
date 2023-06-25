@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
                   Icon(Icons.flutter_dash),
                   SizedBox(width: 8),
                   Text(
-                    'Masuk dengan google',
+                    'Masuk Sekarang',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
