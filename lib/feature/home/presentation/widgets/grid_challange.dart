@@ -52,29 +52,9 @@ class GridChallange extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 120,
-              //   decoration: BoxDecoration(
-              //     color: Colors.lightGreen[200],
-              //     borderRadius: BorderRadius.circular(10),
-              //     // image: const DecorationImage(
-              //     //   image: AssetImage(AppIllustration.mockImage),
-              //     //   fit: BoxFit.cover,
-              //     // ),
-              //   ),
-              //   child: Hero(
-              //     tag: 'imageHeroTransition_$index',
-              //     child: Image.asset(
-              //       AppIllustration.mockImage,
-              //       width: double.infinity,
-              //       // height: 260,
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
               const SizedBox(height: 2),
               const Text(
-                'Kurangi polusi kendaraan dengan menggukan angkutan umum',
+                '[Dummy] Kurangi polusi kendaraan dengan menggukan angkutan umum',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
