@@ -51,8 +51,8 @@ class CardInformation extends StatelessWidget {
                         ),
                         const Spacer(),
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 56,
+                          height: 52,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -86,8 +86,8 @@ class CardInformation extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: 56,
+                          height: 52,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -102,7 +102,7 @@ class CardInformation extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  pm25.toInt().toString(),
+                                  "${pm25.round()}",
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
