@@ -17,9 +17,11 @@ class CardInformation extends StatelessWidget {
         return BlocBuilder<GetIqairCubit, GetIqairState>(
           builder: (context, state) {
             int aqius = 0;
+            double pm25 = 0;
             if (state is GetIqairSuccess) {
               print("Success");
               aqius = state.iqAirEntity.current!.pollution!.aqius ?? 0;
+              pm25 = Converter().convertAqiToPm25(aqius);
             } else if (state is GetIqairError) {
               print("Error");
             } else {
@@ -95,19 +97,19 @@ class CardInformation extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "37",
-                                  style: TextStyle(
+                                  pm25.toInt().toString(),
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.green,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "PM 2.5",
                                   style: TextStyle(
                                     fontSize: 10,
