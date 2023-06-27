@@ -33,7 +33,7 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 
 android {
     namespace "id.my.adamabd.ecohero"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion').toInteger()
     ndkVersion flutter.ndkVersion
 
     compileOptions {
