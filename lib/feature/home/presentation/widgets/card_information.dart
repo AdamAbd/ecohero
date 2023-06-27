@@ -2,9 +2,9 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:ecohero/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:ecohero/feature/feature.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class CardInformation extends StatelessWidget {
   const CardInformation({super.key});
@@ -53,18 +53,23 @@ class CardInformation extends StatelessWidget {
                   .read<GetIqairCubit>()
                   .getPollution(stateGeolocator.currentPosition);
             }
-
             return BlocBuilder<GetIqairCubit, GetIqairState>(
               builder: (context, stateIQAir) {
                 int aqius = 0;
                 double pm25 = 0;
+                String city = "";
+                bool isLoading = false;
                 if (stateIQAir is GetIqairSuccess) {
-                  print("Success");
                   aqius = stateIQAir.iqAirEntity.current!.pollution!.aqius ?? 0;
                   pm25 = Converter().convertAqiToPm25(aqius);
+                  city = stateIQAir.iqAirEntity.city ?? "";
+                  isLoading = false;
+                  print("Success");
                 } else if (stateIQAir is GetIqairError) {
+                  isLoading = false;
                   print("Error");
                 } else {
+                  isLoading = true;
                   print("Loading");
                 }
                 return Card(
@@ -76,91 +81,71 @@ class CardInformation extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.place, size: 16),
-                            Text('Jakarta Timur',
-                                style: const TextStyle(fontSize: 14)),
-                            // Text('${currentPosition?[0]}',
-                            //     style: const TextStyle(fontSize: 14)),
+                            Visibility(
+                              visible: isLoading,
+                              replacement: SizedBox(
+                                width: MediaQuery.of(context).size.width -
+                                    (56 * 2) -
+                                    (10 * 2) -
+                                    (24 * 2) -
+                                    (14 * 2),
+                                child: Text(
+                                  city,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              child: const ShimmerLayout(
+                                width: 120,
+                                height: 20,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Text(
-                              Converter().getAqiCategory(aqius),
-                              style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              width: 56,
-                              height: 52,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  width: 2.5,
-                                  color: Colors.green,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      aqius.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    const Text(
-                                      "AQI",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ],
+                            Visibility(
+                              visible: isLoading,
+                              replacement: SizedBox(
+                                width: MediaQuery.of(context).size.width -
+                                    (56 * 2) -
+                                    (10 * 2) -
+                                    (24 * 2) -
+                                    (14 * 2),
+                                child: Text(
+                                  Converter().getAqiCategory(aqius),
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
                                 ),
                               ),
+                              child: ShimmerLayout(
+                                  width: MediaQuery.of(context).size.width -
+                                      (56 * 2) -
+                                      (10 * 2) -
+                                      (24 * 2) -
+                                      (14 * 2),
+                                  height: 44),
                             ),
                             const SizedBox(width: 10),
-                            Container(
-                              width: 56,
-                              height: 52,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  width: 2.5,
-                                  color: Colors.green,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
+                            Visibility(
+                              visible: isLoading,
+                              replacement: InformationBox(
+                                title: "AQI",
+                                value: aqius.toString(),
                               ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "${pm25.round()}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    const Text(
-                                      "PM 2.5",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              child: const ShimmerLayout(width: 56, height: 52),
+                            ),
+                            const SizedBox(width: 10),
+                            Visibility(
+                              visible: isLoading,
+                              replacement: InformationBox(
+                                title: "PM 2.5",
+                                value: pm25.round().toString(),
                               ),
+                              child: const ShimmerLayout(width: 56, height: 52),
                             ),
                           ],
                         ),
@@ -186,6 +171,55 @@ class CardInformation extends StatelessWidget {
           },
         );
       }),
+    );
+  }
+}
+
+class InformationBox extends StatelessWidget {
+  const InformationBox({
+    super.key,
+    required this.title,
+    required this.value,
+  });
+
+  final String title;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 56,
+      height: 52,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 2.5,
+          color: Colors.green,
+          strokeAlign: BorderSide.strokeAlignCenter,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 10,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

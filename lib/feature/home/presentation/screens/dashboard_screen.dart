@@ -1,6 +1,7 @@
+import 'package:ecohero/feature/home/home.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ecohero/feature/home/presentation/widgets/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -30,7 +31,10 @@ class DashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const CardInformation(),
+          GestureDetector(
+            child: const CardInformation(),
+            onTap: () => context.read<GeolocatorCubit>().getUserLocation(),
+          ),
           const SizedBox(height: 12),
           const Padding(
             padding: EdgeInsets.only(left: 24),

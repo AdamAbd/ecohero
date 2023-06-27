@@ -17,7 +17,7 @@ class GeolocatorCubit extends Cubit<GeolocatorState> {
       print('Location service is disabled');
 
       emit(
-        GeolocatorError(
+        const GeolocatorError(
             geolocatorErrorType: GeolocatorErrorType.location,
             title: "Location service is disabled",
             content: "Please enable location service and try again"),
@@ -51,7 +51,7 @@ class GeolocatorCubit extends Cubit<GeolocatorState> {
         print('Location permission is not granted');
 
         emit(
-          GeolocatorError(
+          const GeolocatorError(
             geolocatorErrorType: GeolocatorErrorType.permission,
             title: "Location permission is not granted",
             content:
