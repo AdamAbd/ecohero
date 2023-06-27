@@ -17,4 +17,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => IQAirRepository(sl()));
   sl.registerLazySingleton(() => IQAirRemoteDataSource(sl()));
   sl.registerFactory(() => GetIqairCubit(sl()));
+
+  /// Geolocator
+  sl.registerFactory(() => GeolocatorCubit());
 }

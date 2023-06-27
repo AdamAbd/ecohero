@@ -1,5 +1,6 @@
 import 'package:ecohero/feature/feature.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../locator.dart' as locator;
 
@@ -16,14 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Eco Hero',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => locator.sl<GeolocatorCubit>(),
+      child: MaterialApp(
+        title: 'Eco Hero',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const LoginPage(),
       ),
-      home: const LoginPage(),
     );
   }
 }
