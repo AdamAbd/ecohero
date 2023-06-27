@@ -5,12 +5,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 part 'geolocator_state.dart';
 
-// class GeolocatorCubit extends Cubit<GeolocatorState> {
-//   GeolocatorCubit() : super(GeolocatorInitial());
-// }
-
-class GeolocatorCubit extends Cubit<List<double>?> {
-  GeolocatorCubit() : super(null);
+class GeolocatorCubit extends Cubit<GeolocatorState> {
+  GeolocatorCubit() : super(GeolocatorInitial());
 
   Future<void> getUserLocation({bool isReturningFromSettings = false}) async {
     // Check if location service is enabled
@@ -19,6 +15,13 @@ class GeolocatorCubit extends Cubit<List<double>?> {
     if (!isLocationEnabled) {
       // Show dialog to enable location service
       print('Location service is disabled');
+
+      emit(
+        GeolocatorError(
+            geolocatorErrorType: GeolocatorErrorType.location,
+            title: "Location service is disabled",
+            content: "Please enable location service and try again"),
+      );
       return;
     }
 
@@ -36,12 +39,28 @@ class GeolocatorCubit extends Cubit<List<double>?> {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      emit([position.latitude, position.longitude]);
+      print('Gelocator Success ${position.latitude} ${position.longitude}');
+
+      emit(
+        GeolocatorSuccess(
+            currentPosition: [position.latitude, position.longitude]),
+      );
     } else {
       // Show dialog to request location permission only if user is coming back from settings
       if (isReturningFromSettings) {
         print('Location permission is not granted');
+
+        emit(
+          GeolocatorError(
+            geolocatorErrorType: GeolocatorErrorType.permission,
+            title: "Location permission is not granted",
+            content:
+                "Please grant location permission in app settings and try again",
+          ),
+        );
       }
     }
   }
 }
+
+enum GeolocatorErrorType { location, permission }
