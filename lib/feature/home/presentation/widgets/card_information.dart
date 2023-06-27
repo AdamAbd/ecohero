@@ -7,14 +7,12 @@ import 'package:ecohero/feature/feature.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CardInformation extends StatelessWidget {
-  const CardInformation({super.key, this.currentPosition});
-
-  final List<double>? currentPosition;
+  const CardInformation({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<GetIqairCubit>()..getPollution(currentPosition),
+      create: (context) => sl<GetIqairCubit>(),
       child: Builder(builder: (context) {
         return BlocConsumer<GeolocatorCubit, GeolocatorState>(
           listener: (context, state) {
@@ -50,6 +48,12 @@ class CardInformation extends StatelessWidget {
             }
           },
           builder: (context, stateGeolocator) {
+            if (stateGeolocator is GeolocatorSuccess) {
+              context
+                  .read<GetIqairCubit>()
+                  .getPollution(stateGeolocator.currentPosition);
+            }
+
             return BlocBuilder<GetIqairCubit, GetIqairState>(
               builder: (context, stateIQAir) {
                 int aqius = 0;
@@ -72,7 +76,7 @@ class CardInformation extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.place, size: 16),
-                            Text('${currentPosition?[0]}',
+                            Text('Jakarta Timur',
                                 style: const TextStyle(fontSize: 14)),
                             // Text('${currentPosition?[0]}',
                             //     style: const TextStyle(fontSize: 14)),

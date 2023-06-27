@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ecohero/feature/home/presentation/widgets/widgets.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key, this.currentPosition});
-
-  final List<double>? currentPosition;
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          CardInformation(currentPosition: currentPosition),
+          const CardInformation(),
           const SizedBox(height: 12),
           const Padding(
             padding: EdgeInsets.only(left: 24),

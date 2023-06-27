@@ -1,11 +1,7 @@
-import 'package:android_intent_plus/android_intent.dart';
-import 'package:ecohero/feature/home/home.dart';
 import 'package:flutter/material.dart';
-
-import 'package:ecohero/feature/home/presentation/screens/screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
+
+import 'package:ecohero/feature/feature.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,82 +12,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
-
-  List<double>? currentPosition;
-
-  // Future<void> _getUserLocation({bool isReturningFromSettings = false}) async {
-  //   // Check if location service is enabled
-  //   bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
-
-  //   if (!isLocationEnabled) {
-  //     // Show dialog to enable location service
-  //     showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: const Text("Location service is disabled"),
-  //           content: const Text("Please enable location service and try again"),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: const Text('Ok'),
-  //               onPressed: () {
-  //                 const AndroidIntent intent = AndroidIntent(
-  //                   action: 'android.settings.LOCATION_SOURCE_SETTINGS',
-  //                 );
-  //                 intent.launch();
-  //                 Navigator.of(context, rootNavigator: true).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //     return;
-  //   }
-
-  //   // Check location permission
-  //   PermissionStatus permission = await Permission.location.status;
-
-  //   if (permission.isDenied || permission.isRestricted) {
-  //     // Request location permission only if user is not coming back from settings
-  //     if (!isReturningFromSettings) {
-  //       permission = await Permission.location.request();
-  //     }
-  //   }
-
-  //   if (permission.isGranted) {
-  //     var position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.medium,
-  //     );
-
-  //     setState(() {
-  //       currentPosition = [position.latitude, position.longitude];
-  //     });
-  //   } else {
-  //     // Show dialog to request location permission
-  //     if (isReturningFromSettings) {
-  //       showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return AlertDialog(
-  //             title: const Text("Location permission is not granted"),
-  //             content: const Text(
-  //                 "Please grant location permission in app settings and try again"),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 child: const Text('Ok'),
-  //                 onPressed: () {
-  //                   openAppSettings();
-  //                   Navigator.of(context, rootNavigator: true).pop();
-  //                 },
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     }
-  //   }
-  // }
 
   @override
   void initState() {
@@ -126,12 +46,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           onPageChanged: (i) => setState(() {
             index = i;
           }),
-          children: [
-            DashboardScreen(
-              currentPosition: currentPosition,
-            ),
-            const ChallengeScreen(),
-            const ProfileScreen(),
+          children: const [
+            DashboardScreen(),
+            ChallengeScreen(),
+            ProfileScreen(),
           ],
         ),
       ),
