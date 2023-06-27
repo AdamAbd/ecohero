@@ -11,10 +11,10 @@ class GetIqairCubit extends Cubit<GetIqairState> {
 
   GetIqairCubit(this.iqAirRepository) : super(GetIqairInitial());
 
-  Future<void> getPollution() async {
+  Future<void> getPollution(List<double>? currentPosition) async {
     emit(GetIqairLoading());
 
-    final response = await iqAirRepository.getPollution();
+    final response = await iqAirRepository.getPollution(currentPosition);
 
     emit(
       response.fold(

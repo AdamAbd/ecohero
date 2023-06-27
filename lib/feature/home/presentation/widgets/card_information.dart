@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecohero/feature/feature.dart';
 
 class CardInformation extends StatelessWidget {
-  const CardInformation({
-    super.key,
-  });
+  const CardInformation({super.key, this.currentPosition});
+
+  final List<double>? currentPosition;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<GetIqairCubit>()..getPollution(),
+      create: (context) => sl<GetIqairCubit>()..getPollution(currentPosition),
       child: Builder(builder: (context) {
         return BlocBuilder<GetIqairCubit, GetIqairState>(
           builder: (context, state) {
@@ -33,10 +33,11 @@ class CardInformation extends StatelessWidget {
                 padding: const EdgeInsets.all(14),
                 child: Column(
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.place, size: 16),
-                        Text('Jakarta Timur', style: TextStyle(fontSize: 14)),
+                        const Icon(Icons.place, size: 16),
+                        Text('${currentPosition?[0]}',
+                            style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                     const SizedBox(height: 12),

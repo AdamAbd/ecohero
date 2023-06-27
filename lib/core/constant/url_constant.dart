@@ -7,5 +7,7 @@ mixin UrlConstant {
   static const String baseUrl = 'https://api.airvisual.com/v2/';
 
   /// IQAir Nearest City
+  // static const String getPollution =
+  //     '${baseUrl}nearest_city?lat=-6.379162&lon=106.81787&key=$iqAirKey';
   static const String getPollution = '${baseUrl}nearest_city?key=$iqAirKey';
 }

@@ -8,9 +8,12 @@ class IQAirRepository with BaseRepository {
 
   IQAirRepository(this.iqAirRemoteDataSource);
 
-  Future<Either<Failure, ResponseEntity<IQAirEntity>>> getPollution() async {
+  Future<Either<Failure, ResponseEntity<IQAirEntity>>> getPollution(
+    List<double>? currentPosition,
+  ) async {
     return catchOrThrow(() async {
-      final response = await iqAirRemoteDataSource.getPollution();
+      final response =
+          await iqAirRemoteDataSource.getPollution(currentPosition);
 
       return ResponseEntity.fromResponseModel(
         response,
