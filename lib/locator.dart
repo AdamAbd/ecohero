@@ -1,4 +1,3 @@
-import 'package:ecohero/feature/home/presentation/cubit/get_iqair_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:ecohero/core/core.dart';

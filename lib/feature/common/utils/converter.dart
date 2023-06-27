@@ -22,7 +22,6 @@ class Converter {
     double conc =
         ((concHigh - concLow) / (aqiHigh - aqiLow)) * (aqi - aqiLow) + concLow;
 
-    print(conc);
     return conc;
   }
 

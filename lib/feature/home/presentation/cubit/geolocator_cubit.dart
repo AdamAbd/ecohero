@@ -14,15 +14,12 @@ class GeolocatorCubit extends Cubit<GeolocatorState> {
 
     if (!isLocationEnabled) {
       // Show dialog to enable location service
-      print('Location service is disabled');
-
       emit(
         const GeolocatorError(
             geolocatorErrorType: GeolocatorErrorType.location,
             title: "Location service is disabled",
             content: "Please enable location service and try again"),
       );
-      return;
     }
 
     // Check location permission
@@ -39,7 +36,6 @@ class GeolocatorCubit extends Cubit<GeolocatorState> {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      print('Gelocator Success ${position.latitude} ${position.longitude}');
 
       emit(
         GeolocatorSuccess(
@@ -48,8 +44,6 @@ class GeolocatorCubit extends Cubit<GeolocatorState> {
     } else {
       // Show dialog to request location permission only if user is coming back from settings
       if (isReturningFromSettings) {
-        print('Location permission is not granted');
-
         emit(
           const GeolocatorError(
             geolocatorErrorType: GeolocatorErrorType.permission,

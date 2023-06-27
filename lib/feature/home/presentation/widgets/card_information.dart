@@ -64,13 +64,10 @@ class CardInformation extends StatelessWidget {
                   pm25 = Converter().convertAqiToPm25(aqius);
                   city = stateIQAir.iqAirEntity.city ?? "";
                   isLoading = false;
-                  print("Success");
                 } else if (stateIQAir is GetIqairError) {
                   isLoading = false;
-                  print("Error");
                 } else {
                   isLoading = true;
-                  print("Loading");
                 }
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
