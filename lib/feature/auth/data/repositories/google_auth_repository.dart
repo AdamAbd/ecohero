@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/core.dart';
 import '../../../../feature/feature.dart';
 
-class GoogleSignInRepository with BaseRepository {
-  final GoogleSignInRemoteDataSource _remoteDataSource;
+class GoogleAuthRepository with BaseRepository {
+  final GoogleAuthRemoteDataSource _remoteDataSource;
 
-  GoogleSignInRepository(this._remoteDataSource);
+  GoogleAuthRepository(this._remoteDataSource);
 
   Future<Either<Failure, UserCredential>> googleSignIn() async {
     try {

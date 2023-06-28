@@ -1,3 +1,4 @@
+import 'package:ecohero/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,9 +21,9 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 40),
             const FlutterLogo(size: 400),
             const SizedBox(height: 60),
-            BlocConsumer<GoogleSignInCubit, GoogleSignInState>(
+            BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
               listener: (context, state) {
-                if (state is GoogleSignInLoading) {
+                if (state is GoogleAuthLoading) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -39,13 +40,26 @@ class LoginPage extends StatelessWidget {
                   );
                 }
 
-                if (state is GoogleSignInSuccess) {
+                if (state is GoogleAuthSuccess) {
+                  final UserEntity userEntity = UserEntity(
+                    id: state.userCredential!.user!.uid,
+                    username: state.userCredential!.user!.displayName ?? '',
+                    email: state.userCredential!.user!.email ?? '',
+                    photoURL: state.userCredential!.user!.photoURL ?? '',
+                    updatedAt: DateTime.now(),
+                  );
+
+                  sl<UserCubit>().save(
+                    userEntity: userEntity,
+                    isAlreadyLogin: true,
+                  );
+
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     PagePath.home,
                     (Route<dynamic> route) => false,
                   );
-                } else if (state is GoogleSignInError) {
+                } else if (state is GoogleAuthError) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -60,7 +74,7 @@ class LoginPage extends StatelessWidget {
               builder: (context, state) {
                 return FilledButton(
                   onPressed: () =>
-                      context.read<GoogleSignInCubit>().signInWithGoogle(),
+                      context.read<GoogleAuthCubit>().googleSignIn(),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

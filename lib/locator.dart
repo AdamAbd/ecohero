@@ -6,13 +6,13 @@ import 'package:ecohero/feature/feature.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // /// Menu
-  // sl.registerLazySingleton(() => MenuCubit());
+  /// User
+  sl.registerLazySingleton(() => UserCubit());
 
   /// Firebase Auth With Google
-  sl.registerLazySingleton(() => GoogleSignInRemoteDataSource());
-  sl.registerLazySingleton(() => GoogleSignInRepository(sl()));
-  sl.registerFactory(() => GoogleSignInCubit(sl()));
+  sl.registerLazySingleton(() => GoogleAuthRemoteDataSource());
+  sl.registerLazySingleton(() => GoogleAuthRepository(sl()));
+  sl.registerFactory(() => GoogleAuthCubit(sl()));
 
   /// Dio
   sl.registerLazySingleton(() => DioClient.dioInit());

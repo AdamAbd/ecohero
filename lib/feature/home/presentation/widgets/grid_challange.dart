@@ -26,18 +26,6 @@ class GridChallange extends StatelessWidget {
             PagePath.challenge,
             arguments: ChallengePageArgs(index: index),
           ),
-          // PageRouteBuilder(
-          //   pageBuilder: (context, animation, secondaryAnimation) =>
-          //       ChallengePage(index: index),
-          //   transitionsBuilder:
-          //       (context, animation, secondaryAnimation, child) {
-          //     return FadeTransition(
-          //       opacity: animation,
-          //       child: child,
-          //     );
-          //   },
-          // ),
-          // ),
           child: Column(
             children: [
               Hero(

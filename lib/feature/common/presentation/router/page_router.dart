@@ -8,7 +8,16 @@ class PageRouter {
     RouteSettings settings,
   ) {
     switch (settings.name) {
-      //* Onboarding
+      //* Splash
+      case PagePath.splash:
+        {
+          return _buildRouter(
+            settings: settings,
+            builder: (Object? args) => const SplashPage(),
+          );
+        }
+
+      //* Login
       case PagePath.login:
         {
           return _buildRouter(
@@ -40,7 +49,7 @@ class PageRouter {
       default:
         return _buildRouter(
           settings: settings,
-          builder: (Object? args) => const LoginPage(),
+          builder: (Object? args) => const SplashPage(),
         );
     }
   }

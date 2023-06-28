@@ -1,7 +1,10 @@
 /// List Page Path
 class PagePath {
-  /// Onboarding Path
-  static const String login = '/';
+  /// Splash Path
+  static const String splash = '/splash';
+
+  /// Login Path
+  static const String login = '/login';
 
   /// Home Path
   static const String home = '/home';

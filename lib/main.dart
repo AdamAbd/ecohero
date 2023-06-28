@@ -1,8 +1,10 @@
-import 'package:ecohero/feature/feature.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
 
+import 'package:ecohero/feature/feature.dart';
 import '../locator.dart' as locator;
 import 'firebase_options.dart';
 
@@ -14,6 +16,10 @@ Future<void> main() async {
   );
 
   await locator.init();
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getTemporaryDirectory(),
+  );
 
   runApp(const MyApp());
 }
@@ -28,7 +34,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(
-          value: locator.sl<GoogleSignInCubit>(),
+          value: locator.sl<UserCubit>(),
+        ),
+        BlocProvider.value(
+          value: locator.sl<GoogleAuthCubit>(),
         ),
         BlocProvider.value(
           value: locator.sl<GeolocatorCubit>(),

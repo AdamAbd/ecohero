@@ -1,1 +1,1 @@
-export 'google_remote_data_source.dart';
+export 'google_auth_remote_data_source.dart';

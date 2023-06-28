@@ -1,1 +1,1 @@
-export 'google_sign_in_cubit.dart';
+export 'google_auth_cubit.dart';
