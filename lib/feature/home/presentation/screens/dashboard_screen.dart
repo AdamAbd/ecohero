@@ -1,7 +1,8 @@
-import 'package:ecohero/feature/home/home.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ecohero/locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:ecohero/feature/feature.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -23,11 +24,11 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
             child: Text(
-              'Adam Abdurrahman',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              sl<UserCubit>().state.userEntity?.username ?? "",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 20),
