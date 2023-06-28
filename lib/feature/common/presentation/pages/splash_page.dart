@@ -37,7 +37,8 @@ class _SplashPageState extends State<SplashPage> {
         Container(
           width: double.infinity,
           height: double.infinity,
-          child: Image.asset(AppIcons.background, fit: BoxFit.fill),
+          color: Color(0xff26B4A1),
+          // child: Image.asset(AppIcons.background, fit: BoxFit.fill),
         ),
         Positioned(
           child: Center(
