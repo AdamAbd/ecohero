@@ -1,5 +1,4 @@
-import 'package:ecohero/feature/challenge/challenge_page.dart';
-import 'package:ecohero/feature/common/utils/assets.dart';
+import 'package:ecohero/feature/feature.dart';
 import 'package:flutter/material.dart';
 
 class GridChallange extends StatelessWidget {
@@ -22,20 +21,23 @@ class GridChallange extends StatelessWidget {
         ),
         itemCount: 8,
         itemBuilder: (context, index) => GestureDetector(
-          onTap: () => Navigator.push(
+          onTap: () => Navigator.pushNamed(
             context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  ChallengePage(index: index),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: child,
-                );
-              },
-            ),
+            PagePath.challenge,
+            arguments: ChallengePageArgs(index: index),
           ),
+          // PageRouteBuilder(
+          //   pageBuilder: (context, animation, secondaryAnimation) =>
+          //       ChallengePage(index: index),
+          //   transitionsBuilder:
+          //       (context, animation, secondaryAnimation, child) {
+          //     return FadeTransition(
+          //       opacity: animation,
+          //       child: child,
+          //     );
+          //   },
+          // ),
+          // ),
           child: Column(
             children: [
               Hero(

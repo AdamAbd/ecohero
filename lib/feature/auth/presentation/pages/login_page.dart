@@ -23,30 +23,33 @@ class LoginPage extends StatelessWidget {
             BlocConsumer<GoogleSignInCubit, GoogleSignInState>(
               listener: (context, state) {
                 if (state is GoogleSignInLoading) {
-                  print('Sign In Loading');
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
+                      return const AlertDialog(
                         title: Text("Loading"),
                         content: Text("Loading"),
                       );
                     },
                   );
                 } else {
-                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.popUntil(
+                    context,
+                    ModalRoute.withName(PagePath.login),
+                  );
                 }
 
                 if (state is GoogleSignInSuccess) {
-                  Navigator.push(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    PagePath.home,
+                    (Route<dynamic> route) => false,
                   );
                 } else if (state is GoogleSignInError) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
+                      return const AlertDialog(
                         title: Text("Failed"),
                         content: Text("Failed"),
                       );
@@ -58,10 +61,6 @@ class LoginPage extends StatelessWidget {
                 return FilledButton(
                   onPressed: () =>
                       context.read<GoogleSignInCubit>().signInWithGoogle(),
-                  // onPressed: () => Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const HomePage()),
-                  // ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

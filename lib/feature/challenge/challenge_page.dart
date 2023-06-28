@@ -1,10 +1,17 @@
-import 'package:ecohero/feature/common/utils/assets.dart';
 import 'package:flutter/material.dart';
 
-class ChallengePage extends StatelessWidget {
-  const ChallengePage({required this.index, super.key});
+import 'package:ecohero/feature/feature.dart';
+
+class ChallengePageArgs {
+  const ChallengePageArgs({required this.index});
 
   final int index;
+}
+
+class ChallengePage extends StatelessWidget {
+  const ChallengePage({required this.args, super.key});
+
+  final ChallengePageArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class ChallengePage extends StatelessWidget {
               alignment: Alignment.bottomRight,
               children: [
                 Hero(
-                  tag: 'imageHeroTransition_$index',
+                  tag: 'imageHeroTransition_${args.index}',
                   child: Image.asset(
                     AppIllustration.mockImage,
                     width: double.infinity,

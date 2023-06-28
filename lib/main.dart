@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PageRouter router = PageRouter();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(
@@ -39,7 +41,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const LoginPage(),
+        onGenerateRoute: router.getRoute,
+        // home: const LoginPage(),
       ),
     );
   }
