@@ -9,6 +9,11 @@ Future<void> init() async {
   // /// Menu
   // sl.registerLazySingleton(() => MenuCubit());
 
+  /// Firebase Auth With Google
+  sl.registerLazySingleton(() => GoogleSignInRemoteDataSource());
+  sl.registerLazySingleton(() => GoogleSignInRepository(sl()));
+  sl.registerFactory(() => GoogleSignInCubit(sl()));
+
   /// Dio
   sl.registerLazySingleton(() => DioClient.dioInit());
 

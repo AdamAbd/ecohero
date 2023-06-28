@@ -23,8 +23,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => locator.sl<GeolocatorCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: locator.sl<GoogleSignInCubit>(),
+        ),
+        BlocProvider.value(
+          value: locator.sl<GeolocatorCubit>(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Eco Hero',
         debugShowCheckedModeBanner: false,
