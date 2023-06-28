@@ -14,7 +14,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "654411287343-2elrnisn586msbhhvpuj6vsu9lk0jd0t.apps.googleusercontent.com",
+          "client_id": "654411287343-fp4bhafgdkpmlgmv99an88ckm401al97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.my.adamabd.ecohero",
+            "certificate_hash": "8d155d7e82b607d55239bc45a57cddbd1a68b4ca"
+          }
+        },
+        {
+          "client_id": "654411287343-k5tf32ar4rbuifjr0qb2bf3dtp2guj90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.my.adamabd.ecohero",
+            "certificate_hash": "0ea8bd5362b5835f7a18f02e6cc1b610574a0652"
+          }
+        },
+        {
+          "client_id": "654411287343-7pgt89qoc7tpbdtv6vb69jsqhukte2ob.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
