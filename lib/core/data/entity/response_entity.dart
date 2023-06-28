@@ -7,7 +7,7 @@ class ResponseEntity<T> extends Equatable {
   final T? data;
   final ErrorEntity? error;
 
-  ResponseEntity({
+  const ResponseEntity({
     this.status,
     this.data,
     this.error,
