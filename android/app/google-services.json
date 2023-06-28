@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654411287343",
+    "project_id": "ecohero-gemastik",
+    "storage_bucket": "ecohero-gemastik.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654411287343:android:73fb27d12c32e5e7496fda",
+        "android_client_info": {
+          "package_name": "id.my.adamabd.ecohero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654411287343-2elrnisn586msbhhvpuj6vsu9lk0jd0t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGK4vN_DEh9B__fBD1yROgXLoaJEAMNzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654411287343-2elrnisn586msbhhvpuj6vsu9lk0jd0t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
