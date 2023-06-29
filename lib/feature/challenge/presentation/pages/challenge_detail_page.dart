@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:ecohero/feature/feature.dart';
 
-class ChallengePageArgs {
-  const ChallengePageArgs({required this.index});
+class ChallengeDetailPageArgs {
+  const ChallengeDetailPageArgs({required this.index});
 
   final int index;
 }
 
-class ChallengePage extends StatelessWidget {
-  const ChallengePage({required this.args, super.key});
+class ChallengeDetailPage extends StatelessWidget {
+  const ChallengeDetailPage({required this.args, super.key});
 
-  final ChallengePageArgs args;
+  final ChallengeDetailPageArgs args;
 
   @override
   Widget build(BuildContext context) {

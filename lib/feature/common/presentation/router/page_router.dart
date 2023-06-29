@@ -40,8 +40,8 @@ class PageRouter {
         {
           return _buildRouter(
             settings: settings,
-            builder: (Object? args) => ChallengePage(
-              args: args! as ChallengePageArgs,
+            builder: (Object? args) => ChallengeDetailPage(
+              args: args! as ChallengeDetailPageArgs,
             ),
           );
         }

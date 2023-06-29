@@ -24,7 +24,7 @@ class GridChallange extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             PagePath.challenge,
-            arguments: ChallengePageArgs(index: index),
+            arguments: ChallengeDetailPageArgs(index: index),
           ),
           child: Column(
             children: [

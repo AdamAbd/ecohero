@@ -1,1 +1,1 @@
-export 'challenge_page.dart';
+export 'challenge_detail_page.dart';
