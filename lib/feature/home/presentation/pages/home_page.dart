@@ -55,7 +55,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       ),
       floatingActionButton: index == 1
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(
+                context,
+                PagePath.challengeCreate,
+              ),
               tooltip: 'Create Challenge',
               backgroundColor: Colors.teal[800],
               child: const Icon(Icons.add, size: 28, color: Colors.white),
