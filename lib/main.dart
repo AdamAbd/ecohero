@@ -47,7 +47,9 @@ class MyApp extends StatelessWidget {
         title: 'Eco Hero',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xff26B4A1),
+          ),
           useMaterial3: true,
         ),
         onGenerateRoute: router.getRoute,
