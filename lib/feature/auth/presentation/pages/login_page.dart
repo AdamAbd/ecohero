@@ -1,14 +1,17 @@
-import 'package:ecohero/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:ecohero/feature/feature.dart';
+import 'package:ecohero/locator.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -48,6 +51,12 @@ class LoginPage extends StatelessWidget {
                     photoURL: state.userCredential!.user!.photoURL ?? '',
                     updatedAt: DateTime.now(),
                   );
+
+                  db
+                      .collection('users')
+                      .doc(userEntity.id)
+                      .set(userEntity.toMap(), SetOptions(merge: true))
+                      .onError((e, _) => print("Error writing document: $e"));
 
                   sl<UserCubit>().save(
                     userEntity: userEntity,
