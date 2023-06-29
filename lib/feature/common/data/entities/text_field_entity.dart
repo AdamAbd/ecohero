@@ -54,16 +54,5 @@ class TextFieldEntity {
             .call(value);
       },
     ),
-    TextFieldEntity(
-      textController: TextEditingController(text: ''),
-      hint: "Masukkan jumlah poin yang diberikan",
-      label: "Jumlah Poin",
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.done,
-      focusNode: FocusNode(),
-      validator: (value) {
-        return ValidationBuilder().required().minLength(0).build().call(value);
-      },
-    ),
   ];
 }

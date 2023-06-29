@@ -1,9 +1,11 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecohero/feature/feature.dart';
+import 'package:ecohero/locator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChallengeCreatePage extends StatefulWidget {
   const ChallengeCreatePage({super.key});
@@ -21,6 +23,8 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   final ImagePicker picker = ImagePicker();
   List<File> images = <File>[];
+
+  double pointValue = 0;
 
   Future<void> pickImage() async {
     showDialog(
@@ -69,6 +73,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
       source: ImageSource.camera,
       maxWidth: 1280,
       maxHeight: 720,
+      imageQuality: 80,
     );
     if (pickedFile != null) {
       setState(() {
@@ -98,79 +103,137 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Challenge'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: pickImage,
-                  child: const Text('Pick Image'),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: 260,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: images.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Image.file(
-                        File(images[index].path),
-                        height: 260,
-                        fit: BoxFit.cover,
-                      );
+    return GestureDetector(
+      onTap: () => FocusUtils(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Create Challenge'),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: pickImage,
+                    child: const Text('Pick Image'),
+                  ),
+                  const SizedBox(height: 12),
+                  if (images.isNotEmpty)
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Image.file(
+                          File(images[0].path),
+                          width: double.infinity,
+                          height: 260,
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                          width: 28,
+                          height: 28,
+                          margin: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "1/${images.length}",
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  SizedBox(height: images.isNotEmpty ? 14 : 0),
+                  SizedBox(
+                    height: 70,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 12),
+                      itemCount: images.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            left: index == 0 ? 24 : 0,
+                            right: index == images.length - 1 ? 24 : 0,
+                          ),
+                          child: Container(
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: FileImage(
+                                  File(images[index].path),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  CustomTextFormField(textFieldEntity: _textFieldList[0]),
+                  CustomTextFormField(
+                    textFieldEntity: _textFieldList[1],
+                    maxLines: 5,
+                  ),
+                  Slider(
+                    value: pointValue,
+                    min: 1,
+                    max: 10,
+                    onChanged: (newValue) {
+                      setState(() {
+                        pointValue = newValue;
+                      });
                     },
+                    divisions: 10,
+                    label: "${pointValue.toInt()} Poin",
                   ),
-                ),
-                TextFormField(
-                  autofocus: _textFieldList[0].isAutofocus ?? false,
-                  enabled: _textFieldList[0].isEnabled,
-                  controller: _textFieldList[0].textController,
-                  focusNode: _textFieldList[0].focusNode,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
+                  ElevatedButton(
+                    onPressed: () async {
+                      FocusUtils(context).unfocus();
+
+                      if (_formKey.currentState?.validate() == true) {
+                        print("images");
+                        print(images);
+
+                        final List<TaskSnapshot> uploadTasks = await Future
+                            .wait(images.map((File image) => FirebaseStorage
+                                .instance
+                                .ref()
+                                .child('images/${DateTime.now().toString()}')
+                                .putFile(image)));
+
+                        final List<String> downloadURLs = await Future.wait(
+                            uploadTasks.map((TaskSnapshot uploadTask) =>
+                                uploadTask.ref.getDownloadURL()));
+
+                        final Map<String, dynamic> image = <String, dynamic>{
+                          'title': _textFieldList[0].textController.text.trim(),
+                          'desc': _textFieldList[1].textController.text,
+                          'image': downloadURLs,
+                          'poin': pointValue.toInt(),
+                          'userID': sl<UserCubit>().state.userEntity!.id,
+                          'timestamp': Timestamp.now(),
+                        };
+
+                        db.collection('imageGenerator').add(image).then(
+                              (DocumentReference doc) => print(
+                                  'DocumentSnapshot added with ID: ${doc.id}'),
+                            );
+                      }
+                    },
+                    child: const Text('Submit'),
                   ),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    hintText: _textFieldList[0].hint,
-                    hintStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    // errorText: _error?.toUpperCase(),
-                    // helperText: _error?.toUpperCase(),
-                    helperStyle: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  textInputAction: _textFieldList[0].textInputAction,
-                  keyboardType: _textFieldList[0].keyboardType,
-                  validator: (value) {
-                    // Note : https://pub.dev/packages/form_validator (documentations)
-                    return _textFieldList[0].validator?.call(value);
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Submit'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
