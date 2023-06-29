@@ -23,7 +23,7 @@ class GridChallange extends StatelessWidget {
         itemBuilder: (context, index) => GestureDetector(
           onTap: () => Navigator.pushNamed(
             context,
-            PagePath.challenge,
+            PagePath.challengeDetail,
             arguments: ChallengeDetailPageArgs(index: index),
           ),
           child: Column(

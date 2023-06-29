@@ -9,6 +9,7 @@ class PagePath {
   /// Home Path
   static const String home = '/home';
 
-  /// Home Path
-  static const String challenge = '/challenge';
+  /// Challenge Path
+  static const String challengeCreate = '/challengeCreate';
+  static const String challengeDetail = '/challengeDetail';
 }
