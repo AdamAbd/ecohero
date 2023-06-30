@@ -19,12 +19,23 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   final List<TextFieldEntity> _textFieldList = TextFieldEntity.challenge;
 
+  /// Firebase Instance
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  /// Poin Value
+  double pointValue = 1;
+
+  /// Date Start
+  DateTime selectedDateStart = DateTime.now();
+  TimeOfDay selectedTimeStart = TimeOfDay.now();
+
+  /// Date End
+  DateTime selectedDateEnd = DateTime.now();
+  TimeOfDay selectedTimeEnd = TimeOfDay.now();
+
+  /// Image
   final ImagePicker picker = ImagePicker();
   List<File> images = <File>[];
-
-  double pointValue = 0;
 
   Future<void> pickImage() async {
     showDialog(
@@ -180,10 +191,12 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                   ),
                   const SizedBox(height: 12),
                   CustomTextFormField(textFieldEntity: _textFieldList[0]),
+                  const SizedBox(height: 12),
                   CustomTextFormField(
                     textFieldEntity: _textFieldList[1],
                     maxLines: 5,
                   ),
+                  const SizedBox(height: 12),
                   Slider(
                     value: pointValue,
                     min: 1,
@@ -193,9 +206,102 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                         pointValue = newValue;
                       });
                     },
-                    divisions: 10,
+                    divisions: 9,
                     label: "${pointValue.toInt()} Poin",
                   ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          final DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(3023, 6, 1),
+                          );
+                          if (newDate != null) {
+                            setState(() {
+                              selectedDateStart = newDate;
+                            });
+                          }
+
+                          final TimeOfDay? newTime = await showTimePicker(
+                            context: context,
+                            initialTime: selectedTimeStart,
+                          );
+                          if (newTime != null) {
+                            setState(() {
+                              selectedTimeStart = newTime;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(28),
+                            border: Border.all(width: 1, color: Colors.black54),
+                          ),
+                          child: Text(
+                            "${selectedDateStart.day}/${selectedDateStart.month}/${selectedDateStart.year} ${selectedTimeStart.hour}:${selectedTimeStart.minute} ${selectedTimeStart.period.name.toUpperCase()}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      InkWell(
+                        onTap: () async {
+                          final DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(3023, 6, 1),
+                          );
+                          if (newDate != null) {
+                            setState(() {
+                              selectedDateEnd = newDate;
+                            });
+                          }
+
+                          final TimeOfDay? newTime = await showTimePicker(
+                            context: context,
+                            initialTime: selectedTimeStart,
+                          );
+                          if (newTime != null) {
+                            setState(() {
+                              selectedTimeEnd = newTime;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(28),
+                            border: Border.all(width: 1, color: Colors.black54),
+                          ),
+                          child: Text(
+                            "${selectedDateEnd.day}/${selectedDateEnd.month}/${selectedDateEnd.year} ${selectedTimeEnd.hour}:${selectedTimeEnd.minute} ${selectedTimeEnd.period.name.toUpperCase()}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () async {
                       FocusUtils(context).unfocus();
@@ -212,14 +318,33 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                                 .putFile(image)));
 
                         final List<String> downloadURLs = await Future.wait(
-                            uploadTasks.map((TaskSnapshot uploadTask) =>
-                                uploadTask.ref.getDownloadURL()));
+                          uploadTasks.map(
+                            (TaskSnapshot uploadTask) =>
+                                uploadTask.ref.getDownloadURL(),
+                          ),
+                        );
 
                         final Map<String, dynamic> image = <String, dynamic>{
                           'title': _textFieldList[0].textController.text.trim(),
                           'desc': _textFieldList[1].textController.text,
                           'image': downloadURLs,
                           'poin': pointValue.toInt(),
+                          'date': <String, dynamic>{
+                            'start': DateTime(
+                              selectedDateStart.year,
+                              selectedDateStart.month,
+                              selectedDateStart.day,
+                              selectedTimeStart.hour,
+                              selectedDateStart.minute,
+                            ),
+                            'end': DateTime(
+                              selectedDateEnd.year,
+                              selectedDateEnd.month,
+                              selectedDateEnd.day,
+                              selectedTimeEnd.hour,
+                              selectedDateEnd.minute,
+                            ),
+                          },
                           'userID': sl<UserCubit>().state.userEntity!.id,
                           'timestamp': Timestamp.now(),
                         };
