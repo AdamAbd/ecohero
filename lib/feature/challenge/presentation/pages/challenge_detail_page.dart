@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:ecohero/feature/feature.dart';
-
 class ChallengeDetailPageArgs {
-  const ChallengeDetailPageArgs({required this.index});
+  const ChallengeDetailPageArgs({
+    required this.title,
+    required this.desc,
+    required this.images,
+    required this.point,
+    required this.index,
+  });
 
+  final String title;
+  final String desc;
+  final List<dynamic> images;
+  final int point;
   final int index;
 }
 
@@ -17,10 +25,7 @@ class ChallengeDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "[Dummy] Kurangi polusi kendaraan dengan menggukan angkutan umum",
-          style: TextStyle(fontSize: 16),
-        ),
+        title: Text(args.title, style: const TextStyle(fontSize: 16)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -31,8 +36,8 @@ class ChallengeDetailPage extends StatelessWidget {
               children: [
                 Hero(
                   tag: 'imageHeroTransition_${args.index}',
-                  child: Image.asset(
-                    AppIllustration.mockImage,
+                  child: Image.network(
+                    args.images[0],
                     width: double.infinity,
                     height: 260,
                     fit: BoxFit.cover,
@@ -47,9 +52,9 @@ class ChallengeDetailPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                    "1/4",
-                    style: TextStyle(fontSize: 12),
+                  child: Text(
+                    "1/${args.images.length}",
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
               ],
@@ -61,18 +66,22 @@ class ChallengeDetailPage extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => const SizedBox(width: 12),
-                itemCount: 6,
+                itemCount: args.images.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(
-                      left: index == 0 ? 24 : 0,
-                      right: index == 5 ? 24 : 0,
+                      left: index == 0 ? 14 : 0,
+                      right: index == 5 ? 14 : 0,
                     ),
                     child: Container(
                       width: 100,
                       decoration: BoxDecoration(
                         color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: NetworkImage(args.images[index]),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   );
@@ -88,21 +97,21 @@ class ChallengeDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 2),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
-                '[Dummy] Tantangan ini bertujuan untuk mengurangi jumlah kendaraan pribadi di jalan yang menyebabkan kemacetan dan polusi udara. Anda dapat beralih ke bus, kereta, atau Transjakarta untuk pergi ke tempat kerja atau tempat lain yang Anda tuju. Anda akan mendapatkan manfaat hemat waktu dan biaya dari tantangan ini. Jangan lupa untuk membagikan rute dan jadwal Anda di media sosial dengan tagar #BeralihKeBusKeretaAtauTransjakarta.',
-                style: TextStyle(fontSize: 14),
+                args.desc,
+                style: const TextStyle(fontSize: 14),
               ),
             ),
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: IntrinsicHeight(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Column(
+                    const Column(
                       children: [
                         Text(
                           'Waktu',
@@ -118,37 +127,20 @@ class ChallengeDetailPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    VerticalDivider(),
+                    const VerticalDivider(),
                     Column(
                       children: [
-                        Text(
-                          'Jumlah',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          '15 Peserta',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    VerticalDivider(),
-                    Column(
-                      children: [
-                        Text(
+                        const Text(
                           'Poin',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          '100',
-                          style: TextStyle(fontSize: 14),
+                          args.point.toString(),
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),
@@ -184,7 +176,6 @@ class ChallengeDetailPage extends StatelessWidget {
             margin: const EdgeInsets.all(16),
             height: 48,
             width: double.infinity,
-            decoration: const BoxDecoration(color: Colors.amber),
             child: FilledButton(
               onPressed: () {},
               child: const Text(
