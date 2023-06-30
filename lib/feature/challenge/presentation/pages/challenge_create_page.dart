@@ -22,7 +22,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
   /// Firebase Instance
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  /// Poin Value
+  /// Point Value
   double pointValue = 1;
 
   /// Date Start
@@ -327,8 +327,8 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                         final Map<String, dynamic> image = <String, dynamic>{
                           'title': _textFieldList[0].textController.text.trim(),
                           'desc': _textFieldList[1].textController.text,
-                          'image': downloadURLs,
-                          'poin': pointValue.toInt(),
+                          'images': downloadURLs,
+                          'point': pointValue.toInt(),
                           'date': <String, dynamic>{
                             'start': DateTime(
                               selectedDateStart.year,
