@@ -36,7 +36,7 @@ class TextFieldEntity {
       label: "Judul Kompetisi",
       focusNode: FocusNode(),
       validator: (value) {
-        return ValidationBuilder().maxLength(20).build().call(value);
+        return ValidationBuilder().maxLength(40).build().call(value);
       },
     ),
     TextFieldEntity(
@@ -49,7 +49,7 @@ class TextFieldEntity {
       validator: (value) {
         return ValidationBuilder()
             .required()
-            .maxLength(150)
+            .maxLength(500)
             .build()
             .call(value);
       },
