@@ -314,7 +314,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                             .wait(images.map((File image) => FirebaseStorage
                                 .instance
                                 .ref()
-                                .child('images/${DateTime.now().toString()}')
+                                .child('challenge/${DateTime.now().toString()}')
                                 .putFile(image)));
 
                         final List<String> downloadURLs = await Future.wait(
@@ -349,10 +349,22 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                           'timestamp': Timestamp.now(),
                         };
 
-                        db.collection('imageGenerator').add(image).then(
-                              (DocumentReference doc) => print(
-                                  'DocumentSnapshot added with ID: ${doc.id}'),
-                            );
+                        db
+                            .collection('challenge')
+                            .add(image)
+                            .then((DocumentReference doc) {
+                          Navigator.pop(context);
+
+                          final snackBar = SnackBar(
+                            content: Text(
+                              'DocumentSnapshot added with ID: ${doc.id}',
+                            ),
+                          );
+
+                          // Find the ScaffoldMessenger in the widget tree
+                          // and use it to show a SnackBar.
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        });
                       }
                     },
                     child: const Text('Submit'),
