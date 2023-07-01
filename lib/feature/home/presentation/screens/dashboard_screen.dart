@@ -9,112 +9,102 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.only(left: 24),
-            child: Text(
-              'Halo,',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Text(
-              sl<UserCubit>().state.userEntity?.username ?? "",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 20),
-          GestureDetector(
-            child: const CardInformation(),
-            onTap: () => context.read<GeolocatorCubit>().getUserLocation(),
-          ),
-          const SizedBox(height: 12),
-          const Padding(
-            padding: EdgeInsets.only(left: 24),
-            child: Text(
-              'Rekomendasi Kegiatan',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 120,
-            child: ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) => const SizedBox(width: 12),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    left: index == 0 ? 24 : 0,
-                    right: index == 2 ? 24 : 0,
-                  ),
-                  child: const CardActivity(),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Papan Peringkat',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Lainnya',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          const CardLeaderBoard(),
-          const SizedBox(height: 12),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Challange',
+    return BlocProvider(
+      create: (context) => sl<GetIqairCubit>(),
+      child: Builder(builder: (context) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 24),
+                child: Text(
+                  'Halo,',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  'Lainnya',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: Text(
+                  sl<UserCubit>().state.userEntity?.username ?? "",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                child: const CardInformation(),
+                onTap: () => context.read<GeolocatorCubit>().getUserLocation(),
+              ),
+              const SizedBox(height: 12),
+              const Padding(
+                padding: EdgeInsets.only(left: 14),
+                child: Text(
+                  'Rekomendasi Kegiatan',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 8),
+              const CustomActivities(),
+              const SizedBox(height: 4),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Papan Peringkat',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Lainnya',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              const CardLeaderBoard(),
+              const SizedBox(height: 12),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Challange',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Lainnya',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              const GridChallange(),
+              const SizedBox(height: 10),
+            ],
           ),
-          const SizedBox(height: 8),
-          const GridChallange(),
-          const SizedBox(height: 10),
-        ],
-      ),
+        );
+      }),
     );
   }
 }
