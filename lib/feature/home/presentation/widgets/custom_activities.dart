@@ -81,7 +81,7 @@ class _CustomActivitiesState extends State<CustomActivities> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: isLoading ? 3 : activities.length,
+                itemCount: isLoading ? 3 : (activities.length + 1),
                 itemBuilder: (context, index) {
                   if (isLoading) {
                     return Padding(
@@ -93,10 +93,33 @@ class _CustomActivitiesState extends State<CustomActivities> {
                     );
                   }
 
+                  if (index == activities.length) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 14),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 86,
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.green, width: 4),
+                          ),
+                          child: const Icon(
+                            Icons.smart_toy,
+                            size: 36,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+
                   return Padding(
                     padding: EdgeInsets.only(
                       left: index == 0 ? 14 : 0,
-                      right: index == (activities.length - 1) ? 14 : 12,
+                      right: 12,
                     ),
                     child: InkWell(
                       onTap: () => setState(() {
