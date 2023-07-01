@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecohero/feature/feature.dart';
 
 class CustomActivities extends StatefulWidget {
-  const CustomActivities({
-    super.key,
-  });
+  const CustomActivities({super.key});
 
   @override
   State<CustomActivities> createState() => _CustomActivitiesState();
@@ -40,18 +38,36 @@ class _CustomActivitiesState extends State<CustomActivities> {
           } else if (aqius > 300 && aqius <= 500) {
             activities = RecommendedActivites.recommendedActivites.dangerous;
           } else {
-            return const SizedBox(
+            return Container(
               width: double.infinity,
-              height: 120,
-              child: Center(child: Text("Nilai AQI Tidak Valid")),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 8,
+              ),
+              child: const Center(
+                child: Text(
+                  "Nilai AQI Tidak Valid",
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             );
           }
           isLoading = false;
         } else if (state is GetIqairError) {
-          return const SizedBox(
+          return Container(
             width: double.infinity,
-            height: 120,
-            child: Center(child: Text("Error")),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 8,
+            ),
+            child: const Center(
+              child: Text(
+                "Error",
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ),
           );
         } else {
           isLoading = true;
@@ -111,11 +127,11 @@ class _CustomActivitiesState extends State<CustomActivities> {
               ),
             ),
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.symmetric(
                 horizontal: 14,
                 vertical: 8,
               ),
-              width: double.infinity,
               child: isLoading
                   ? const ShimmerLayout(width: double.infinity, height: 24)
                   : Center(
