@@ -54,8 +54,12 @@ class CardInformation extends StatelessWidget {
             AQICategoryEntity aqiCategoryEntity = AQICategoryEntity(
               value: "Nilai AQI Tidak Valid",
               color: const Color(0xff26B4A1),
+              activities: [
+                Activity(title: "Not Found", icon: Icons.error),
+              ],
             );
             bool isLoading = false;
+
             if (stateIQAir is GetIqairSuccess) {
               iqAirEntity = stateIQAir.iqAirEntity;
               aqiCategoryEntity = Converter()

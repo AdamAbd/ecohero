@@ -17,26 +17,21 @@ class _CustomActivitiesState extends State<CustomActivities> {
   Widget build(BuildContext context) {
     return BlocBuilder<GetIqairCubit, GetIqairState>(
       builder: (context, state) {
-        int aqius = 0;
-        List<Activity> activities = [];
+        AQICategoryEntity aqiCategoryEntity = AQICategoryEntity(
+          value: "Nilai AQI Tidak Valid",
+          color: const Color(0xff26B4A1),
+          activities: [
+            Activity(title: "Not Found", icon: Icons.error),
+          ],
+        );
         bool isLoading = false;
 
         if (state is GetIqairSuccess) {
-          aqius = state.iqAirEntity.current!.pollution!.aqius ?? 0;
-          if (aqius >= 0 && aqius <= 50) {
-            activities = RecommendedActivites.recommendedActivites.good;
-          } else if (aqius > 50 && aqius <= 100) {
-            activities = RecommendedActivites.recommendedActivites.moderate;
-          } else if (aqius > 100 && aqius <= 150) {
-            activities = RecommendedActivites
-                .recommendedActivites.unhealthyForVulnerablePeople;
-          } else if (aqius > 150 && aqius <= 200) {
-            activities = RecommendedActivites.recommendedActivites.unhealthy;
-          } else if (aqius > 200 && aqius <= 300) {
-            activities =
-                RecommendedActivites.recommendedActivites.veryUnhealthy;
-          } else if (aqius > 300 && aqius <= 500) {
-            activities = RecommendedActivites.recommendedActivites.dangerous;
+          int aqius = state.iqAirEntity.current!.pollution!.aqius ?? 0;
+
+          if (aqius >= 0 && aqius <= 500) {
+            aqiCategoryEntity = Converter().getAqiCategory(
+                state.iqAirEntity.current?.pollution?.aqius ?? 0);
           } else {
             return Container(
               width: double.infinity,
@@ -81,7 +76,8 @@ class _CustomActivitiesState extends State<CustomActivities> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: isLoading ? 3 : (activities.length + 1),
+                itemCount:
+                    isLoading ? 3 : (aqiCategoryEntity.activities.length + 1),
                 itemBuilder: (context, index) {
                   if (isLoading) {
                     return Padding(
@@ -93,7 +89,7 @@ class _CustomActivitiesState extends State<CustomActivities> {
                     );
                   }
 
-                  if (index == activities.length) {
+                  if (index == aqiCategoryEntity.activities.length) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 14),
                       child: InkWell(
@@ -104,7 +100,10 @@ class _CustomActivitiesState extends State<CustomActivities> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.green, width: 4),
+                            border: Border.all(
+                              color: aqiCategoryEntity.color,
+                              width: 4,
+                            ),
                           ),
                           child: const Icon(
                             Icons.smart_toy,
@@ -129,16 +128,17 @@ class _CustomActivitiesState extends State<CustomActivities> {
                         width: 86,
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color:
-                              index == newIndex ? Colors.green : Colors.white,
+                          color: index == newIndex
+                              ? aqiCategoryEntity.color
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Colors.green,
+                            color: aqiCategoryEntity.color,
                             width: index != newIndex ? 4 : 0,
                           ),
                         ),
                         child: Icon(
-                          activities[index].icon,
+                          aqiCategoryEntity.activities[index].icon,
                           size: 36,
                           color:
                               index != newIndex ? Colors.black : Colors.white,
@@ -159,7 +159,7 @@ class _CustomActivitiesState extends State<CustomActivities> {
                   ? const ShimmerLayout(width: double.infinity, height: 24)
                   : Center(
                       child: Text(
-                        activities[newIndex].title,
+                        aqiCategoryEntity.activities[newIndex].title,
                         style: const TextStyle(fontSize: 16),
                         textAlign: TextAlign.center,
                       ),
