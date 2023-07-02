@@ -1,5 +1,4 @@
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:ecohero/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -66,7 +65,7 @@ class CardInformation extends StatelessWidget {
               isLoading = true;
             }
             return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
+              margin: const EdgeInsets.symmetric(horizontal: 14),
               child: Padding(
                 padding: const EdgeInsets.all(14),
                 child: Column(
@@ -76,16 +75,9 @@ class CardInformation extends StatelessWidget {
                         const Icon(Icons.place, size: 16),
                         Visibility(
                           visible: isLoading,
-                          replacement: SizedBox(
-                            width: MediaQuery.of(context).size.width -
-                                (56 * 2) -
-                                (10 * 2) -
-                                (24 * 2) -
-                                (14 * 2),
-                            child: Text(
-                              city,
-                              style: const TextStyle(fontSize: 14),
-                            ),
+                          replacement: Text(
+                            "Stasiun Terdekat : $city",
+                            style: const TextStyle(fontSize: 14),
                           ),
                           child: const ShimmerLayout(
                             width: 120,
@@ -144,17 +136,6 @@ class CardInformation extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Divider(),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Jumlah poin anda 100",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        SizedBox(width: 6),
-                        Icon(Icons.money, size: 18)
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -180,15 +161,10 @@ class InformationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 56,
-      height: 52,
+      height: 62,
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          width: 2.5,
-          color: Colors.green,
-          strokeAlign: BorderSide.strokeAlignCenter,
-        ),
-        borderRadius: BorderRadius.circular(10),
+        color: Colors.green[600],
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
         child: Column(
@@ -197,16 +173,14 @@ class InformationBox extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.green,
+                color: Colors.white,
               ),
             ),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 10,
-              ),
+              style: const TextStyle(fontSize: 10, color: Colors.white),
             ),
           ],
         ),
