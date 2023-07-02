@@ -1,3 +1,6 @@
+import 'package:ecohero/feature/common/common.dart';
+import 'package:flutter/material.dart';
+
 class Converter {
   double convertAqiToPm25(int aqi) {
     if (aqi >= 0 && aqi <= 50) {
@@ -25,21 +28,42 @@ class Converter {
     return conc;
   }
 
-  String getAqiCategory(int aqi) {
+  AQICategoryEntity getAqiCategory(int aqi) {
     if (aqi >= 0 && aqi <= 50) {
-      return "BAIK";
+      return AQICategoryEntity(
+        value: "BAIK",
+        color: const Color(0xffA9D663),
+      );
     } else if (aqi > 50 && aqi <= 100) {
-      return "SEDANG";
+      return AQICategoryEntity(
+        value: "SEDANG",
+        color: const Color(0xffE7C047),
+      );
     } else if (aqi > 100 && aqi <= 150) {
-      return "TIDAK SEHAT BAGI KELOMPOK SENSITIF";
+      return AQICategoryEntity(
+        value: "TIDAK SEHAT BAGI KELOMPOK SENSITIF",
+        color: const Color(0xffEB9558),
+      );
     } else if (aqi > 150 && aqi <= 200) {
-      return "TIDAK SEHAT";
+      return AQICategoryEntity(
+        value: "TIDAK SEHAT",
+        color: const Color(0xffE46864),
+      );
     } else if (aqi > 200 && aqi <= 300) {
-      return "SANGAT TIDAK SEHAT";
+      return AQICategoryEntity(
+        value: "SANGAT TIDAK SEHAT",
+        color: const Color(0xff9972B2),
+      );
     } else if (aqi > 300 && aqi <= 500) {
-      return "BERBAHAYA";
+      return AQICategoryEntity(
+        value: "BERBAHAYA",
+        color: const Color(0xff986C7B),
+      );
     } else {
-      return "Nilai AQI Tidak Valid";
+      return AQICategoryEntity(
+        value: "Nilai AQI Tidak Valid",
+        color: const Color(0xff26B4A1),
+      );
     }
   }
 }

@@ -50,14 +50,16 @@ class CardInformation extends StatelessWidget {
         }
         return BlocBuilder<GetIqairCubit, GetIqairState>(
           builder: (context, stateIQAir) {
-            int aqius = 0;
-            double pm25 = 0;
-            String city = "";
+            IQAirEntity iqAirEntity = IQAirEntity();
+            AQICategoryEntity aqiCategoryEntity = AQICategoryEntity(
+              value: "Nilai AQI Tidak Valid",
+              color: const Color(0xff26B4A1),
+            );
             bool isLoading = false;
             if (stateIQAir is GetIqairSuccess) {
-              aqius = stateIQAir.iqAirEntity.current!.pollution!.aqius ?? 0;
-              pm25 = Converter().convertAqiToPm25(aqius);
-              city = stateIQAir.iqAirEntity.city ?? "";
+              iqAirEntity = stateIQAir.iqAirEntity;
+              aqiCategoryEntity = Converter()
+                  .getAqiCategory(iqAirEntity.current?.pollution?.aqius ?? 0);
               isLoading = false;
             } else if (stateIQAir is GetIqairError) {
               isLoading = false;
@@ -76,7 +78,7 @@ class CardInformation extends StatelessWidget {
                         Visibility(
                           visible: isLoading,
                           replacement: Text(
-                            "Stasiun Terdekat : $city",
+                            "Stasiun Terdekat : ${iqAirEntity.city}",
                             style: const TextStyle(fontSize: 14),
                           ),
                           child: const ShimmerLayout(
@@ -99,7 +101,7 @@ class CardInformation extends StatelessWidget {
                                 (14 * 2) -
                                 (14 * 2),
                             child: Text(
-                              Converter().getAqiCategory(aqius),
+                              aqiCategoryEntity.value,
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w900,
@@ -117,22 +119,23 @@ class CardInformation extends StatelessWidget {
                         const SizedBox(width: 10),
                         Row(
                           children: [
-                            Visibility(
-                              visible: isLoading,
-                              replacement: InformationBox(
-                                title: "AQI",
-                                value: aqius.toString(),
-                              ),
-                              child: const ShimmerLayout(width: 56, height: 52),
+                            InformationBox(
+                              isLoading: isLoading,
+                              title: "AQI",
+                              value: "${iqAirEntity.current?.pollution?.aqius}",
+                              color: aqiCategoryEntity.color,
                             ),
                             const SizedBox(width: 10),
-                            Visibility(
-                              visible: isLoading,
-                              replacement: InformationBox(
-                                title: "PM 2.5",
-                                value: pm25.round().toString(),
-                              ),
-                              child: const ShimmerLayout(width: 56, height: 52),
+                            InformationBox(
+                              isLoading: isLoading,
+                              title: "PM 2.5",
+                              value: Converter()
+                                  .convertAqiToPm25(
+                                      iqAirEntity.current?.pollution?.aqius ??
+                                          -1)
+                                  .round()
+                                  .toString(),
+                              color: aqiCategoryEntity.color,
                             ),
                           ],
                         ),
@@ -154,41 +157,49 @@ class CardInformation extends StatelessWidget {
 class InformationBox extends StatelessWidget {
   const InformationBox({
     super.key,
+    required this.isLoading,
     required this.title,
     required this.value,
+    required this.color,
   });
 
+  final bool isLoading;
   final String title;
   final String value;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 56,
-      height: 62,
-      decoration: BoxDecoration(
-        color: Colors.green[600],
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+    return Visibility(
+      visible: isLoading,
+      replacement: Container(
+        width: 56,
+        height: 62,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 10, color: Colors.white),
-            ),
-          ],
+              Text(
+                title,
+                style: const TextStyle(fontSize: 10, color: Colors.white),
+              ),
+            ],
+          ),
         ),
       ),
+      child: const ShimmerLayout(width: 56, height: 62),
     );
   }
 }
