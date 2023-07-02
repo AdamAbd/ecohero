@@ -1,20 +1,16 @@
 import 'dart:convert';
 
-enum UserRank { free, premium }
-
 class UserEntity {
   final String id;
   final String username;
   final String email;
   final String photoURL;
-  final DateTime updatedAt;
 
   UserEntity({
     required this.id,
     required this.username,
     required this.email,
     required this.photoURL,
-    required this.updatedAt,
   });
 
   UserEntity copyWith({
@@ -30,7 +26,6 @@ class UserEntity {
       username: username ?? this.username,
       email: email ?? this.email,
       photoURL: photoURL ?? this.photoURL,
-      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -40,7 +35,6 @@ class UserEntity {
       'username': username,
       'email': email,
       'photoURL': photoURL,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
     };
   }
 
@@ -50,7 +44,6 @@ class UserEntity {
       username: map['username'] ?? '',
       email: map['email'] ?? '',
       photoURL: map['photoURL'] ?? '',
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']),
     );
   }
 
