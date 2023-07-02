@@ -27,17 +27,17 @@ class Converter {
 
   String getAqiCategory(int aqi) {
     if (aqi >= 0 && aqi <= 50) {
-      return "Baik";
+      return "BAIK";
     } else if (aqi > 50 && aqi <= 100) {
-      return "Sedang";
+      return "SEDANG";
     } else if (aqi > 100 && aqi <= 150) {
-      return "Tidak Sehat bagi Kelompok Sensitif";
+      return "TIDAK SEHAT BAGI KELOMPOK SENSITIF";
     } else if (aqi > 150 && aqi <= 200) {
-      return "Tidak Sehat";
+      return "TIDAK SEHAT";
     } else if (aqi > 200 && aqi <= 300) {
-      return "Sangat Tidak Sehat";
+      return "SANGAT TIDAK SEHAT";
     } else if (aqi > 300 && aqi <= 500) {
-      return "Berbahaya";
+      return "BERBAHAYA";
     } else {
       return "Nilai AQI Tidak Valid";
     }

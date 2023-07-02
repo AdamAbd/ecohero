@@ -88,6 +88,7 @@ class CardInformation extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Visibility(
                           visible: isLoading,
@@ -95,42 +96,45 @@ class CardInformation extends StatelessWidget {
                             width: MediaQuery.of(context).size.width -
                                 (56 * 2) -
                                 (10 * 2) -
-                                (24 * 2) -
+                                (14 * 2) -
                                 (14 * 2),
                             child: Text(
                               Converter().getAqiCategory(aqius),
                               style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
                               ),
-                              maxLines: 1,
                             ),
                           ),
                           child: ShimmerLayout(
                               width: MediaQuery.of(context).size.width -
                                   (56 * 2) -
                                   (10 * 2) -
-                                  (24 * 2) -
+                                  (14 * 2) -
                                   (14 * 2),
                               height: 44),
                         ),
                         const SizedBox(width: 10),
-                        Visibility(
-                          visible: isLoading,
-                          replacement: InformationBox(
-                            title: "AQI",
-                            value: aqius.toString(),
-                          ),
-                          child: const ShimmerLayout(width: 56, height: 52),
-                        ),
-                        const SizedBox(width: 10),
-                        Visibility(
-                          visible: isLoading,
-                          replacement: InformationBox(
-                            title: "PM 2.5",
-                            value: pm25.round().toString(),
-                          ),
-                          child: const ShimmerLayout(width: 56, height: 52),
+                        Row(
+                          children: [
+                            Visibility(
+                              visible: isLoading,
+                              replacement: InformationBox(
+                                title: "AQI",
+                                value: aqius.toString(),
+                              ),
+                              child: const ShimmerLayout(width: 56, height: 52),
+                            ),
+                            const SizedBox(width: 10),
+                            Visibility(
+                              visible: isLoading,
+                              replacement: InformationBox(
+                                title: "PM 2.5",
+                                value: pm25.round().toString(),
+                              ),
+                              child: const ShimmerLayout(width: 56, height: 52),
+                            ),
+                          ],
                         ),
                       ],
                     ),
