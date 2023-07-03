@@ -6,16 +6,19 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     Key? key,
     required TextFieldEntity textFieldEntity,
+    required TextStyle textStyle,
     int maxLines = 1,
     String? Function(String?)? validator,
     List<TextInputFormatter>? formatter,
   })  : _textFieldEntity = textFieldEntity,
+        _textStyle = textStyle,
         _maxLines = maxLines,
         _validator = validator,
         _formatter = formatter,
         super(key: key);
 
   final TextFieldEntity _textFieldEntity;
+  final TextStyle _textStyle;
   final int _maxLines;
   final String? Function(String?)? _validator;
   final List<TextInputFormatter>? _formatter;
@@ -51,23 +54,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: widget._textFieldEntity.focusNode,
       inputFormatters: widget._formatter,
       maxLines: widget._maxLines,
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      ),
+      minLines: 1,
+      // style: const TextStyle(
+      //   fontSize: 14,
+      //   fontWeight: FontWeight.w400,
+      // ),
+      style: widget._textStyle,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(28),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.all(0),
         hintText: widget._textFieldEntity.hint,
-        hintStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
+        hintStyle: widget._textStyle,
+        // hintStyle: const TextStyle(
+        //   fontSize: 14,
+        //   fontWeight: FontWeight.w400,
+        // ),
         // errorText: _error?.toUpperCase(),
         // helperText: _error?.toUpperCase(),
         helperStyle: const TextStyle(

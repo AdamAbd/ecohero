@@ -31,7 +31,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   /// Date End
   DateTime selectedDateEnd = DateTime.now();
-  TimeOfDay selectedTimeEnd = TimeOfDay.now();
+  TimeOfDay selectedTimeEnd = TimeOfDay.now().addHour(5);
 
   /// Image
   final ImagePicker picker = ImagePicker();
@@ -121,256 +121,380 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
           title: const Text('Create Challenge'),
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: pickImage,
-                    child: const Text('Pick Image'),
-                  ),
-                  const SizedBox(height: 12),
-                  if (images.isNotEmpty)
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Image.file(
-                          File(images[0].path),
-                          width: double.infinity,
-                          height: 260,
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          width: 28,
-                          height: 28,
-                          margin: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "1/${images.length}",
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    ),
-                  SizedBox(height: images.isNotEmpty ? 14 : 0),
-                  SizedBox(
-                    height: 70,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 12),
-                      itemCount: images.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? 24 : 0,
-                            right: index == images.length - 1 ? 24 : 0,
-                          ),
-                          child: Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: FileImage(
-                                  File(images[index].path),
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CustomTextFormField(textFieldEntity: _textFieldList[0]),
-                  const SizedBox(height: 12),
-                  CustomTextFormField(
-                    textFieldEntity: _textFieldList[1],
-                    maxLines: 5,
-                  ),
-                  const SizedBox(height: 12),
-                  Slider(
-                    value: pointValue,
-                    min: 1,
-                    max: 10,
-                    onChanged: (newValue) {
-                      setState(() {
-                        pointValue = newValue;
-                      });
-                    },
-                    divisions: 9,
-                    label: "${pointValue.toInt()} Poin",
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FilledButton(
+                  onPressed: pickImage,
+                  child: const Text('Pick Image'),
+                ),
+                const SizedBox(height: 12),
+                if (images.isNotEmpty)
+                  Stack(
+                    alignment: Alignment.bottomRight,
                     children: [
-                      InkWell(
-                        onTap: () async {
-                          final DateTime? newDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(3023, 6, 1),
-                          );
-                          if (newDate != null) {
-                            setState(() {
-                              selectedDateStart = newDate;
-                            });
-                          }
-
-                          final TimeOfDay? newTime = await showTimePicker(
-                            context: context,
-                            initialTime: selectedTimeStart,
-                          );
-                          if (newTime != null) {
-                            setState(() {
-                              selectedTimeStart = newTime;
-                            });
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(28),
-                            border: Border.all(width: 1, color: Colors.black54),
-                          ),
-                          child: Text(
-                            "${selectedDateStart.day}/${selectedDateStart.month}/${selectedDateStart.year} ${selectedTimeStart.hour}:${selectedTimeStart.minute} ${selectedTimeStart.period.name.toUpperCase()}",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ),
+                      Image.file(
+                        File(images[0].path),
+                        width: double.infinity,
+                        height: 260,
+                        fit: BoxFit.cover,
                       ),
-                      const SizedBox(width: 6),
-                      InkWell(
-                        onTap: () async {
-                          final DateTime? newDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(3023, 6, 1),
-                          );
-                          if (newDate != null) {
-                            setState(() {
-                              selectedDateEnd = newDate;
-                            });
-                          }
-
-                          final TimeOfDay? newTime = await showTimePicker(
-                            context: context,
-                            initialTime: selectedTimeStart,
-                          );
-                          if (newTime != null) {
-                            setState(() {
-                              selectedTimeEnd = newTime;
-                            });
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(28),
-                            border: Border.all(width: 1, color: Colors.black54),
-                          ),
-                          child: Text(
-                            "${selectedDateEnd.day}/${selectedDateEnd.month}/${selectedDateEnd.year} ${selectedTimeEnd.hour}:${selectedTimeEnd.minute} ${selectedTimeEnd.period.name.toUpperCase()}",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black54,
-                            ),
-                          ),
+                      Container(
+                        width: 28,
+                        height: 28,
+                        margin: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "1/${images.length}",
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: () async {
-                      FocusUtils(context).unfocus();
+                SizedBox(height: images.isNotEmpty ? 14 : 0),
+                SizedBox(
+                  height: 70,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 12),
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          left: index == 0 ? 24 : 0,
+                          right: index == images.length - 1 ? 24 : 0,
+                        ),
+                        child: Container(
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image: FileImage(
+                                File(images[index].path),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: CustomTextFormField(
+                    textFieldEntity: _textFieldList[0],
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: CustomTextFormField(
+                    textFieldEntity: _textFieldList[1],
+                    textStyle: const TextStyle(fontSize: 14),
+                    maxLines: 5,
+                  ),
+                ),
+                const Divider(),
+                const SizedBox(height: 12),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: Text(
+                    "PERATURAN",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const ListTile(
+                  leading: Icon(Icons.timeline, size: 28),
+                  title: Text(
+                    "Berulang Setiap Hari",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.calendar_month, size: 28),
+                  title: Text(
+                    "${DateTimeUtils().getDateTime(
+                      DateTime(
+                        selectedDateStart.year,
+                        selectedDateStart.month,
+                        selectedDateStart.day,
+                        selectedTimeStart.hour,
+                        selectedTimeStart.minute,
+                      ),
+                    )} - ${DateTimeUtils().getDateTime(
+                      DateTime(
+                        selectedDateEnd.year,
+                        selectedDateEnd.month,
+                        selectedDateEnd.day,
+                        selectedTimeEnd.hour,
+                        selectedTimeEnd.minute,
+                      ),
+                    )}",
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 200,
+                          color: Colors.white,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 14,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Durasi',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text(
+                                        'Tutup',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 14),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "DARI",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        FilledButton.tonal(
+                                          onPressed: () async {
+                                            final DateTime? newDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(3023, 6, 1),
+                                            );
+                                            if (newDate != null) {
+                                              setState(() {
+                                                selectedDateStart = newDate;
+                                              });
+                                            }
 
-                      if (_formKey.currentState?.validate() == true) {
-                        print("images");
-                        print(images);
+                                            final TimeOfDay? newTime =
+                                                await showTimePicker(
+                                              context: context,
+                                              initialTime: selectedTimeStart,
+                                            );
+                                            if (newTime != null) {
+                                              setState(() {
+                                                selectedTimeStart = newTime;
+                                              });
+                                            }
+                                          },
+                                          child: Text(
+                                            DateTimeUtils().getDateTime(
+                                              DateTime(
+                                                selectedDateStart.year,
+                                                selectedDateStart.month,
+                                                selectedDateStart.day,
+                                                selectedTimeStart.hour,
+                                                selectedTimeStart.minute,
+                                              ),
+                                            ),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Icon(Icons.arrow_forward_rounded),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "HINGGA",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        FilledButton.tonal(
+                                          onPressed: () async {
+                                            final DateTime? newDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(3023, 6, 1),
+                                            );
+                                            if (newDate != null) {
+                                              setState(() {
+                                                selectedDateEnd = newDate;
+                                              });
+                                            }
 
-                        final List<TaskSnapshot> uploadTasks = await Future
-                            .wait(images.map((File image) => FirebaseStorage
-                                .instance
-                                .ref()
-                                .child('challenge/${DateTime.now().toString()}')
-                                .putFile(image)));
+                                            final TimeOfDay? newTime =
+                                                await showTimePicker(
+                                              context: context,
+                                              initialTime:
+                                                  selectedTimeStart.addHour(5),
+                                            );
+                                            if (newTime != null) {
+                                              setState(() {
+                                                selectedTimeEnd = newTime;
+                                              });
+                                            }
+                                          },
+                                          child: Text(
+                                            DateTimeUtils().getDateTime(
+                                              DateTime(
+                                                selectedDateEnd.year,
+                                                selectedDateEnd.month,
+                                                selectedDateEnd.day,
+                                                selectedTimeEnd.hour,
+                                                selectedTimeEnd.minute,
+                                              ),
+                                            ),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                Slider(
+                  value: pointValue,
+                  min: 1,
+                  max: 10,
+                  onChanged: (newValue) {
+                    setState(() {
+                      pointValue = newValue;
+                    });
+                  },
+                  divisions: 9,
+                  label: "${pointValue.toInt()} Poin",
+                ),
+                const SizedBox(height: 12),
+                FilledButton(
+                  onPressed: () async {
+                    FocusUtils(context).unfocus();
 
-                        final List<String> downloadURLs = await Future.wait(
-                          uploadTasks.map(
-                            (TaskSnapshot uploadTask) =>
-                                uploadTask.ref.getDownloadURL(),
+                    if (_formKey.currentState?.validate() == true) {
+                      print("images");
+                      print(images);
+
+                      final List<TaskSnapshot> uploadTasks = await Future.wait(
+                          images.map((File image) => FirebaseStorage.instance
+                              .ref()
+                              .child('challenge/${DateTime.now().toString()}')
+                              .putFile(image)));
+
+                      final List<String> downloadURLs = await Future.wait(
+                        uploadTasks.map(
+                          (TaskSnapshot uploadTask) =>
+                              uploadTask.ref.getDownloadURL(),
+                        ),
+                      );
+
+                      final Map<String, dynamic> image = <String, dynamic>{
+                        'title': _textFieldList[0].textController.text.trim(),
+                        'desc': _textFieldList[1].textController.text,
+                        'images': downloadURLs,
+                        'point': pointValue.toInt(),
+                        'date': <String, dynamic>{
+                          'start': DateTime(
+                            selectedDateStart.year,
+                            selectedDateStart.month,
+                            selectedDateStart.day,
+                            selectedTimeStart.hour,
+                            selectedTimeStart.minute,
+                          ),
+                          'end': DateTime(
+                            selectedDateEnd.year,
+                            selectedDateEnd.month,
+                            selectedDateEnd.day,
+                            selectedTimeEnd.hour,
+                            selectedTimeEnd.minute,
+                          ),
+                        },
+                        'userID': sl<UserCubit>().state.userEntity!.id,
+                        'timestamp': Timestamp.now(),
+                      };
+
+                      db
+                          .collection('challenge')
+                          .add(image)
+                          .then((DocumentReference doc) {
+                        Navigator.pop(context);
+
+                        final snackBar = SnackBar(
+                          content: Text(
+                            'DocumentSnapshot added with ID: ${doc.id}',
                           ),
                         );
 
-                        final Map<String, dynamic> image = <String, dynamic>{
-                          'title': _textFieldList[0].textController.text.trim(),
-                          'desc': _textFieldList[1].textController.text,
-                          'images': downloadURLs,
-                          'point': pointValue.toInt(),
-                          'date': <String, dynamic>{
-                            'start': DateTime(
-                              selectedDateStart.year,
-                              selectedDateStart.month,
-                              selectedDateStart.day,
-                              selectedTimeStart.hour,
-                              selectedDateStart.minute,
-                            ),
-                            'end': DateTime(
-                              selectedDateEnd.year,
-                              selectedDateEnd.month,
-                              selectedDateEnd.day,
-                              selectedTimeEnd.hour,
-                              selectedDateEnd.minute,
-                            ),
-                          },
-                          'userID': sl<UserCubit>().state.userEntity!.id,
-                          'timestamp': Timestamp.now(),
-                        };
-
-                        db
-                            .collection('challenge')
-                            .add(image)
-                            .then((DocumentReference doc) {
-                          Navigator.pop(context);
-
-                          final snackBar = SnackBar(
-                            content: Text(
-                              'DocumentSnapshot added with ID: ${doc.id}',
-                            ),
-                          );
-
-                          // Find the ScaffoldMessenger in the widget tree
-                          // and use it to show a SnackBar.
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        });
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
-                ],
-              ),
+                        // Find the ScaffoldMessenger in the widget tree
+                        // and use it to show a SnackBar.
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      });
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
             ),
           ),
         ),

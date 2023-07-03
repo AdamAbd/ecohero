@@ -32,7 +32,7 @@ class TextFieldEntity {
   static final List<TextFieldEntity> challenge = [
     TextFieldEntity(
       textController: TextEditingController(text: ''),
-      hint: "Masukkan judul kompetisi",
+      hint: "Judul Kompetisi",
       label: "Judul Kompetisi",
       focusNode: FocusNode(),
       validator: (value) {
@@ -41,7 +41,7 @@ class TextFieldEntity {
     ),
     TextFieldEntity(
       textController: TextEditingController(text: ''),
-      hint: "Masukkan deskripsi kompetisi",
+      hint: "Deskripsi Kompetisi",
       label: "Deskripsi Kompetisi",
       keyboardType: TextInputType.multiline,
       textInputAction: TextInputAction.newline,
