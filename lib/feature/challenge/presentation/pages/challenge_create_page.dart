@@ -35,12 +35,18 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Pick Image'),
+          title: const Text('Ambil Gambar'),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
                 GestureDetector(
-                  child: const Text('From Gallery'),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.image),
+                      SizedBox(width: 4),
+                      Text('Dari Galeri'),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     getImageFromGallery();
@@ -48,7 +54,13 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                 ),
                 const SizedBox(height: 20),
                 GestureDetector(
-                  child: const Text('From Camera'),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.photo_camera),
+                      SizedBox(width: 4),
+                      Text('Dari Kamera'),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     getImageFromCamera();
@@ -113,76 +125,38 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
         return GestureDetector(
           onTap: () => FocusUtils(context).unfocus(),
           child: Scaffold(
-            appBar: AppBar(title: const Text('Create Challenge')),
+            appBar: AppBar(title: const Text('Buat Kompetisi')),
             body: SingleChildScrollView(
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FilledButton(
-                      onPressed: pickImage,
-                      child: const Text('Pick Image'),
-                    ),
-                    const SizedBox(height: 12),
-                    if (images.isNotEmpty)
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          Image.file(
+                    images.isNotEmpty
+                        ? Image.file(
                             File(images[0].path),
                             width: double.infinity,
                             height: 260,
                             fit: BoxFit.cover,
-                          ),
-                          Container(
-                            width: 28,
-                            height: 28,
-                            margin: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "1/${images.length}",
-                              style: const TextStyle(fontSize: 12),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 260,
+                            color: Colors.black12,
+                            child: const Icon(
+                              Icons.image_not_supported,
+                              size: 48,
                             ),
                           ),
-                        ],
-                      ),
-                    SizedBox(height: images.isNotEmpty ? 14 : 0),
-                    SizedBox(
-                      height: 70,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 12),
-                        itemCount: images.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              left: index == 0 ? 24 : 0,
-                              right: index == images.length - 1 ? 24 : 0,
-                            ),
-                            child: Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: FileImage(
-                                    File(images[index].path),
-                                  ),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: FilledButton(
+                        onPressed: pickImage,
+                        child: const Text('Ambil Gambar'),
                       ),
                     ),
-                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                       child: CustomTextFormField(
@@ -224,6 +198,18 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                       ),
                     ),
                     const DateTimeListTile(),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Text(
+                        "POIN",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     Slider(
                       value: pointValue,
                       min: 1,
@@ -239,70 +225,76 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                     const SizedBox(height: 12),
                     BlocBuilder<ChallengeDateTimeCubit, DateTimeRange>(
                       builder: (context, state) {
-                        return FilledButton(
-                          onPressed: () async {
-                            FocusUtils(context).unfocus();
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          child: FilledButton(
+                            onPressed: () async {
+                              FocusUtils(context).unfocus();
 
-                            if (_formKey.currentState?.validate() == true) {
-                              print("images");
-                              print(images);
+                              if (_formKey.currentState?.validate() == true) {
+                                print("images");
+                                print(images);
 
-                              final List<TaskSnapshot> uploadTasks = await Future
-                                  .wait(images.map((File image) => FirebaseStorage
-                                      .instance
-                                      .ref()
-                                      .child(
-                                          'challenge/${DateTime.now().toString()}')
-                                      .putFile(image)));
+                                final List<TaskSnapshot> uploadTasks =
+                                    await Future.wait(images.map((File image) =>
+                                        FirebaseStorage.instance
+                                            .ref()
+                                            .child(
+                                                'challenge/${DateTime.now().toString()}')
+                                            .putFile(image)));
 
-                              final List<String> downloadURLs =
-                                  await Future.wait(
-                                uploadTasks.map(
-                                  (TaskSnapshot uploadTask) =>
-                                      uploadTask.ref.getDownloadURL(),
-                                ),
-                              );
-
-                              final Map<String, dynamic> image =
-                                  <String, dynamic>{
-                                'title': _textFieldList[0]
-                                    .textController
-                                    .text
-                                    .trim(),
-                                'desc': _textFieldList[1].textController.text,
-                                'images': downloadURLs,
-                                'point': pointValue.toInt(),
-                                'date': <String, dynamic>{
-                                  'start': state.start,
-                                  'end': state.end,
-                                },
-                                'userID': sl<UserCubit>().state.userEntity!.id,
-                                'timestamp': Timestamp.now(),
-                              };
-
-                              db
-                                  .collection('challenge')
-                                  .add(image)
-                                  .then((DocumentReference doc) {
-                                Navigator.pop(context);
-
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                    'DocumentSnapshot added with ID: ${doc.id}',
+                                final List<String> downloadURLs =
+                                    await Future.wait(
+                                  uploadTasks.map(
+                                    (TaskSnapshot uploadTask) =>
+                                        uploadTask.ref.getDownloadURL(),
                                   ),
                                 );
 
-                                // Find the ScaffoldMessenger in the widget tree
-                                // and use it to show a SnackBar.
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              });
-                            }
-                          },
-                          child: const Text('Submit'),
+                                final Map<String, dynamic> image =
+                                    <String, dynamic>{
+                                  'title': _textFieldList[0]
+                                      .textController
+                                      .text
+                                      .trim(),
+                                  'desc': _textFieldList[1].textController.text,
+                                  'images': downloadURLs,
+                                  'point': pointValue.toInt(),
+                                  'date': <String, dynamic>{
+                                    'start': state.start,
+                                    'end': state.end,
+                                  },
+                                  'userID':
+                                      sl<UserCubit>().state.userEntity!.id,
+                                  'timestamp': Timestamp.now(),
+                                };
+
+                                db
+                                    .collection('challenge')
+                                    .add(image)
+                                    .then((DocumentReference doc) {
+                                  Navigator.pop(context);
+
+                                  final snackBar = SnackBar(
+                                    content: Text(
+                                      'DocumentSnapshot added with ID: ${doc.id}',
+                                    ),
+                                  );
+
+                                  // Find the ScaffoldMessenger in the widget tree
+                                  // and use it to show a SnackBar.
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                });
+                              }
+                            },
+                            child: const Text('KIRIM'),
+                          ),
                         );
                       },
                     ),
+                    const SizedBox(height: 14),
                   ],
                 ),
               ),
