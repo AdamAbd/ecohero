@@ -9,6 +9,9 @@ Future<void> init() async {
   /// User
   sl.registerLazySingleton(() => UserCubit());
 
+  /// Challenge
+  sl.registerFactory(() => ChallengeDateTimeCubit());
+
   /// Firebase Auth With Google
   sl.registerLazySingleton(() => GoogleAuthRemoteDataSource());
   sl.registerLazySingleton(() => GoogleAuthRepository(sl()));

@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
         BlocProvider.value(
           value: locator.sl<GeolocatorCubit>(),
         ),
+        // BlocProvider.value(
+        //   value: locator.sl<ChallengeDateTimeCubit>(),
+        // ),
       ],
       child: MaterialApp(
         title: 'Eco Hero',

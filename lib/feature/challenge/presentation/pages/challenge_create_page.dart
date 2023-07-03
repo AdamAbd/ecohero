@@ -5,6 +5,7 @@ import 'package:ecohero/feature/feature.dart';
 import 'package:ecohero/locator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChallengeCreatePage extends StatefulWidget {
@@ -114,234 +115,252 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusUtils(context).unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Create Challenge'),
-        ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FilledButton(
-                  onPressed: pickImage,
-                  child: const Text('Pick Image'),
-                ),
-                const SizedBox(height: 12),
-                if (images.isNotEmpty)
-                  Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Image.file(
-                        File(images[0].path),
-                        width: double.infinity,
-                        height: 260,
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-                        width: 28,
-                        height: 28,
-                        margin: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "1/${images.length}",
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-                SizedBox(height: images.isNotEmpty ? 14 : 0),
-                SizedBox(
-                  height: 70,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 12),
-                    itemCount: images.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          left: index == 0 ? 24 : 0,
-                          right: index == images.length - 1 ? 24 : 0,
-                        ),
-                        child: Container(
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(images[index].path),
-                              ),
-                              fit: BoxFit.cover,
+    return BlocProvider(
+      create: (context) => sl<ChallengeDateTimeCubit>(),
+      child: Builder(builder: (context) {
+        return GestureDetector(
+          onTap: () => FocusUtils(context).unfocus(),
+          child: Scaffold(
+            appBar: AppBar(title: const Text('Create Challenge')),
+            body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FilledButton(
+                      onPressed: pickImage,
+                      child: const Text('Pick Image'),
+                    ),
+                    const SizedBox(height: 12),
+                    if (images.isNotEmpty)
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Image.file(
+                            File(images[0].path),
+                            width: double.infinity,
+                            height: 260,
+                            fit: BoxFit.cover,
+                          ),
+                          Container(
+                            width: 28,
+                            height: 28,
+                            margin: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "1/${images.length}",
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: CustomTextFormField(
-                    textFieldEntity: _textFieldList[0],
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: CustomTextFormField(
-                    textFieldEntity: _textFieldList[1],
-                    textStyle: const TextStyle(fontSize: 14),
-                    maxLines: 5,
-                  ),
-                ),
-                const Divider(),
-                const SizedBox(height: 12),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
-                  child: Text(
-                    "PERATURAN",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const ListTile(
-                  leading: Icon(Icons.timeline, size: 28),
-                  title: Text(
-                    "Berulang Setiap Hari",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.calendar_month, size: 28),
-                  title: Text(
-                    "${DateTimeUtils().getDateTime(
-                      DateTime(
-                        selectedDateStart.year,
-                        selectedDateStart.month,
-                        selectedDateStart.day,
-                        selectedTimeStart.hour,
-                        selectedTimeStart.minute,
+                        ],
                       ),
-                    )} - ${DateTimeUtils().getDateTime(
-                      DateTime(
-                        selectedDateEnd.year,
-                        selectedDateEnd.month,
-                        selectedDateEnd.day,
-                        selectedTimeEnd.hour,
-                        selectedTimeEnd.minute,
-                      ),
-                    )}",
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  onTap: () => context.changeDateTime(
-                    selectedDateStart: selectedDateStart,
-                    selectedTimeStart: selectedTimeStart,
-                    selectedDateEnd: selectedDateEnd,
-                    selectedTimeEnd: selectedTimeEnd,
-                  ),
-                ),
-                Slider(
-                  value: pointValue,
-                  min: 1,
-                  max: 10,
-                  onChanged: (newValue) {
-                    setState(() {
-                      pointValue = newValue;
-                    });
-                  },
-                  divisions: 9,
-                  label: "${pointValue.toInt()} Poin",
-                ),
-                const SizedBox(height: 12),
-                FilledButton(
-                  onPressed: () async {
-                    FocusUtils(context).unfocus();
-
-                    if (_formKey.currentState?.validate() == true) {
-                      print("images");
-                      print(images);
-
-                      final List<TaskSnapshot> uploadTasks = await Future.wait(
-                          images.map((File image) => FirebaseStorage.instance
-                              .ref()
-                              .child('challenge/${DateTime.now().toString()}')
-                              .putFile(image)));
-
-                      final List<String> downloadURLs = await Future.wait(
-                        uploadTasks.map(
-                          (TaskSnapshot uploadTask) =>
-                              uploadTask.ref.getDownloadURL(),
-                        ),
-                      );
-
-                      final Map<String, dynamic> image = <String, dynamic>{
-                        'title': _textFieldList[0].textController.text.trim(),
-                        'desc': _textFieldList[1].textController.text,
-                        'images': downloadURLs,
-                        'point': pointValue.toInt(),
-                        'date': <String, dynamic>{
-                          'start': DateTime(
-                            selectedDateStart.year,
-                            selectedDateStart.month,
-                            selectedDateStart.day,
-                            selectedTimeStart.hour,
-                            selectedTimeStart.minute,
-                          ),
-                          'end': DateTime(
-                            selectedDateEnd.year,
-                            selectedDateEnd.month,
-                            selectedDateEnd.day,
-                            selectedTimeEnd.hour,
-                            selectedTimeEnd.minute,
-                          ),
+                    SizedBox(height: images.isNotEmpty ? 14 : 0),
+                    SizedBox(
+                      height: 70,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 12),
+                        itemCount: images.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              left: index == 0 ? 24 : 0,
+                              right: index == images.length - 1 ? 24 : 0,
+                            ),
+                            child: Container(
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    File(images[index].path),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
                         },
-                        'userID': sl<UserCubit>().state.userEntity!.id,
-                        'timestamp': Timestamp.now(),
-                      };
-
-                      db
-                          .collection('challenge')
-                          .add(image)
-                          .then((DocumentReference doc) {
-                        Navigator.pop(context);
-
-                        final snackBar = SnackBar(
-                          content: Text(
-                            'DocumentSnapshot added with ID: ${doc.id}',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: CustomTextFormField(
+                        textFieldEntity: _textFieldList[0],
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: CustomTextFormField(
+                        textFieldEntity: _textFieldList[1],
+                        textStyle: const TextStyle(fontSize: 14),
+                        maxLines: 5,
+                      ),
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Text(
+                        "PERATURAN",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const ListTile(
+                      leading: Icon(Icons.timeline, size: 28),
+                      title: Text(
+                        "Berulang Setiap Hari",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.calendar_month, size: 28),
+                      title: BlocBuilder<ChallengeDateTimeCubit,
+                          ChallengeDateTimeEntity>(
+                        builder: (context, state) {
+                          return Text(
+                            "${DateTimeUtils().getDateTime(
+                              DateTime(
+                                state.selectedDateStart.year,
+                                state.selectedDateStart.month,
+                                state.selectedDateStart.day,
+                                state.selectedTimeStart.hour,
+                                state.selectedTimeStart.minute,
+                              ),
+                            )} - ${DateTimeUtils().getDateTime(
+                              DateTime(
+                                state.selectedDateEnd.year,
+                                state.selectedDateEnd.month,
+                                state.selectedDateEnd.day,
+                                state.selectedTimeEnd.hour,
+                                state.selectedTimeEnd.minute,
+                              ),
+                            )}",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          );
+                        },
+                      ),
+                      // onTap: () => context.changeDateTime(
+                      //   selectedDateStart: selectedDateStart,
+                      //   selectedTimeStart: selectedTimeStart,
+                      //   selectedDateEnd: selectedDateEnd,
+                      //   selectedTimeEnd: selectedTimeEnd,
+                      // ),
+                      onTap: () => context
+                          .read<ChallengeDateTimeCubit>()
+                          .changeDateStart(
+                            DateTime(2021, 1, 1, 1, 1),
+                            TimeOfDay(hour: 1, minute: 1),
                           ),
-                        );
+                    ),
+                    Slider(
+                      value: pointValue,
+                      min: 1,
+                      max: 10,
+                      onChanged: (newValue) {
+                        setState(() {
+                          pointValue = newValue;
+                        });
+                      },
+                      divisions: 9,
+                      label: "${pointValue.toInt()} Poin",
+                    ),
+                    const SizedBox(height: 12),
+                    FilledButton(
+                      onPressed: () async {
+                        FocusUtils(context).unfocus();
 
-                        // Find the ScaffoldMessenger in the widget tree
-                        // and use it to show a SnackBar.
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      });
-                    }
-                  },
-                  child: const Text('Submit'),
+                        if (_formKey.currentState?.validate() == true) {
+                          print("images");
+                          print(images);
+
+                          final List<TaskSnapshot> uploadTasks = await Future
+                              .wait(images.map((File image) => FirebaseStorage
+                                  .instance
+                                  .ref()
+                                  .child(
+                                      'challenge/${DateTime.now().toString()}')
+                                  .putFile(image)));
+
+                          final List<String> downloadURLs = await Future.wait(
+                            uploadTasks.map(
+                              (TaskSnapshot uploadTask) =>
+                                  uploadTask.ref.getDownloadURL(),
+                            ),
+                          );
+
+                          final Map<String, dynamic> image = <String, dynamic>{
+                            'title':
+                                _textFieldList[0].textController.text.trim(),
+                            'desc': _textFieldList[1].textController.text,
+                            'images': downloadURLs,
+                            'point': pointValue.toInt(),
+                            'date': <String, dynamic>{
+                              'start': DateTime(
+                                selectedDateStart.year,
+                                selectedDateStart.month,
+                                selectedDateStart.day,
+                                selectedTimeStart.hour,
+                                selectedTimeStart.minute,
+                              ),
+                              'end': DateTime(
+                                selectedDateEnd.year,
+                                selectedDateEnd.month,
+                                selectedDateEnd.day,
+                                selectedTimeEnd.hour,
+                                selectedTimeEnd.minute,
+                              ),
+                            },
+                            'userID': sl<UserCubit>().state.userEntity!.id,
+                            'timestamp': Timestamp.now(),
+                          };
+
+                          db
+                              .collection('challenge')
+                              .add(image)
+                              .then((DocumentReference doc) {
+                            Navigator.pop(context);
+
+                            final snackBar = SnackBar(
+                              content: Text(
+                                'DocumentSnapshot added with ID: ${doc.id}',
+                              ),
+                            );
+
+                            // Find the ScaffoldMessenger in the widget tree
+                            // and use it to show a SnackBar.
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          });
+                        }
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
