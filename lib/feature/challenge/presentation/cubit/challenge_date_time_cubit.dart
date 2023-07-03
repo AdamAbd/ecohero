@@ -1,51 +1,75 @@
-import 'package:ecohero/feature/feature.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-class ChallengeDateTimeCubit extends Cubit<ChallengeDateTimeEntity> {
+class ChallengeDateTimeCubit extends Cubit<DateTimeRange> {
   ChallengeDateTimeCubit()
       : super(
-          ChallengeDateTimeEntity(
-            selectedDateStart: DateTime.now(),
-            selectedTimeStart: TimeOfDay.now(),
-            selectedDateEnd: DateTime.now(),
-            selectedTimeEnd: TimeOfDay.now().addHour(5),
+          DateTimeRange(
+            start: DateTime.now(),
+            end: DateTime.now().add(const Duration(days: 1)),
           ),
         );
 
-  void changeDateStart(DateTime dateStart) => emit(
-        ChallengeDateTimeEntity(
-          selectedDateStart: dateStart,
-          selectedTimeStart: state.selectedTimeStart,
-          selectedDateEnd: state.selectedDateEnd,
-          selectedTimeEnd: state.selectedTimeEnd,
+  void changeDateRange(DateTimeRange dateTimeRange) {
+    emit(
+      DateTimeRange(
+        start: DateTime(
+          dateTimeRange.start.year,
+          dateTimeRange.start.month,
+          dateTimeRange.start.day,
+          state.start.hour,
+          state.start.minute,
         ),
-      );
+        end: DateTime(
+          dateTimeRange.end.year,
+          dateTimeRange.end.month,
+          dateTimeRange.end.day,
+          state.end.hour,
+          state.end.minute,
+        ),
+      ),
+    );
+  }
 
-  void changeTimeStart(TimeOfDay timeStart) => emit(
-        ChallengeDateTimeEntity(
-          selectedDateStart: state.selectedDateStart,
-          selectedTimeStart: timeStart,
-          selectedDateEnd: state.selectedDateEnd,
-          selectedTimeEnd: state.selectedTimeEnd,
+  void changeTimeStart(TimeOfDay timeStart) {
+    emit(
+      DateTimeRange(
+        start: DateTime(
+          state.start.year,
+          state.start.month,
+          state.start.day,
+          timeStart.hour,
+          timeStart.minute,
         ),
-      );
+        end: DateTime(
+          state.end.year,
+          state.end.month,
+          state.end.day,
+          state.end.hour,
+          state.end.minute,
+        ),
+      ),
+    );
+  }
 
-  void changeDateEnd(DateTime dateEnd) => emit(
-        ChallengeDateTimeEntity(
-          selectedDateStart: state.selectedDateStart,
-          selectedTimeStart: state.selectedTimeStart,
-          selectedDateEnd: dateEnd,
-          selectedTimeEnd: state.selectedTimeEnd,
+  void changeTimeEnd(TimeOfDay timeEnd) {
+    emit(
+      DateTimeRange(
+        start: DateTime(
+          state.start.year,
+          state.start.month,
+          state.start.day,
+          state.start.hour,
+          state.start.minute,
         ),
-      );
-
-  void changeTimeEnd(TimeOfDay timeEnd) => emit(
-        ChallengeDateTimeEntity(
-          selectedDateStart: state.selectedDateStart,
-          selectedTimeStart: state.selectedTimeStart,
-          selectedDateEnd: state.selectedDateEnd,
-          selectedTimeEnd: timeEnd,
+        end: DateTime(
+          state.end.year,
+          state.end.month,
+          state.end.day,
+          timeEnd.hour,
+          timeEnd.minute,
         ),
-      );
+      ),
+    );
+  }
 }
