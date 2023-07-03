@@ -1,19 +1,16 @@
-import 'package:ecohero/feature/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as context;
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:ecohero/feature/feature.dart';
 
 extension CustomButtomSheet on context.BuildContext {
-  void changeDateTime({
-    required DateTime selectedDateStart,
-    required TimeOfDay selectedTimeStart,
-    required DateTime selectedDateEnd,
-    required TimeOfDay selectedTimeEnd,
-  }) {
+  void changeDateTime() {
     showModalBottomSheet(
       context: this,
       builder: (BuildContext context) {
         return Container(
-          height: 200,
+          height: 160,
           color: Colors.white,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -70,32 +67,38 @@ extension CustomButtomSheet on context.BuildContext {
                               lastDate: DateTime(3023, 6, 1),
                             );
                             if (newDate != null) {
-                              // setState(() {
-                              //   selectedDateStart = newDate;
-                              // });
+                              context
+                                  .read<ChallengeDateTimeCubit>()
+                                  .changeDateStart(newDate);
                             }
 
                             final TimeOfDay? newTime = await showTimePicker(
                               context: context,
-                              initialTime: selectedTimeStart,
+                              initialTime: TimeOfDay.now(),
                             );
                             if (newTime != null) {
-                              // setState(() {
-                              //   selectedTimeStart = newTime;
-                              // });
+                              context
+                                  .read<ChallengeDateTimeCubit>()
+                                  .changeTimeStart(newTime);
                             }
                           },
-                          child: Text(
-                            DateTimeUtils().getDateTime(
-                              DateTime(
-                                selectedDateStart.year,
-                                selectedDateStart.month,
-                                selectedDateStart.day,
-                                selectedTimeStart.hour,
-                                selectedTimeStart.minute,
-                              ),
-                            ),
-                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          child: BlocBuilder<ChallengeDateTimeCubit,
+                              ChallengeDateTimeEntity>(
+                            builder: (context, state) {
+                              return Text(
+                                DateTimeUtils().getDateTime(
+                                  DateTime(
+                                    state.selectedDateStart.year,
+                                    state.selectedDateStart.month,
+                                    state.selectedDateStart.day,
+                                    state.selectedTimeStart.hour,
+                                    state.selectedTimeStart.minute,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -120,32 +123,38 @@ extension CustomButtomSheet on context.BuildContext {
                               lastDate: DateTime(3023, 6, 1),
                             );
                             if (newDate != null) {
-                              // setState(() {
-                              //   selectedDateEnd = newDate;
-                              // });
+                              context
+                                  .read<ChallengeDateTimeCubit>()
+                                  .changeDateEnd(newDate);
                             }
 
                             final TimeOfDay? newTime = await showTimePicker(
                               context: context,
-                              initialTime: selectedTimeStart.addHour(5),
+                              initialTime: TimeOfDay.now().addHour(5),
                             );
                             if (newTime != null) {
-                              // setState(() {
-                              //   selectedTimeEnd = newTime;
-                              // });
+                              context
+                                  .read<ChallengeDateTimeCubit>()
+                                  .changeTimeEnd(newTime);
                             }
                           },
-                          child: Text(
-                            DateTimeUtils().getDateTime(
-                              DateTime(
-                                selectedDateEnd.year,
-                                selectedDateEnd.month,
-                                selectedDateEnd.day,
-                                selectedTimeEnd.hour,
-                                selectedTimeEnd.minute,
-                              ),
-                            ),
-                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          child: BlocBuilder<ChallengeDateTimeCubit,
+                              ChallengeDateTimeEntity>(
+                            builder: (context, state) {
+                              return Text(
+                                DateTimeUtils().getDateTime(
+                                  DateTime(
+                                    state.selectedDateEnd.year,
+                                    state.selectedDateEnd.month,
+                                    state.selectedDateEnd.day,
+                                    state.selectedTimeEnd.hour,
+                                    state.selectedTimeEnd.minute,
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
+                              );
+                            },
                           ),
                         ),
                       ],

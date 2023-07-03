@@ -13,12 +13,39 @@ class ChallengeDateTimeCubit extends Cubit<ChallengeDateTimeEntity> {
           ),
         );
 
-  void changeDateStart(DateTime dateStart, TimeOfDay timeStart) => emit(
+  void changeDateStart(DateTime dateStart) => emit(
         ChallengeDateTimeEntity(
           selectedDateStart: dateStart,
+          selectedTimeStart: state.selectedTimeStart,
+          selectedDateEnd: state.selectedDateEnd,
+          selectedTimeEnd: state.selectedTimeEnd,
+        ),
+      );
+
+  void changeTimeStart(TimeOfDay timeStart) => emit(
+        ChallengeDateTimeEntity(
+          selectedDateStart: state.selectedDateStart,
           selectedTimeStart: timeStart,
           selectedDateEnd: state.selectedDateEnd,
           selectedTimeEnd: state.selectedTimeEnd,
+        ),
+      );
+
+  void changeDateEnd(DateTime dateEnd) => emit(
+        ChallengeDateTimeEntity(
+          selectedDateStart: state.selectedDateStart,
+          selectedTimeStart: state.selectedTimeStart,
+          selectedDateEnd: dateEnd,
+          selectedTimeEnd: state.selectedTimeEnd,
+        ),
+      );
+
+  void changeTimeEnd(TimeOfDay timeEnd) => emit(
+        ChallengeDateTimeEntity(
+          selectedDateStart: state.selectedDateStart,
+          selectedTimeStart: state.selectedTimeStart,
+          selectedDateEnd: state.selectedDateEnd,
+          selectedTimeEnd: timeEnd,
         ),
       );
 }
