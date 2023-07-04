@@ -40,6 +40,13 @@ class ChallengeDetailPage extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 expandedHeight: 260,
+                leading: IconButton.filled(
+                  onPressed: () => Navigator.pop(context),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.white54),
+                  ),
+                  icon: const Icon(Icons.arrow_back),
+                ),
                 flexibleSpace: FlexibleSpaceBar(
                   background: Hero(
                     tag: 'imageHeroTransition_${args.index}',
