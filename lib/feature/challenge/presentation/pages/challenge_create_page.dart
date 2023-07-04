@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecohero/feature/feature.dart';
-import 'package:ecohero/locator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:ecohero/feature/feature.dart';
+import 'package:ecohero/locator.dart';
 
 class ChallengeCreatePage extends StatefulWidget {
   const ChallengeCreatePage({super.key});
@@ -28,7 +30,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
   /// Image
   final ImagePicker picker = ImagePicker();
-  List<File> images = <File>[];
+  File? image;
 
   Future<void> pickImage() async {
     showDialog(
@@ -49,7 +51,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
-                    getImageFromGallery();
+                    getImageFrom(ImageSource.gallery);
                   },
                 ),
                 const SizedBox(height: 20),
@@ -63,7 +65,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
-                    getImageFromCamera();
+                    getImageFrom(ImageSource.camera);
                   },
                 ),
               ],
@@ -74,27 +76,13 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
     );
   }
 
-  Future<void> getImageFromGallery() async {
-    final List<XFile> pickedFiles = await picker.pickMultiImage();
-
-    if (pickedFiles.isNotEmpty) {
-      setState(() {
-        images.addAll(pickedFiles.map((pickedFile) => File(pickedFile.path)));
-      });
-    }
-  }
-
-  Future<void> getImageFromCamera() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.camera,
-      maxWidth: 1280,
-      maxHeight: 720,
-      imageQuality: 80,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        images.add(File(pickedFile.path));
-      });
+  Future<void> getImageFrom(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image == null) return;
+      setState(() => this.image = File(image.path));
+    } on PlatformException catch (e) {
+      print('Failed to pick image from ${imageSource.name}: $e');
     }
   }
 
@@ -132,22 +120,22 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    images.isNotEmpty
-                        ? Image.file(
-                            File(images[0].path),
-                            width: double.infinity,
-                            height: 260,
-                            fit: BoxFit.cover,
-                          )
-                        : Container(
-                            width: double.infinity,
-                            height: 260,
-                            color: Colors.black12,
-                            child: const Icon(
+                    Container(
+                      width: double.infinity,
+                      height: 260,
+                      color: Colors.black12,
+                      child: image != null
+                          ? Image.file(
+                              File(image!.path),
+                              width: double.infinity,
+                              height: 260,
+                              fit: BoxFit.cover,
+                            )
+                          : const Icon(
                               Icons.image_not_supported,
                               size: 48,
                             ),
-                          ),
+                    ),
                     const SizedBox(height: 12),
                     Container(
                       width: double.infinity,
@@ -233,33 +221,24 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                               FocusUtils(context).unfocus();
 
                               if (_formKey.currentState?.validate() == true) {
-                                print("images");
-                                print(images);
+                                final TaskSnapshot uploadTask =
+                                    await FirebaseStorage.instance
+                                        .ref()
+                                        .child(
+                                            'challenge/${DateTime.now().toString()}')
+                                        .putFile(image!);
 
-                                final List<TaskSnapshot> uploadTasks =
-                                    await Future.wait(images.map((File image) =>
-                                        FirebaseStorage.instance
-                                            .ref()
-                                            .child(
-                                                'challenge/${DateTime.now().toString()}')
-                                            .putFile(image)));
+                                final String downloadURL =
+                                    await uploadTask.ref.getDownloadURL();
 
-                                final List<String> downloadURLs =
-                                    await Future.wait(
-                                  uploadTasks.map(
-                                    (TaskSnapshot uploadTask) =>
-                                        uploadTask.ref.getDownloadURL(),
-                                  ),
-                                );
-
-                                final Map<String, dynamic> image =
+                                final Map<String, dynamic> challenge =
                                     <String, dynamic>{
                                   'title': _textFieldList[0]
                                       .textController
                                       .text
                                       .trim(),
                                   'desc': _textFieldList[1].textController.text,
-                                  'images': downloadURLs,
+                                  'image': downloadURL,
                                   'point': pointValue.toInt(),
                                   'date': <String, dynamic>{
                                     'start': state.start,
@@ -272,7 +251,7 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
 
                                 db
                                     .collection('challenge')
-                                    .add(image)
+                                    .add(challenge)
                                     .then((DocumentReference doc) {
                                   Navigator.pop(context);
 
