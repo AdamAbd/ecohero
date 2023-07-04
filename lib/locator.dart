@@ -11,6 +11,7 @@ Future<void> init() async {
 
   /// Challenge
   sl.registerFactory(() => ChallengeDateTimeCubit());
+  sl.registerFactory(() => ChallengeImagePickerCubit());
 
   /// Firebase Auth With Google
   sl.registerLazySingleton(() => GoogleAuthRemoteDataSource());
