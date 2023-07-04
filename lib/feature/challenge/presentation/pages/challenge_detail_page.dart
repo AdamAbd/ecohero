@@ -102,6 +102,30 @@ class ChallengeDetailPage extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
+                        Icons.timeline,
+                        size: 20,
+                        color: Colors.black54,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "Berulang Setiap Hari",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 6)),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
+                    children: [
+                      const Icon(
                         Icons.calendar_month,
                         size: 20,
                         color: Colors.black54,
