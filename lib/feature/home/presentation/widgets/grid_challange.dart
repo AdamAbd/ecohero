@@ -57,6 +57,7 @@ class GridChallange extends StatelessWidget {
                   );
                 },
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Hero(
                       tag: 'imageHeroTransition_$index',
