@@ -14,63 +14,76 @@ class GridChallange extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: StreamBuilder<QuerySnapshot>(
-          stream: db.collection('challenge').snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Text('Something went wrong');
-            }
+        stream: db.collection('challenge').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading');
-            }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text('Loading');
+          }
 
-            List<QueryDocumentSnapshot<Object?>> data = snapshot.data!.docs;
+          List<QueryDocumentSnapshot<Object?>> data = snapshot.data!.docs;
 
-            return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 5 / 6,
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 5 / 6,
+            ),
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              QueryDocumentSnapshot<Object?> challenge = data[index];
+
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  PagePath.challengeDetail,
+                  arguments: ChallengeDetailPageArgs(
+                    title: challenge['title'],
+                    desc: challenge['desc'],
+                    images: challenge['image'],
+                    point: challenge['point'],
+                    index: index,
+                  ),
                 ),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  QueryDocumentSnapshot<Object?> challenge = data[index];
-
-                  return GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      PagePath.challengeDetail,
-                      arguments: ChallengeDetailPageArgs(
-                        title: challenge['title'],
-                        desc: challenge['desc'],
-                        images: challenge['images'],
-                        point: challenge['point'],
-                        index: index,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Hero(
-                          tag: 'imageHeroTransition_$index',
-                          child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.lightGreen[200],
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: NetworkImage(challenge['images'][0]),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                child: Column(
+                  children: [
+                    Hero(
+                      tag: 'imageHeroTransition_$index',
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.lightGreen[200],
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(challenge['image']),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      challenge['title'],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        const Icon(Icons.money),
+                        const SizedBox(width: 2),
                         Text(
-                          challenge['title'],
+                          '${challenge['point']} | Diikuti 250+',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -78,27 +91,15 @@ class GridChallange extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Row(
-                          children: [
-                            const Icon(Icons.money),
-                            const SizedBox(width: 2),
-                            Text(
-                              '${challenge['point']} | Diikuti 250+',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
-                  );
-                });
-          }),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
