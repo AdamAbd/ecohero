@@ -4,14 +4,14 @@ class ChallengeDetailPageArgs {
   const ChallengeDetailPageArgs({
     required this.title,
     required this.desc,
-    required this.images,
+    required this.image,
     required this.point,
     required this.index,
   });
 
   final String title;
   final String desc;
-  final List<dynamic> images;
+  final String image;
   final int point;
   final int index;
 }
@@ -31,61 +31,13 @@ class ChallengeDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                Hero(
-                  tag: 'imageHeroTransition_${args.index}',
-                  child: Image.network(
-                    args.images[0],
-                    width: double.infinity,
-                    height: 260,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: 28,
-                  height: 28,
-                  margin: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "1/${args.images.length}",
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              height: 70,
-              child: ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) => const SizedBox(width: 12),
-                itemCount: args.images.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      left: index == 0 ? 14 : 0,
-                      right: index == 5 ? 14 : 0,
-                    ),
-                    child: Container(
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent,
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: NetworkImage(args.images[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                },
+            Hero(
+              tag: 'imageHeroTransition_${args.index}',
+              child: Image.network(
+                args.image,
+                width: double.infinity,
+                height: 260,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 12),

@@ -46,7 +46,7 @@ class GridChallange extends StatelessWidget {
                   arguments: ChallengeDetailPageArgs(
                     title: challenge['title'],
                     desc: challenge['desc'],
-                    images: challenge['image'],
+                    image: challenge['image'],
                     point: challenge['point'],
                     index: index,
                   ),
