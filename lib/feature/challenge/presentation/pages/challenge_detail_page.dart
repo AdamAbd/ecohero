@@ -100,7 +100,7 @@ class ChallengeDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        args.title,
+                        "${DateTimeUtils().getDateTime(args.startDate.toDate()).toString()} ➡ ${DateTimeUtils().getDateTime(args.endDate.toDate()).toString()}",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
