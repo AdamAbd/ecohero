@@ -42,7 +42,7 @@ class ChallengeDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Padding(
-              padding: EdgeInsets.only(left: 24),
+              padding: EdgeInsets.only(left: 14),
               child: Text(
                 'Deskripsi Challange',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -50,7 +50,7 @@ class ChallengeDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Text(
                 args.desc,
                 style: const TextStyle(fontSize: 14),
@@ -58,7 +58,7 @@ class ChallengeDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: IntrinsicHeight(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -102,7 +102,7 @@ class ChallengeDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.only(left: 24),
+              padding: EdgeInsets.only(left: 14),
               child: Text(
                 'Aktivitas Terbaru',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -110,7 +110,7 @@ class ChallengeDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 14),
               child: Text(
                 '[Dummy] Tantangan ini bertujuan untuk mengurangi jumlah kendaraan pribadi di jalan yang menyebabkan kemacetan dan polusi udara. Anda dapat beralih ke bus, kereta, atau Transjakarta untuk pergi ke tempat kerja atau tempat lain yang Anda tuju. Anda akan mendapatkan manfaat hemat waktu dan biaya dari tantangan ini. Jangan lupa untuk membagikan rute dan jadwal Anda di media sosial dengan tagar #BeralihKeBusKeretaAtauTransjakarta.',
                 style: TextStyle(fontSize: 14),
