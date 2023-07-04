@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecohero/feature/common/common.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class ChallengeDetailPageArgs {
     required this.startDate,
     required this.endDate,
     required this.userID,
+    required this.docID,
     required this.index,
   });
 
@@ -22,16 +25,24 @@ class ChallengeDetailPageArgs {
   final Timestamp startDate;
   final Timestamp endDate;
   final String userID;
+  final String docID;
   final int index;
 }
 
-class ChallengeDetailPage extends StatelessWidget {
+class ChallengeDetailPage extends StatefulWidget {
   const ChallengeDetailPage({required this.args, super.key});
 
   final ChallengeDetailPageArgs args;
 
   @override
+  State<ChallengeDetailPage> createState() => _ChallengeDetailPageState();
+}
+
+class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
+  @override
   Widget build(BuildContext context) {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -50,9 +61,9 @@ class ChallengeDetailPage extends StatelessWidget {
                 ),
                 flexibleSpace: FlexibleSpaceBar(
                   background: Hero(
-                    tag: 'imageHeroTransition_${args.index}',
+                    tag: 'imageHeroTransition_${widget.args.index}',
                     child: Image.network(
-                      args.image,
+                      widget.args.image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -63,7 +74,7 @@ class ChallengeDetailPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Text(
-                    args.title,
+                    widget.args.title,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -84,7 +95,7 @@ class ChallengeDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "${args.point} Poin",
+                        "${widget.args.point} Poin",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -132,7 +143,7 @@ class ChallengeDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "${DateTimeUtils().getDateTime(args.startDate.toDate()).toString()} ➡ ${DateTimeUtils().getDateTime(args.endDate.toDate()).toString()}",
+                        "${DateTimeUtils().getDateTime(widget.args.startDate.toDate()).toString()} ➡ ${DateTimeUtils().getDateTime(widget.args.endDate.toDate()).toString()}",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -145,41 +156,66 @@ class ChallengeDetailPage extends StatelessWidget {
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 6)),
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    children: [
-                      Stack(
-                        children: List.generate(
-                          5,
-                          (index) {
-                            return Container(
-                              width: 28,
-                              height: 28,
-                              margin: EdgeInsets.only(left: index * 20),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white),
-                                image: DecorationImage(
-                                  image: NetworkImage(args.image),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                child: FutureBuilder<QuerySnapshot>(
+                  future: db
+                      .collection('challenge')
+                      .doc(widget.args.docID)
+                      .collection("followers")
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading');
+                    }
+
+                    List<QueryDocumentSnapshot<Object?>> data =
+                        snapshot.data!.docs;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: Row(
+                        children: [
+                          Stack(
+                            children: List.generate(
+                              min(5, data.length),
+                              (index) {
+                                return Container(
+                                  width: 28,
+                                  height: 28,
+                                  margin: EdgeInsets.only(left: index * 20),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        data[index]['userPhotoURL'],
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            data.length <= 0
+                                ? "Jadilah Yang Pertama Mengikuti Kompetisi Ini"
+                                : "${data.length} Pengikut",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.8),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "10 pengikut",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.8),
-                        ),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
@@ -200,7 +236,7 @@ class ChallengeDetailPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Text(
-                    args.desc,
+                    widget.args.desc,
                     style: const TextStyle(fontSize: 14, color: Colors.black87),
                   ),
                 ),
@@ -212,7 +248,8 @@ class ChallengeDetailPage extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             color: Colors.white,
-            child: args.userID == context.read<UserCubit>().state.userEntity!.id
+            child: widget.args.userID ==
+                    context.read<UserCubit>().state.userEntity!.id
                 ? FilledButton.tonal(
                     onPressed: () {},
                     child: const Text(
@@ -236,7 +273,32 @@ class ChallengeDetailPage extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: FilledButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final Map<String, dynamic> followers =
+                                <String, dynamic>{
+                              'userID': context
+                                  .read<UserCubit>()
+                                  .state
+                                  .userEntity!
+                                  .id,
+                              "userPhotoURL": context
+                                  .read<UserCubit>()
+                                  .state
+                                  .userEntity!
+                                  .photoURL,
+                              'timestamp': Timestamp.now(),
+                            };
+
+                            db
+                                .collection('challenge')
+                                .doc(widget.args.docID)
+                                .collection('followers')
+                                .add(followers)
+                                .then((DocumentReference doc) {
+                              print(doc.id);
+                              setState(() {});
+                            });
+                          },
                           child: const Text(
                             "IKUTI TANTANGAN",
                             style: TextStyle(fontWeight: FontWeight.bold),

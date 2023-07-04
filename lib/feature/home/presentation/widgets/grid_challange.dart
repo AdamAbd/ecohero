@@ -52,6 +52,7 @@ class GridChallange extends StatelessWidget {
                       startDate: challenge['date']['start'],
                       endDate: challenge['date']['end'],
                       userID: challenge['userID'],
+                      docID: challenge.id,
                       index: index,
                     ),
                   );
