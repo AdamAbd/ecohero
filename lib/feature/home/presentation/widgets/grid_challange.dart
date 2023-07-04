@@ -40,17 +40,22 @@ class GridChallange extends StatelessWidget {
               QueryDocumentSnapshot<Object?> challenge = data[index];
 
               return GestureDetector(
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  PagePath.challengeDetail,
-                  arguments: ChallengeDetailPageArgs(
-                    title: challenge['title'],
-                    desc: challenge['desc'],
-                    image: challenge['image'],
-                    point: challenge['point'],
-                    index: index,
-                  ),
-                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    PagePath.challengeDetail,
+                    arguments: ChallengeDetailPageArgs(
+                      title: challenge['title'],
+                      desc: challenge['desc'],
+                      image: challenge['image'],
+                      point: challenge['point'],
+                      startDate: challenge['date']['start'],
+                      endDate: challenge['date']['end'],
+                      userID: challenge['userID'],
+                      index: index,
+                    ),
+                  );
+                },
                 child: Column(
                   children: [
                     Hero(

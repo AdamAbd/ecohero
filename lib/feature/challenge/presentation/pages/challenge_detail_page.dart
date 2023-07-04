@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecohero/feature/common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChallengeDetailPageArgs {
   const ChallengeDetailPageArgs({
@@ -6,6 +9,9 @@ class ChallengeDetailPageArgs {
     required this.desc,
     required this.image,
     required this.point,
+    required this.startDate,
+    required this.endDate,
+    required this.userID,
     required this.index,
   });
 
@@ -13,6 +19,9 @@ class ChallengeDetailPageArgs {
   final String desc;
   final String image;
   final int point;
+  final Timestamp startDate;
+  final Timestamp endDate;
+  final String userID;
   final int index;
 }
 
@@ -207,30 +216,39 @@ class ChallengeDetailPage extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             color: Colors.white,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 72,
-                  child: IconButton.filled(
-                    onPressed: () {},
-                    icon: const Icon(Icons.report),
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.red),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: FilledButton(
+            child: args.userID == context.read<UserCubit>().state.userEntity!.id
+                ? FilledButton.tonal(
                     onPressed: () {},
                     child: const Text(
-                      "IKUTI TANTANGAN",
+                      "EDIT TANTANGAN",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
+                  )
+                : Row(
+                    children: [
+                      SizedBox(
+                        width: 72,
+                        child: IconButton.filled(
+                          onPressed: () {},
+                          icon: const Icon(Icons.report),
+                          style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.red),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: FilledButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "IKUTI TANTANGAN",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
