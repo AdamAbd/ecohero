@@ -23,7 +23,7 @@ class CustomFollowers extends StatelessWidget {
             .collection("challenge")
             .doc(args.docID)
             .collection("followers")
-            .orderBy("timestamp", descending: false)
+            .orderBy("timestamp", descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
