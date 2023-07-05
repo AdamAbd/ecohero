@@ -290,15 +290,30 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                                 .delete()
                                 .then(
                               (doc) {
-                                print("Document deleted");
+                                const snackBar = SnackBar(
+                                  content: Text(
+                                    'Anda Batal Mengikuti Kompetisi',
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 setState(() {});
                               },
-                              onError: (e) =>
-                                  print("Error updating document $e"),
+                              onError: (e) {
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                    'Error updating document $e',
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
                             );
                           },
                           child: const Text(
-                            "BATAL IKUTI TANTANGAN",
+                            "BATAL IKUTI KOMPETISI",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         );
@@ -342,12 +357,19 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                                     .collection('followers')
                                     .add(followers)
                                     .then((DocumentReference doc) {
-                                  print(doc.id);
+                                  const snackBar = SnackBar(
+                                    content: Text(
+                                      'Anda Berhasil Mengikuti Kompetisi',
+                                    ),
+                                  );
+
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
                                   setState(() {});
                                 });
                               },
                               child: const Text(
-                                "IKUTI TANTANGAN",
+                                "IKUTI KOMPETISI",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
