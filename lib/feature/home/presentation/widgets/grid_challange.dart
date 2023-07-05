@@ -89,15 +89,36 @@ class GridChallange extends StatelessWidget {
                       children: [
                         const Icon(Icons.money),
                         const SizedBox(width: 2),
-                        Text(
-                          '${challenge['point']} | Diikuti 250+',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        StreamBuilder<QuerySnapshot>(
+                            stream: db
+                                .collection("challenge")
+                                .doc(challenge.id)
+                                .collection("followers")
+                                .snapshots(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text('Something went wrong');
+                              }
+
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Loading');
+                              }
+
+                              List<QueryDocumentSnapshot<Object?>> data =
+                                  snapshot.data!.docs;
+
+                              return Text(
+                                '${challenge['point']} | Diikuti ${data.length}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }),
                       ],
                     ),
                   ],
