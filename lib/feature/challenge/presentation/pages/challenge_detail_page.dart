@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecohero/feature/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:ecohero/feature/feature.dart';
 
 class ChallengeDetailPageArgs {
   const ChallengeDetailPageArgs({
@@ -61,7 +60,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                 ),
                 flexibleSpace: FlexibleSpaceBar(
                   background: Hero(
-                    tag: 'imageHeroTransition_${widget.args.index}',
+                    tag: "imageHeroTransition_${widget.args.index}",
                     child: Image.network(
                       widget.args.image,
                       fit: BoxFit.cover,
@@ -155,69 +154,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 6)),
-              SliverToBoxAdapter(
-                child: FutureBuilder<QuerySnapshot>(
-                  future: db
-                      .collection('challenge')
-                      .doc(widget.args.docID)
-                      .collection("followers")
-                      .get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text('Something went wrong');
-                    }
-
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Loading');
-                    }
-
-                    List<QueryDocumentSnapshot<Object?>> data =
-                        snapshot.data!.docs;
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Row(
-                        children: [
-                          Stack(
-                            children: List.generate(
-                              min(5, data.length),
-                              (index) {
-                                return Container(
-                                  width: 28,
-                                  height: 28,
-                                  margin: EdgeInsets.only(left: index * 20),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        data[index]['userPhotoURL'],
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            data.length <= 0
-                                ? "Jadilah Yang Pertama Mengikuti Kompetisi Ini"
-                                : "${data.length} Pengikut",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black.withOpacity(0.8),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
+              CustomFollowers(db: db, args: widget.args),
               const SliverToBoxAdapter(child: SizedBox(height: 20)),
               const SliverToBoxAdapter(
                 child: Padding(
@@ -259,7 +196,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                   )
                 : FutureBuilder<QuerySnapshot>(
                     future: db
-                        .collection('challenge')
+                        .collection("challenge")
                         .doc(widget.args.docID)
                         .collection("followers")
                         .where("userID",
@@ -269,11 +206,11 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return const Text('Something went wrong');
+                        return const Text("Something went wrong");
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text('Loading');
+                        return const Text("Loading");
                       }
 
                       List<QueryDocumentSnapshot<Object?>> data =
@@ -283,7 +220,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                         return FilledButton.tonal(
                           onPressed: () {
                             db
-                                .collection('challenge')
+                                .collection("challenge")
                                 .doc(widget.args.docID)
                                 .collection("followers")
                                 .doc(data[0].id)
@@ -292,7 +229,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                               (doc) {
                                 const snackBar = SnackBar(
                                   content: Text(
-                                    'Anda Batal Mengikuti Kompetisi',
+                                    "Anda Batal Mengikuti Kompetisi",
                                   ),
                                 );
 
@@ -303,7 +240,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                               onError: (e) {
                                 final snackBar = SnackBar(
                                   content: Text(
-                                    'Error updating document $e',
+                                    "Error updating document $e",
                                   ),
                                 );
 
@@ -338,7 +275,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                               onPressed: () {
                                 final Map<String, dynamic> followers =
                                     <String, dynamic>{
-                                  'userID': context
+                                  "userID": context
                                       .read<UserCubit>()
                                       .state
                                       .userEntity!
@@ -348,18 +285,18 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                                       .state
                                       .userEntity!
                                       .photoURL,
-                                  'timestamp': Timestamp.now(),
+                                  "timestamp": Timestamp.now(),
                                 };
 
                                 db
-                                    .collection('challenge')
+                                    .collection("challenge")
                                     .doc(widget.args.docID)
-                                    .collection('followers')
+                                    .collection("followers")
                                     .add(followers)
                                     .then((DocumentReference doc) {
                                   const snackBar = SnackBar(
                                     content: Text(
-                                      'Anda Berhasil Mengikuti Kompetisi',
+                                      "Anda Berhasil Mengikuti Kompetisi",
                                     ),
                                   );
 
