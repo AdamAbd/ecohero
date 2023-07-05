@@ -257,55 +257,104 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   )
-                : Row(
-                    children: [
-                      SizedBox(
-                        width: 72,
-                        child: IconButton.filled(
-                          onPressed: () {},
-                          icon: const Icon(Icons.report),
-                          style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.red),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: () {
-                            final Map<String, dynamic> followers =
-                                <String, dynamic>{
-                              'userID': context
-                                  .read<UserCubit>()
-                                  .state
-                                  .userEntity!
-                                  .id,
-                              "userPhotoURL": context
-                                  .read<UserCubit>()
-                                  .state
-                                  .userEntity!
-                                  .photoURL,
-                              'timestamp': Timestamp.now(),
-                            };
+                : FutureBuilder<QuerySnapshot>(
+                    future: db
+                        .collection('challenge')
+                        .doc(widget.args.docID)
+                        .collection("followers")
+                        .where("userID",
+                            isEqualTo:
+                                context.read<UserCubit>().state.userEntity!.id)
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong');
+                      }
 
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading');
+                      }
+
+                      List<QueryDocumentSnapshot<Object?>> data =
+                          snapshot.data!.docs;
+
+                      if (data.isNotEmpty) {
+                        return FilledButton.tonal(
+                          onPressed: () {
                             db
                                 .collection('challenge')
                                 .doc(widget.args.docID)
-                                .collection('followers')
-                                .add(followers)
-                                .then((DocumentReference doc) {
-                              print(doc.id);
-                              setState(() {});
-                            });
+                                .collection("followers")
+                                .doc(data[0].id)
+                                .delete()
+                                .then(
+                              (doc) {
+                                print("Document deleted");
+                                setState(() {});
+                              },
+                              onError: (e) =>
+                                  print("Error updating document $e"),
+                            );
                           },
                           child: const Text(
-                            "IKUTI TANTANGAN",
+                            "BATAL IKUTI TANTANGAN",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ),
-                    ],
+                        );
+                      }
+
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 72,
+                            child: IconButton.filled(
+                              onPressed: () {},
+                              icon: const Icon(Icons.report),
+                              style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.red),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: FilledButton(
+                              onPressed: () {
+                                final Map<String, dynamic> followers =
+                                    <String, dynamic>{
+                                  'userID': context
+                                      .read<UserCubit>()
+                                      .state
+                                      .userEntity!
+                                      .id,
+                                  "userPhotoURL": context
+                                      .read<UserCubit>()
+                                      .state
+                                      .userEntity!
+                                      .photoURL,
+                                  'timestamp': Timestamp.now(),
+                                };
+
+                                db
+                                    .collection('challenge')
+                                    .doc(widget.args.docID)
+                                    .collection('followers')
+                                    .add(followers)
+                                    .then((DocumentReference doc) {
+                                  print(doc.id);
+                                  setState(() {});
+                                });
+                              },
+                              child: const Text(
+                                "IKUTI TANTANGAN",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
           ),
         ],
