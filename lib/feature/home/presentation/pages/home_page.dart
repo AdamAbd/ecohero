@@ -40,42 +40,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     PageController pageController = PageController();
 
     return Scaffold(
-      appBar: AppBar(
-        title: BlocBuilder<UserCubit, UserState>(
-          builder: (context, state) {
-            return Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(state.userEntity!.photoURL),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 8),
-                  width: 240,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Hai ${state.userEntity!.username}!",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Text(
-                        "mari perbaiki kualitas udara sekitar.",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
       body: SafeArea(
         child: PageView(
           controller: pageController,
