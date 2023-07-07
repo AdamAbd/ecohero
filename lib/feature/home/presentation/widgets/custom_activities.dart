@@ -20,6 +20,7 @@ class _CustomActivitiesState extends State<CustomActivities> {
         AQICategoryEntity aqiCategoryEntity = AQICategoryEntity(
           value: "Nilai AQI Tidak Valid",
           color: const Color(0xff26B4A1),
+          assetName: AppIllustration.backgroud1,
           activities: [
             Activity(title: "Not Found", icon: Icons.error),
           ],
@@ -76,8 +77,7 @@ class _CustomActivitiesState extends State<CustomActivities> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount:
-                    isLoading ? 3 : (aqiCategoryEntity.activities.length + 1),
+                itemCount: isLoading ? 4 : aqiCategoryEntity.activities.length,
                 itemBuilder: (context, index) {
                   if (isLoading) {
                     return Padding(
@@ -86,32 +86,6 @@ class _CustomActivitiesState extends State<CustomActivities> {
                         right: index == 2 ? 14 : 12,
                       ),
                       child: const ShimmerLayout(width: 90, height: 80),
-                    );
-                  }
-
-                  if (index == aqiCategoryEntity.activities.length) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 14),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 86,
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: aqiCategoryEntity.color,
-                              width: 4,
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.smart_toy,
-                            size: 36,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
                     );
                   }
 
@@ -130,18 +104,15 @@ class _CustomActivitiesState extends State<CustomActivities> {
                         decoration: BoxDecoration(
                           color: index == newIndex
                               ? aqiCategoryEntity.color
-                              : Colors.white,
+                              : aqiCategoryEntity.color.withOpacity(0.05),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: aqiCategoryEntity.color,
-                            width: index != newIndex ? 4 : 0,
-                          ),
                         ),
                         child: Icon(
                           aqiCategoryEntity.activities[index].icon,
                           size: 36,
-                          color:
-                              index != newIndex ? Colors.black : Colors.white,
+                          color: index != newIndex
+                              ? aqiCategoryEntity.color
+                              : Colors.white,
                         ),
                       ),
                     ),

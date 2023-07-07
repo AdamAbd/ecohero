@@ -31,8 +31,9 @@ class Converter {
   AQICategoryEntity getAqiCategory(int aqi) {
     if (aqi >= 0 && aqi <= 50) {
       return AQICategoryEntity(
-        value: "BAIK",
-        color: const Color(0xffA9D663),
+        value: "Baik",
+        color: const Color(0xff93CC4B),
+        assetName: AppIllustration.backgroud1,
         activities: [
           Activity(title: "Berlari", icon: Icons.directions_run),
           Activity(title: "Bersepeda", icon: Icons.directions_bike),
@@ -42,8 +43,9 @@ class Converter {
       );
     } else if (aqi > 50 && aqi <= 100) {
       return AQICategoryEntity(
-        value: "SEDANG",
-        color: const Color(0xffE7C047),
+        value: "Sedang",
+        color: const Color(0xffFFCF23),
+        assetName: AppIllustration.backgroud2,
         activities: [
           Activity(
             title:
@@ -59,8 +61,9 @@ class Converter {
       );
     } else if (aqi > 100 && aqi <= 150) {
       return AQICategoryEntity(
-        value: "TIDAK SEHAT BAGI KELOMPOK SENSITIF",
-        color: const Color(0xffEB9558),
+        value: "Tidak Sehat untuk Kelompok Sensitif",
+        color: const Color(0xffFEA120),
+        assetName: AppIllustration.backgroud3,
         activities: [
           Activity(
             title: "Pakai masker khusus memiliki masalah pernapasan",
@@ -79,8 +82,9 @@ class Converter {
       );
     } else if (aqi > 150 && aqi <= 200) {
       return AQICategoryEntity(
-        value: "TIDAK SEHAT",
-        color: const Color(0xffE46864),
+        value: "Buruk",
+        color: const Color(0xffDC0703),
+        assetName: AppIllustration.backgroud4,
         activities: [
           Activity(
             title: "Pakai masker ketika berkegiatan",
@@ -97,8 +101,9 @@ class Converter {
       );
     } else if (aqi > 200 && aqi <= 300) {
       return AQICategoryEntity(
-        value: "SANGAT TIDAK SEHAT",
-        color: const Color(0xff9972B2),
+        value: "Sangat Buruk",
+        color: const Color(0xff5B255F),
+        assetName: AppIllustration.backgroud5,
         activities: [
           Activity(title: "Pakai masker", icon: Icons.masks_outlined),
           Activity(
@@ -111,8 +116,9 @@ class Converter {
       );
     } else if (aqi > 300 && aqi <= 500) {
       return AQICategoryEntity(
-        value: "BERBAHAYA",
-        color: const Color(0xff986C7B),
+        value: "Berbahaya",
+        color: const Color(0xff722221),
+        assetName: AppIllustration.backgroud6,
         activities: [
           Activity(
             title: "Tinggal dirumah dan hindari semua aktivitas fisik",
@@ -124,6 +130,7 @@ class Converter {
       return AQICategoryEntity(
         value: "Nilai AQI Tidak Valid",
         color: const Color(0xff26B4A1),
+        assetName: AppIllustration.backgroud1,
         activities: [
           Activity(title: "Not Found", icon: Icons.error),
         ],

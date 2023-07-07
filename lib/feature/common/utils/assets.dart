@@ -7,4 +7,10 @@ class AppIcons {
 class AppIllustration {
   static const mockImage =
       "./assets/illustrations/Polusi-Udara-Di-Jakarta-250719-Adm-6_1.jpg";
+  static const backgroud1 = "./assets/illustrations/1.png";
+  static const backgroud2 = "./assets/illustrations/2.png";
+  static const backgroud3 = "./assets/illustrations/3.png";
+  static const backgroud4 = "./assets/illustrations/4.png";
+  static const backgroud5 = "./assets/illustrations/5.png";
+  static const backgroud6 = "./assets/illustrations/6.png";
 }

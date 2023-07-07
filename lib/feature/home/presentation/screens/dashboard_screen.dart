@@ -12,46 +12,27 @@ class DashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<GetIqairCubit>(),
       child: Builder(builder: (context) {
-        return SingleChildScrollView(
+        return const SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.only(left: 24),
+              SizedBox(height: 12),
+              CardInformation(),
+              SizedBox(height: 12),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14),
                 child: Text(
-                  'Halo,',
+                  "REKOMENDASI",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+              SizedBox(height: 8),
+              CustomActivities(),
+              SizedBox(height: 4),
               Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Text(
-                  sl<UserCubit>().state.userEntity?.username ?? "",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                child: const CardInformation(),
-                onTap: () => context.read<GeolocatorCubit>().getUserLocation(),
-              ),
-              const SizedBox(height: 12),
-              const Padding(
-                padding: EdgeInsets.only(left: 14),
-                child: Text(
-                  'Rekomendasi Kegiatan',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const CustomActivities(),
-              const SizedBox(height: 4),
-              const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,10 +53,10 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              const CardLeaderBoard(),
-              const SizedBox(height: 12),
-              const Padding(
+              SizedBox(height: 8),
+              CardLeaderBoard(),
+              SizedBox(height: 12),
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,9 +79,9 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              const GridChallange(),
-              const SizedBox(height: 10),
+              SizedBox(height: 8),
+              GridChallange(),
+              SizedBox(height: 10),
             ],
           ),
         );
