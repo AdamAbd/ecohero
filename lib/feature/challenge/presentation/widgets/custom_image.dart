@@ -38,7 +38,7 @@ class CustomImage extends StatelessWidget {
                   builder: (_) {
                     return BlocProvider.value(
                       value: context.read<ChallengeImagePickerCubit>(),
-                      child: ChallengePickImageDialog(),
+                      child: const ChallengePickImageDialog(),
                     );
                   },
                 ),
