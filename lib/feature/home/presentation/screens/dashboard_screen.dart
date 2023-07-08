@@ -38,7 +38,9 @@ class DashboardScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "Hai ${state.userEntity!.username}!",
+                                  maxLines: 1,
                                   style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -53,6 +55,11 @@ class DashboardScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.search),
+                          )
                         ],
                       ),
                     );
