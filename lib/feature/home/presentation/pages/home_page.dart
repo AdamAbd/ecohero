@@ -17,19 +17,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     const DashBoardAppBar(),
     const Text(
       "Challenge",
-      style: TextStyle(
-        overflow: TextOverflow.ellipsis,
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     ),
     const Text(
       "Profil",
-      style: TextStyle(
-        overflow: TextOverflow.ellipsis,
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     ),
   ];
 

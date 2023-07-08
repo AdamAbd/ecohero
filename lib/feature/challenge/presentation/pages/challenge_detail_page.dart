@@ -43,280 +43,237 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 260,
-                pinned: true,
-                leading: IconButton.filled(
-                  onPressed: () => Navigator.pop(context),
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white54),
-                  ),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Hero(
-                    tag: "imageHeroTransition_${widget.args.index}",
-                    child: Image.network(
-                      widget.args.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 12)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Text(
-                    widget.args.title,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 12)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.monetization_on,
-                        size: 20,
-                        color: Colors.black54,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "${widget.args.point} Poin",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.8),
+      appBar: AppBar(
+        title: Text(
+          widget.args.title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: FutureBuilder(
+                  future: db.collection('users').doc(widget.args.userID).get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading');
+                    }
+
+                    Map<String, dynamic>? data = snapshot.data!.data();
+                    return Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(data!['photoURL'].toString()),
+                            ),
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 6)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.timeline,
-                        size: 20,
-                        color: Colors.black54,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Berulang Setiap Hari",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.8),
+                        const SizedBox(width: 8),
+                        Text(
+                          data['username'].toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 6)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month,
-                        size: 20,
-                        color: Colors.black54,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "${DateTimeUtils().getDateTime(widget.args.startDate.toDate()).toString()} ➡ ${DateTimeUtils().getDateTime(widget.args.endDate.toDate()).toString()}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black.withOpacity(0.8),
+                        const Spacer(),
+                        const Text(
+                          "7 jam",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black45,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    );
+                  }),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Text(
+                widget.args.desc,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Hero(
+              tag: "imageHeroTransition_${widget.args.index}",
+              child: Container(
+                height: 260,
+                margin: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: NetworkImage(widget.args.image),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
                   ),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 6)),
-              CustomFollowers(db: db, args: widget.args),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-              const SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
-                  child: Text(
-                    "Deskripsi",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 6)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Text(
-                    widget.args.desc,
-                    style: const TextStyle(fontSize: 14, color: Colors.black87),
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 80)),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            color: Colors.white,
-            child: widget.args.userID ==
-                    context.read<UserCubit>().state.userEntity!.id
-                ? FilledButton.tonal(
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Row(
+                children: [
+                  IconButton(
                     onPressed: () {},
-                    child: const Text(
-                      "EDIT TANTANGAN",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : FutureBuilder<QuerySnapshot>(
-                    future: db
-                        .collection("challenge")
-                        .doc(widget.args.docID)
-                        .collection("followers")
-                        .where("userID",
-                            isEqualTo:
-                                context.read<UserCubit>().state.userEntity!.id)
-                        .get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text("Something went wrong");
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Loading");
-                      }
-
-                      List<QueryDocumentSnapshot<Object?>> data =
-                          snapshot.data!.docs;
-
-                      if (data.isNotEmpty) {
-                        return FilledButton.tonal(
-                          onPressed: () {
-                            db
-                                .collection("challenge")
-                                .doc(widget.args.docID)
-                                .collection("followers")
-                                .doc(data[0].id)
-                                .delete()
-                                .then(
-                              (doc) {
-                                const snackBar = SnackBar(
-                                  content: Text(
-                                    "Anda Batal Mengikuti Kompetisi",
-                                  ),
-                                );
-
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                setState(() {});
-                              },
-                              onError: (e) {
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                    "Error updating document $e",
-                                  ),
-                                );
-
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              },
-                            );
-                          },
-                          child: const Text(
-                            "BATAL IKUTI KOMPETISI",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        );
-                      }
-
-                      return Row(
-                        children: [
-                          SizedBox(
-                            width: 72,
-                            child: IconButton.filled(
-                              onPressed: () {},
-                              icon: const Icon(Icons.report),
-                              style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.red),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () {
-                                final Map<String, dynamic> followers =
-                                    <String, dynamic>{
-                                  "userID": context
-                                      .read<UserCubit>()
-                                      .state
-                                      .userEntity!
-                                      .id,
-                                  "userPhotoURL": context
-                                      .read<UserCubit>()
-                                      .state
-                                      .userEntity!
-                                      .photoURL,
-                                  "timestamp": Timestamp.now(),
-                                };
-
-                                db
-                                    .collection("challenge")
-                                    .doc(widget.args.docID)
-                                    .collection("followers")
-                                    .add(followers)
-                                    .then((DocumentReference doc) {
-                                  const snackBar = SnackBar(
-                                    content: Text(
-                                      "Anda Berhasil Mengikuti Kompetisi",
-                                    ),
-                                  );
-
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                  setState(() {});
-                                });
-                              },
-                              child: const Text(
-                                "IKUTI KOMPETISI",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                    splashRadius: 1,
+                    icon: const Icon(Icons.favorite),
                   ),
-          ),
-        ],
+                  IconButton(
+                    onPressed: () {},
+                    splashRadius: 1,
+                    icon: const Icon(Icons.comment),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    splashRadius: 1,
+                    icon: const Icon(Icons.report),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+            StreamBuilder<QuerySnapshot>(
+              stream: db
+                  .collection('challenge')
+                  .doc(widget.args.docID)
+                  .collection('followers')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading');
+                }
+
+                List<QueryDocumentSnapshot<Object?>> dataStream =
+                    snapshot.data!.docs;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    QueryDocumentSnapshot<Object?> followers =
+                        dataStream[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: FutureBuilder(
+                        future: db
+                            .collection('users')
+                            .doc(followers['userID'])
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text('Loading');
+                          }
+
+                          Map<String, dynamic>? data = snapshot.data!.data();
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        data!['photoURL'].toString()),
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width -
+                                    (2 * 14) -
+                                    (2 * 18) -
+                                    12,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['username'].toString(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Komen',
+                                      maxLines: 3,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 240,
+                                      margin: const EdgeInsets.only(top: 4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          splashRadius: 1,
+                                          icon: const Icon(Icons.favorite),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          splashRadius: 1,
+                                          icon: const Icon(Icons.report),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  itemCount: dataStream.length,
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

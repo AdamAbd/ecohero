@@ -64,7 +64,7 @@ class ChallengeItem extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                      )
+                      ),
                       // Container(
                       //   width: 1,
                       //   height: 200,
@@ -130,7 +130,7 @@ class ChallengeItem extends StatelessWidget {
                               icon: const Icon(Icons.report),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
