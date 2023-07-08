@@ -13,61 +13,13 @@ class DashboardScreen extends StatelessWidget {
       create: (context) => sl<GetIqairCubit>(),
       child: Builder(
         builder: (context) {
-          return SingleChildScrollView(
+          return const SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BlocBuilder<UserCubit, UserState>(
-                  builder: (context, state) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(state.userEntity!.photoURL),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(left: 8),
-                            width: 240,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Hai ${state.userEntity!.username}!",
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                const Text(
-                                  "mari perbaiki kualitas udara sekitar.",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.search),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                const CardInformation(),
-                const SizedBox(height: 12),
-                const Padding(
+                CardInformation(),
+                SizedBox(height: 12),
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 14),
                   child: Text(
                     "Rekomendasi Aktifitas",
@@ -77,10 +29,10 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                const CustomActivities(),
-                const SizedBox(height: 4),
-                const Padding(
+                SizedBox(height: 8),
+                CustomActivities(),
+                SizedBox(height: 4),
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,10 +53,10 @@ class DashboardScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                const CardLeaderBoard(),
-                const SizedBox(height: 12),
-                const Padding(
+                SizedBox(height: 8),
+                CardLeaderBoard(),
+                SizedBox(height: 12),
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,9 +79,9 @@ class DashboardScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                const GridChallange(),
-                const SizedBox(height: 10),
+                SizedBox(height: 8),
+                GridChallange(),
+                SizedBox(height: 10),
               ],
             ),
           );

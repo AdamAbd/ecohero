@@ -13,6 +13,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int index = 0;
 
+  List<Widget> appbars = [
+    const DashBoardAppBar(),
+    const Text(
+      "Challenge",
+      style: TextStyle(
+        overflow: TextOverflow.ellipsis,
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    const Text(
+      "Profil",
+      style: TextStyle(
+        overflow: TextOverflow.ellipsis,
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +60,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     PageController pageController = PageController();
 
     return Scaffold(
+      appBar: AppBar(
+        title: appbars[index],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(2),
+          child: Container(
+            color: Colors.black12,
+            height: 2,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: PageView(
           controller: pageController,
@@ -88,6 +118,57 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DashBoardAppBar extends StatelessWidget {
+  const DashBoardAppBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(state.userEntity!.photoURL),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 8),
+              width: 240,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hai ${state.userEntity!.username}!",
+                    maxLines: 1,
+                    style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Text(
+                    "mari perbaiki kualitas udara sekitar.",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+          ],
+        );
+      },
     );
   }
 }

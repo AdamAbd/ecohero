@@ -13,21 +13,6 @@ class ChallengeScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(
-            height: kToolbarHeight,
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // BackButton(color: Colors.white),
-                Text(
-                  'Challenge', // Your AppBar title
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          const Divider(),
           const SizedBox(height: 12),
           StreamBuilder<QuerySnapshot>(
               stream: db
