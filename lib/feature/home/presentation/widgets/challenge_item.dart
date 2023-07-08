@@ -13,6 +13,7 @@ class ChallengeItem extends StatelessWidget {
     required this.dateTime,
     required this.userID,
     required this.docID,
+    required this.index,
     required this.tapMessage,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class ChallengeItem extends StatelessWidget {
   final DateTime dateTime;
   final String userID;
   final String docID;
+  final int index;
   final VoidCallback tapMessage;
 
   // point: challenge['point'],
@@ -96,14 +98,17 @@ class ChallengeItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          height: 240,
-                          margin: const EdgeInsets.only(top: 4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: NetworkImage(image),
-                              fit: BoxFit.cover,
+                        Hero(
+                          tag: "imageHeroTransition_$index",
+                          child: Container(
+                            height: 240,
+                            margin: const EdgeInsets.only(top: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: NetworkImage(image),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),

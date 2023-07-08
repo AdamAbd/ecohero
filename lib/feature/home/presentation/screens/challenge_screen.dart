@@ -42,6 +42,7 @@ class ChallengeScreen extends StatelessWidget {
                       dateTime: DateTime.now(),
                       userID: challenge['userID'],
                       docID: challenge.id,
+                      index: index,
                       tapMessage: () => Navigator.pushNamed(
                         context,
                         PagePath.challengeDetail,
