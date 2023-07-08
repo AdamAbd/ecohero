@@ -42,6 +42,21 @@ class ChallengeScreen extends StatelessWidget {
                       dateTime: DateTime.now(),
                       userID: challenge['userID'],
                       docID: challenge.id,
+                      tapMessage: () => Navigator.pushNamed(
+                        context,
+                        PagePath.challengeDetail,
+                        arguments: ChallengeDetailPageArgs(
+                          title: challenge['title'],
+                          desc: challenge['desc'],
+                          image: challenge['image'],
+                          point: challenge['point'],
+                          startDate: challenge['date']['start'],
+                          endDate: challenge['date']['end'],
+                          userID: challenge['userID'],
+                          docID: challenge.id,
+                          index: index,
+                        ),
+                      ),
                     );
                   },
                   itemCount: data.length,

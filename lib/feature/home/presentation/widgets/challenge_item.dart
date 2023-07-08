@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecohero/feature/challenge/challenge.dart';
+import 'package:ecohero/feature/common/common.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeItem extends StatelessWidget {
@@ -11,6 +13,7 @@ class ChallengeItem extends StatelessWidget {
     required this.dateTime,
     required this.userID,
     required this.docID,
+    required this.tapMessage,
   }) : super(key: key);
 
   final String desc;
@@ -18,6 +21,7 @@ class ChallengeItem extends StatelessWidget {
   final DateTime dateTime;
   final String userID;
   final String docID;
+  final VoidCallback tapMessage;
 
   // point: challenge['point'],
   @override
@@ -111,7 +115,7 @@ class ChallengeItem extends StatelessWidget {
                               icon: const Icon(Icons.favorite),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: tapMessage,
                               splashRadius: 1,
                               icon: const Icon(Icons.comment),
                             ),
