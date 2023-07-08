@@ -11,7 +11,21 @@ class ChallengeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 20),
+          SizedBox(
+            height: kToolbarHeight,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // BackButton(color: Colors.white),
+                Text(
+                  'Challenge', // Your AppBar title
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 12),
           CardLeaderBoard(),
           SizedBox(height: 12),
           Padding(
