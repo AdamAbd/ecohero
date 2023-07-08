@@ -1,8 +1,6 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecohero/feature/challenge/challenge.dart';
-import 'package:ecohero/feature/common/common.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeItem extends StatelessWidget {
