@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ecohero/feature/feature.dart';
 
 class ChallengeCategoryDetailPageArgs {
-  const ChallengeCategoryDetailPageArgs({required this.title});
+  const ChallengeCategoryDetailPageArgs({required this.challengeEntity});
 
-  final String title;
+  final ChallengeEntity challengeEntity;
 }
 
 class ChallengeCategoryDetailPage extends StatelessWidget {
@@ -33,68 +33,97 @@ class ChallengeCategoryDetailPage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 12),
-            const Padding(
-              padding: EdgeInsets.only(left: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Text(
-                'Deskripsi Challange',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                'Challenge Anti Polusi ${args.challengeEntity.title}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 2),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Text(
-                "args.desc",
-                style: TextStyle(fontSize: 14),
+                args.challengeEntity.desc,
+                style: const TextStyle(
+                  fontSize: 15,
+                ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 2),
+            Column(
+              children: List.generate(
+                (args.challengeEntity.act).length,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(left: 30, top: 2, right: 14),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 7, right: 6),
+                        child: CircleAvatar(
+                          radius: 4,
+                          backgroundColor: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        width:
+                            MediaQuery.of(context).size.width - 30 - 14 - 6 - 8,
+                        child: Text(
+                          args.challengeEntity.act[index],
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
+              padding: EdgeInsets.only(left: 14),
+              child: Text(
+                'Poin',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Column(
+              children: List.generate(
+                4,
+                (index) => ListTile(
+                  leading: Image.asset(
+                    "assets/icons/star_$index.png",
+                    height: 30,
+                    width: 30,
+                  ),
+                  title: Text("Level ${index + 1}"),
+                  subtitle:
+                      Text("Ikuti Challenge ini Sebanyak ${(index + 1) * 4}x"),
+                  trailing: SizedBox(
+                    width: 30,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Waktu',
-                          style: TextStyle(
-                            fontSize: 14,
+                          "${args.challengeEntity.poin * (index + 1)}",
+                          style: const TextStyle(
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 4),
-                        Text(
-                          '9 - 10 am',
-                          style: TextStyle(fontSize: 14),
-                        ),
+                        const Text("Poin")
                       ],
                     ),
-                    VerticalDivider(),
-                    Column(
-                      children: [
-                        Text(
-                          'Poin',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "args.point.toString()",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.only(left: 24),
+              padding: EdgeInsets.only(left: 14),
               child: Text(
                 'Aktivitas Terbaru',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -102,7 +131,7 @@ class ChallengeCategoryDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 14),
               child: Text(
                 '[Dummy] Tantangan ini bertujuan untuk mengurangi jumlah kendaraan pribadi di jalan yang menyebabkan kemacetan dan polusi udara. Anda dapat beralih ke bus, kereta, atau Transjakarta untuk pergi ke tempat kerja atau tempat lain yang Anda tuju. Anda akan mendapatkan manfaat hemat waktu dan biaya dari tantangan ini. Jangan lupa untuk membagikan rute dan jadwal Anda di media sosial dengan tagar #BeralihKeBusKeretaAtauTransjakarta.',
                 style: TextStyle(fontSize: 14),

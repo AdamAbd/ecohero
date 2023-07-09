@@ -23,49 +23,24 @@ class ChallengeCategoryPage extends StatelessWidget {
         childAspectRatio: 8 / 7,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        children: [
-          ChallengeCategoryItem(
-            title: "Transportasi",
-            image: AppIllustration.car,
-            onTap: () => Navigator.pushNamed(
-              context,
-              PagePath.challengeCategoryDetail,
-              arguments:
-                  const ChallengeCategoryDetailPageArgs(title: "Transportasi"),
-            ),
-          ),
-          ChallengeCategoryItem(
-            title: "Asap Pabrik",
-            image: AppIllustration.factory,
-            onTap: () => Navigator.pushNamed(
-              context,
-              PagePath.challengeCategoryDetail,
-              arguments:
-                  const ChallengeCategoryDetailPageArgs(title: "Asap Pabrik"),
-            ),
-          ),
-          ChallengeCategoryItem(
-            title: "Listrik Rumah",
-            image: AppIllustration.tableLamp,
-            onTap: () => Navigator.pushNamed(
-              context,
-              PagePath.challengeCategoryDetail,
-              arguments:
-                  const ChallengeCategoryDetailPageArgs(title: "Listrik Rumah"),
-            ),
-          ),
-          ChallengeCategoryItem(
-            title: "Asap Hasil Pembakaran",
-            image: AppIllustration.burning,
-            onTap: () => Navigator.pushNamed(
-              context,
-              PagePath.challengeCategoryDetail,
-              arguments: const ChallengeCategoryDetailPageArgs(
-                title: "Asap Pembakaran",
+        children: List.generate(
+          ChallengeEntity.challengesEntity.length,
+          (index) {
+            ChallengeEntity data = ChallengeEntity.challengesEntity[index];
+
+            return ChallengeCategoryItem(
+              title: data.title,
+              image: data.image,
+              onTap: () => Navigator.pushNamed(
+                context,
+                PagePath.challengeCategoryDetail,
+                arguments: ChallengeCategoryDetailPageArgs(
+                  challengeEntity: data,
+                ),
               ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }
