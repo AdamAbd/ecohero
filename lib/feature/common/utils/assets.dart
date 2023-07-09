@@ -13,4 +13,8 @@ class AppIllustration {
   static const backgroud4 = "./assets/illustrations/4.png";
   static const backgroud5 = "./assets/illustrations/5.png";
   static const backgroud6 = "./assets/illustrations/6.png";
+  static const car = "./assets/illustrations/car.png";
+  static const factory = "./assets/illustrations/factory.png";
+  static const tableLamp = "./assets/illustrations/table_lamp.png";
+  static const burning = "./assets/illustrations/burning.png";
 }
