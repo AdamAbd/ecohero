@@ -36,6 +36,13 @@ class PageRouter {
         }
 
       //* Challenge
+      case PagePath.challengeCategory:
+        {
+          return _buildRouter(
+            settings: settings,
+            builder: (Object? args) => const ChallengeCategoryPage(),
+          );
+        }
       case PagePath.challengeCreate:
         {
           return _buildRouter(

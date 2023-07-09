@@ -10,6 +10,7 @@ class PagePath {
   static const String home = '/home';
 
   /// Challenge Path
+  static const String challengeCategory = '/challengeCategory';
   static const String challengeCreate = '/challengeCreate';
   static const String challengeDetail = '/challengeDetail';
 }
