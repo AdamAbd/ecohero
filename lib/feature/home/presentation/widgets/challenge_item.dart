@@ -12,6 +12,7 @@ class ChallengeItem extends StatelessWidget {
     required this.userID,
     required this.docID,
     required this.index,
+    required this.isLastIndex,
     required this.tapMessage,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class ChallengeItem extends StatelessWidget {
   final String userID;
   final String docID;
   final int index;
+  final bool isLastIndex;
   final VoidCallback tapMessage;
 
   // point: challenge['point'],
@@ -203,8 +205,14 @@ class ChallengeItem extends StatelessWidget {
                 );
               },
             ),
-            const Divider(),
-            const SizedBox(height: 14),
+            !isLastIndex
+                ? const Column(
+                    children: [
+                      Divider(),
+                      SizedBox(height: 14),
+                    ],
+                  )
+                : const SizedBox()
           ],
         );
       },

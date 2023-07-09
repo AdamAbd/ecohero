@@ -43,6 +43,7 @@ class ChallengeScreen extends StatelessWidget {
                     userID: challenge['userID'],
                     docID: challenge.id,
                     index: index,
+                    isLastIndex: (data.length - 1) == index,
                     tapMessage: () => Navigator.pushNamed(
                       context,
                       PagePath.challengeDetail,
