@@ -5,11 +5,15 @@ class ChallengeComment extends StatelessWidget {
   const ChallengeComment({
     super.key,
     required this.userID,
+    required this.msg,
     required this.isLastItem,
+    this.image = "",
   });
 
   final String userID;
+  final String msg;
   final bool isLastItem;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -62,27 +66,25 @@ class ChallengeComment extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Komen',
-                          maxLines: 3,
+                          msg,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.normal,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          height: 240,
-                          margin: const EdgeInsets.only(top: 4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                'https://www.goodnewsfromindonesia.id/uploads/images/2021/01/2016332021-Pict.-Tersenyum.jpg',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+                        image.isNotEmpty
+                            ? Container(
+                                height: 240,
+                                margin: const EdgeInsets.only(top: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: NetworkImage(image),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
                         Row(
                           children: [
                             IconButton(

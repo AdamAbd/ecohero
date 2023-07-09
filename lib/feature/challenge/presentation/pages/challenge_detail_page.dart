@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecohero/locator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecohero/feature/feature.dart';
@@ -37,10 +38,19 @@ class ChallengeDetailPage extends StatefulWidget {
 }
 
 class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  final chatController = TextEditingController();
+
+  @override
+  void dispose() {
+    chatController.clear();
+    chatController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    FirebaseFirestore db = FirebaseFirestore.instance;
-
     return GestureDetector(
       onTap: () => FocusUtils(context).unfocus(),
       child: Scaffold(
@@ -178,7 +188,8 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                 stream: db
                     .collection('challenge')
                     .doc(widget.args.docID)
-                    .collection('followers')
+                    .collection('comments')
+                    .orderBy('timestamp', descending: false)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -201,6 +212,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
 
                       return ChallengeComment(
                         userID: followers['userID'],
+                        msg: followers['msg'],
                         isLastItem: (dataStream.length - 1) != index,
                       );
                     },
@@ -208,7 +220,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                   );
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 60),
             ],
           ),
         ),
@@ -227,6 +239,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     width:
                         MediaQuery.of(context).size.width - (2 * 14) - 6 - 50,
                     child: TextField(
+                      controller: chatController,
                       minLines: 1,
                       maxLines: 5,
                       decoration: InputDecoration(
@@ -261,7 +274,36 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     height: 50,
                     margin: const EdgeInsets.only(bottom: 10),
                     child: IconButton.filled(
-                      onPressed: () {},
+                      onPressed: () {
+                        final Map<String, dynamic> comment = {
+                          'msg': chatController.text,
+                          // 'image': downloadURL,
+                          'userID': sl<UserCubit>().state.userEntity!.id,
+                          'timestamp': Timestamp.now(),
+                        };
+
+                        db
+                            .collection('challenge')
+                            .doc(widget.args.docID)
+                            .collection('comments')
+                            .add(comment)
+                            .then(
+                          (_) {
+                            chatController.clear();
+                            FocusUtils(context).unfocus();
+                          },
+                        ).onError(
+                          (error, _) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Maaf comment anda gagal: $error',
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(Icons.send),
                     ),
                   ),
