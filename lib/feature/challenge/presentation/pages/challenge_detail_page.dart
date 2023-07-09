@@ -41,171 +41,234 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
   Widget build(BuildContext context) {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.args.title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    return GestureDetector(
+      onTap: () => FocusUtils(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.args.title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: FutureBuilder(
-                  future: db.collection('users').doc(widget.args.userID).get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text('Something went wrong');
-                    }
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: FutureBuilder(
+                    future:
+                        db.collection('users').doc(widget.args.userID).get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong');
+                      }
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Loading');
-                    }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading');
+                      }
 
-                    Map<String, dynamic>? data = snapshot.data!.data();
-                    return Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(data!['photoURL'].toString()),
+                      Map<String, dynamic>? data = snapshot.data!.data();
+                      return Row(
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    NetworkImage(data!['photoURL'].toString()),
+                              ),
+                              shape: BoxShape.circle,
                             ),
-                            shape: BoxShape.circle,
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          data['username'].toString(),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(width: 8),
+                          Text(
+                            data['username'].toString(),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        const Text(
-                          "7 jam",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black45,
+                          const Spacer(),
+                          const Text(
+                            "7 jam",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black45,
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Text(
-                widget.args.desc,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
+                        ],
+                      );
+                    }),
               ),
-            ),
-            const SizedBox(height: 4),
-            Hero(
-              tag: "imageHeroTransition_${widget.args.index}",
-              child: Container(
-                height: 260,
-                margin: const EdgeInsets.symmetric(horizontal: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.args.image),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Text(
+                  widget.args.desc,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    splashRadius: 1,
-                    icon: const Icon(Icons.favorite),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    splashRadius: 1,
-                    icon: const Icon(Icons.comment),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    splashRadius: 1,
-                    icon: const Icon(Icons.report),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+              const SizedBox(height: 4),
+              Hero(
+                tag: "imageHeroTransition_${widget.args.index}",
+                child: Container(
+                  height: 260,
+                  margin: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: NetworkImage(widget.args.image),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
                     ),
-                    margin: const EdgeInsets.only(left: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff26B4A1).withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      splashRadius: 1,
+                      icon: const Icon(Icons.favorite),
                     ),
-                    child: Text(
-                      widget.args.type,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                    IconButton(
+                      onPressed: () {},
+                      splashRadius: 1,
+                      icon: const Icon(Icons.comment),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      splashRadius: 1,
+                      icon: const Icon(Icons.report),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
                       ),
+                      margin: const EdgeInsets.only(left: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xff26B4A1).withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        widget.args.type,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              StreamBuilder<QuerySnapshot>(
+                stream: db
+                    .collection('challenge')
+                    .doc(widget.args.docID)
+                    .collection('followers')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text('Loading');
+                  }
+
+                  List<QueryDocumentSnapshot<Object?>> dataStream =
+                      snapshot.data!.docs;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      QueryDocumentSnapshot<Object?> followers =
+                          dataStream[index];
+
+                      return ChallengeComment(
+                        userID: followers['userID'],
+                        isLastItem: (dataStream.length - 1) != index,
+                      );
+                    },
+                    itemCount: dataStream.length,
+                  );
+                },
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+        ),
+        bottomSheet: BottomSheet(
+          shape: const Border(top: BorderSide.none),
+          onClosing: () {},
+          builder: (context) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              color: Colors.white,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 6, bottom: 10),
+                    width:
+                        MediaQuery.of(context).size.width - (2 * 14) - 6 - 50,
+                    child: TextField(
+                      minLines: 1,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        fillColor: Colors.black12,
+                        filled: true,
+                        focusColor: Colors.amber,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.black12,
+                            width: 0,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.black12,
+                            width: 0,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        hintText: 'Ketik Pesan',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: IconButton.filled(
+                      onPressed: () {},
+                      icon: const Icon(Icons.send),
                     ),
                   ),
                 ],
               ),
-            ),
-            const Divider(),
-            StreamBuilder<QuerySnapshot>(
-              stream: db
-                  .collection('challenge')
-                  .doc(widget.args.docID)
-                  .collection('followers')
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('Something went wrong');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text('Loading');
-                }
-
-                List<QueryDocumentSnapshot<Object?>> dataStream =
-                    snapshot.data!.docs;
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    QueryDocumentSnapshot<Object?> followers =
-                        dataStream[index];
-
-                    return ChallengeComment(
-                      userID: followers['userID'],
-                      isLastItem: (dataStream.length - 1) != index,
-                    );
-                  },
-                  itemCount: dataStream.length,
-                );
-              },
-            ),
-            const SizedBox(height: 10),
-          ],
+            );
+          },
         ),
       ),
     );
