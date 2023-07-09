@@ -29,9 +29,6 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
   /// Firebase Instance
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  /// Point Value
-  double pointValue = 1;
-
   @override
   void initState() {
     super.initState();
@@ -207,7 +204,8 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                                             .textController
                                             .text,
                                         'image': downloadURL,
-                                        'point': pointValue.toInt(),
+                                        'point':
+                                            widget.args.challengeEntity.poin,
                                         'date': <String, dynamic>{
                                           'start': challengeDateTimeState.start,
                                           'end': challengeDateTimeState.end,
@@ -224,7 +222,10 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                                           .add(challenge)
                                           .then(
                                         (DocumentReference doc) {
-                                          Navigator.pop(context);
+                                          Navigator.popUntil(
+                                            context,
+                                            ModalRoute.withName(PagePath.home),
+                                          );
 
                                           final snackBar = SnackBar(
                                             content: Text(
