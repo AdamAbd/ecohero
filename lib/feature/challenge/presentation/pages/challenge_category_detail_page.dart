@@ -141,6 +141,30 @@ class ChallengeCategoryDetailPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomSheet: BottomSheet(
+        shape: const Border(top: BorderSide.none),
+        onClosing: () {},
+        builder: (context) {
+          return Container(
+            margin: const EdgeInsets.all(16),
+            height: 48,
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                PagePath.challengeCreate,
+                arguments: ChallengeCreatePageArgs(
+                  title: args.challengeEntity.title,
+                ),
+              ),
+              child: const Text(
+                'Ikuti Challenge',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
