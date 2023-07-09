@@ -33,14 +33,16 @@ class DashboardScreen extends StatelessWidget {
                 CustomActivities(),
                 SizedBox(height: 4),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 14),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Papan Peringkat',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       Text(
                         'Lainnya',
@@ -55,32 +57,6 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 CardLeaderBoard(),
-                SizedBox(height: 12),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Challange',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Lainnya',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8),
-                GridChallange(),
                 SizedBox(height: 10),
               ],
             ),
