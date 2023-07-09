@@ -6,8 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecohero/feature/feature.dart';
 import 'package:ecohero/locator.dart';
 
+class ChallengeCreatePageArgs {
+  const ChallengeCreatePageArgs({required this.title});
+
+  final String title;
+}
+
 class ChallengeCreatePage extends StatefulWidget {
-  const ChallengeCreatePage({super.key});
+  const ChallengeCreatePage({super.key, required this.args});
+
+  final ChallengeCreatePageArgs args;
 
   @override
   State<ChallengeCreatePage> createState() => _ChallengeCreatePageState();

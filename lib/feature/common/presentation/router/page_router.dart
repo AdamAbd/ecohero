@@ -43,11 +43,22 @@ class PageRouter {
             builder: (Object? args) => const ChallengeCategoryPage(),
           );
         }
+      case PagePath.challengeCategoryDetail:
+        {
+          return _buildRouter(
+            settings: settings,
+            builder: (Object? args) => ChallengeCategoryDetailPage(
+              args: args! as ChallengeCategoryDetailPageArgs,
+            ),
+          );
+        }
       case PagePath.challengeCreate:
         {
           return _buildRouter(
             settings: settings,
-            builder: (Object? args) => const ChallengeCreatePage(),
+            builder: (Object? args) => ChallengeCreatePage(
+              args: args! as ChallengeCreatePageArgs,
+            ),
           );
         }
       case PagePath.challengeDetail:
