@@ -9,8 +9,8 @@ class ChallengeDetailPageArgs {
     required this.desc,
     required this.image,
     required this.point,
-    required this.startDate,
-    required this.endDate,
+    required this.date,
+    required this.type,
     required this.userID,
     required this.docID,
     required this.index,
@@ -20,8 +20,8 @@ class ChallengeDetailPageArgs {
   final String desc;
   final String image;
   final int point;
-  final Timestamp startDate;
-  final Timestamp endDate;
+  final Timestamp date;
+  final String type;
   final String userID;
   final String docID;
   final int index;
@@ -143,6 +143,28 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     onPressed: () {},
                     splashRadius: 1,
                     icon: const Icon(Icons.report),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    margin: const EdgeInsets.only(left: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff26B4A1).withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      widget.args.type,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),

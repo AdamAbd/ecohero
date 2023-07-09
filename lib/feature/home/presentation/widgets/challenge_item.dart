@@ -9,6 +9,7 @@ class ChallengeItem extends StatelessWidget {
     required this.desc,
     required this.image,
     required this.dateTime,
+    required this.type,
     required this.userID,
     required this.docID,
     required this.index,
@@ -19,13 +20,13 @@ class ChallengeItem extends StatelessWidget {
   final String desc;
   final String image;
   final DateTime dateTime;
+  final String type;
   final String userID;
   final String docID;
   final int index;
   final bool isLastIndex;
   final VoidCallback tapMessage;
 
-  // point: challenge['point'],
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -141,6 +142,30 @@ class ChallengeItem extends StatelessWidget {
                                   onPressed: () {},
                                   splashRadius: 1,
                                   icon: const Icon(Icons.report),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  width: 130,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  margin: const EdgeInsets.only(left: 4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff26B4A1)
+                                        .withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    type,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

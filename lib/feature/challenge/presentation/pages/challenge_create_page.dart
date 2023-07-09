@@ -206,6 +206,8 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                                         'image': downloadURL,
                                         'point':
                                             widget.args.challengeEntity.poin,
+                                        'type':
+                                            widget.args.challengeEntity.title,
                                         'date': <String, dynamic>{
                                           'start': challengeDateTimeState.start,
                                           'end': challengeDateTimeState.end,
