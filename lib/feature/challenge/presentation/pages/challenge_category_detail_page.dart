@@ -154,7 +154,7 @@ class ChallengeCategoryDetailPage extends StatelessWidget {
                 context,
                 PagePath.challengeCreate,
                 arguments: ChallengeCreatePageArgs(
-                  title: args.challengeEntity.title,
+                  challengeEntity: args.challengeEntity,
                 ),
               ),
               child: const Text(
