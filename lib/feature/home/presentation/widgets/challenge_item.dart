@@ -179,7 +179,7 @@ class ChallengeItem extends StatelessWidget {
                   stream: db
                       .collection("challenge")
                       .doc(docID)
-                      .collection("followers")
+                      .collection("comments")
                       .orderBy("timestamp", descending: true)
                       .snapshots(),
                   builder: (BuildContext context,
@@ -209,20 +209,43 @@ class ChallengeItem extends StatelessWidget {
                                 children: List.generate(
                                   min(3, data.length),
                                   (index) {
-                                    return Container(
-                                      width: 20,
-                                      height: 20,
-                                      margin: EdgeInsets.only(left: index * 14),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: Colors.white),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            data[index]["userPhotoURL"],
+                                    return FutureBuilder(
+                                      future: db
+                                          .collection('users')
+                                          .doc(data[index]['userID'])
+                                          .get(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        }
+
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text('Loading');
+                                        }
+
+                                        Map<String, dynamic>? userData =
+                                            snapshot.data!.data();
+                                        return Container(
+                                          width: 20,
+                                          height: 20,
+                                          margin:
+                                              EdgeInsets.only(left: index * 14),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border:
+                                                Border.all(color: Colors.white),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                userData!['photoURL']
+                                                    .toString(),
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
