@@ -4,6 +4,7 @@ class ChallengeEntity {
   ChallengeEntity({
     required this.title,
     required this.image,
+    required this.imageIll,
     required this.desc,
     required this.act,
     required this.poin,
@@ -11,6 +12,7 @@ class ChallengeEntity {
 
   final String title;
   final String image;
+  final String imageIll;
   final String desc;
   final List<String> act;
   final int poin;
@@ -18,7 +20,8 @@ class ChallengeEntity {
   static List<ChallengeEntity> challengesEntity = [
     ChallengeEntity(
       title: 'Transportasi',
-      image: AppIllustration.car,
+      image: AppIllustration.mockImage,
+      imageIll: AppIllustration.car,
       desc:
           'Challenge ini bertujuan untuk mengurangi emisi gas buang dari kendaraan bermotor yang berkontribusi terhadap polusi udara. Kegiatan yang direkomendasikan adalah:',
       act: [
@@ -31,7 +34,8 @@ class ChallengeEntity {
     ),
     ChallengeEntity(
       title: 'Asap Pabrik',
-      image: AppIllustration.factory,
+      image: AppIllustration.factoryPollution,
+      imageIll: AppIllustration.factory,
       desc:
           'Challenge ini bertujuan untuk mengurangi emisi gas buang dari pabrik-pabrik industri yang menyebabkan polusi udara. Kegiatan yang direkomendasikan adalah:',
       act: [
@@ -43,7 +47,8 @@ class ChallengeEntity {
     ),
     ChallengeEntity(
       title: 'Listrik Terbuang',
-      image: AppIllustration.tableLamp,
+      image: AppIllustration.wasteElectric,
+      imageIll: AppIllustration.tableLamp,
       desc:
           'Challenge ini bertujuan untuk mengurangi konsumsi listrik yang berlebihan dan tidak efisien yang menyebabkan polusi udara. Kegiatan yang direkomendasikan adalah:',
       act: [
@@ -56,7 +61,8 @@ class ChallengeEntity {
     ),
     ChallengeEntity(
       title: 'Asap Hasil Pembakaran',
-      image: AppIllustration.burning,
+      image: AppIllustration.burningPollution,
+      imageIll: AppIllustration.burning,
       desc:
           'Challenge ini bertujuan untuk mengurangi pembakaran sampah, daun kering, atau bahan lain yang menghasilkan asap dan polusi udara. Kegiatan yang direkomendasikan adalah:',
       act: [

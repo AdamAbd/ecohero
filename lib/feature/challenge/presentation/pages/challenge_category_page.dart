@@ -30,7 +30,7 @@ class ChallengeCategoryPage extends StatelessWidget {
 
             return ChallengeCategoryItem(
               title: data.title,
-              image: data.image,
+              image: data.imageIll,
               onTap: () => Navigator.pushNamed(
                 context,
                 PagePath.challengeCategoryDetail,

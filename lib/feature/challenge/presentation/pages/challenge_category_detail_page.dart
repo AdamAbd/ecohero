@@ -27,7 +27,7 @@ class ChallengeCategoryDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              AppIllustration.mockImage,
+              args.challengeEntity.image,
               width: double.infinity,
               height: 260,
               fit: BoxFit.cover,
