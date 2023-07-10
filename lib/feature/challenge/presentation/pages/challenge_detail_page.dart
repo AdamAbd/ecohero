@@ -275,34 +275,36 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     margin: const EdgeInsets.only(bottom: 10),
                     child: IconButton.filled(
                       onPressed: () {
-                        final Map<String, dynamic> comment = {
-                          'msg': chatController.text,
-                          // 'image': downloadURL,
-                          'userID': sl<UserCubit>().state.userEntity!.id,
-                          'timestamp': Timestamp.now(),
-                        };
+                        if (chatController.text.isNotEmpty) {
+                          final Map<String, dynamic> comment = {
+                            'msg': chatController.text,
+                            // 'image': downloadURL,
+                            'userID': sl<UserCubit>().state.userEntity!.id,
+                            'timestamp': Timestamp.now(),
+                          };
 
-                        db
-                            .collection('challenge')
-                            .doc(widget.args.docID)
-                            .collection('comments')
-                            .add(comment)
-                            .then(
-                          (_) {
-                            chatController.clear();
-                            FocusUtils(context).unfocus();
-                          },
-                        ).onError(
-                          (error, _) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Maaf comment anda gagal: $error',
+                          db
+                              .collection('challenge')
+                              .doc(widget.args.docID)
+                              .collection('comments')
+                              .add(comment)
+                              .then(
+                            (_) {
+                              chatController.clear();
+                              FocusUtils(context).unfocus();
+                            },
+                          ).onError(
+                            (error, _) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Maaf comment anda gagal: $error',
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
+                              );
+                            },
+                          );
+                        }
                       },
                       icon: const Icon(Icons.send),
                     ),

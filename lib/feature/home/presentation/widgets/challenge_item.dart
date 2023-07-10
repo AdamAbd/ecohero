@@ -96,12 +96,24 @@ class ChallengeItem extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              data['username'].toString(),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  data['username'].toString(),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const Spacer(),
+                                const Text(
+                                  "7 jam",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
                               desc,
