@@ -45,6 +45,11 @@ class LeaderBoardPage extends StatelessWidget {
                       return const SizedBox();
                     }
 
+                    if (data[index]['isDeleted'] != null &&
+                        data[index]['isDeleted'] == true) {
+                      return const SizedBox();
+                    }
+
                     return ListTile(
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(data[index]['photoURL']),

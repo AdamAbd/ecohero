@@ -45,6 +45,10 @@ class ChallengeItem extends StatelessWidget {
         Map<String, dynamic> data =
             snapshot.data!.data() as Map<String, dynamic>;
 
+        if (data['isDeleted']) {
+          return const SizedBox();
+        }
+
         return GestureDetector(
           onTap: tapMessage,
           child: Container(

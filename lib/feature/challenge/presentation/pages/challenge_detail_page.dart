@@ -210,10 +210,33 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                       QueryDocumentSnapshot<Object?> followers =
                           dataStream[index];
 
-                      return ChallengeComment(
-                        userID: followers['userID'],
-                        msg: followers['msg'],
-                        isLastItem: (dataStream.length - 1) != index,
+                      return FutureBuilder(
+                        future: db
+                            .collection('users')
+                            .doc(followers['userID'])
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text('Loading');
+                          }
+
+                          Map<String, dynamic>? users = snapshot.data!.data();
+
+                          if (users!['isDeleted']) {
+                            return const SizedBox();
+                          }
+
+                          return ChallengeComment(
+                            userID: followers['userID'],
+                            msg: followers['msg'],
+                            isLastItem: (dataStream.length - 1) != index,
+                          );
+                        },
                       );
                     },
                     itemCount: dataStream.length,

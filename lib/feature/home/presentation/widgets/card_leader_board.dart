@@ -29,6 +29,8 @@ class CardLeaderBoard extends StatelessWidget {
                 return const Text('Loading');
               }
 
+              //TODO: Add validation if user isDeleted or not
+
               List<QueryDocumentSnapshot<Object?>> data = snapshot.data!.docs;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
