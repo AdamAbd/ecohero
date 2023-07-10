@@ -92,6 +92,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               GestureDetector(
+                onTap: () => Navigator.pushNamed(context, PagePath.shop),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(

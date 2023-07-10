@@ -17,4 +17,8 @@ class AppIllustration {
   static const factory = "./assets/illustrations/factory.png";
   static const tableLamp = "./assets/illustrations/table_lamp.png";
   static const burning = "./assets/illustrations/burning.png";
+  static const plantSeed = "./assets/illustrations/plant_seed.png";
+  static const organicVegetable =
+      "./assets/illustrations/organic_vegetable.jpg";
+  static const donate = "./assets/illustrations/donate.png";
 }

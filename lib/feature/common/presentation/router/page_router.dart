@@ -71,6 +71,15 @@ class PageRouter {
           );
         }
 
+      //* Shop
+      case PagePath.shop:
+        {
+          return _buildRouter(
+            settings: settings,
+            builder: (Object? args) => const ShopPage(),
+          );
+        }
+
       default:
         return _buildRouter(
           settings: settings,

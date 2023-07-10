@@ -14,4 +14,7 @@ class PagePath {
   static const String challengeCategoryDetail = '/challengeCategoryDetail';
   static const String challengeCreate = '/challengeCreate';
   static const String challengeDetail = '/challengeDetail';
+
+  /// Shop Path
+  static const String shop = '/shop';
 }
