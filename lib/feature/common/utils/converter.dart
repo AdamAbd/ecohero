@@ -36,6 +36,7 @@ class Converter {
         assetName: AppIllustration.backgroud1,
         activities: [
           Activity(title: "Berlari", icon: Icons.directions_run),
+          Activity(title: "Menanam Tanaman / Pohon", icon: Icons.yard),
           Activity(title: "Bersepeda", icon: Icons.directions_bike),
           Activity(title: "Main Tenis", icon: Icons.sports_tennis),
           Activity(title: "Naik Gunung", icon: Icons.hiking),
@@ -53,6 +54,10 @@ class Converter {
             icon: Icons.masks_outlined,
           ),
           Activity(
+            title: "Kurangi penggunaan kendaraan pribadi",
+            icon: Icons.motorcycle,
+          ),
+          Activity(
             title: "Tutup jendela khusus memiliki masalah pernapasan",
             icon: Icons.balcony,
           ),
@@ -68,6 +73,10 @@ class Converter {
           Activity(
             title: "Pakai masker khusus memiliki masalah pernapasan",
             icon: Icons.masks_outlined,
+          ),
+          Activity(
+            title: "Kurangi penggunaan kendaraan pribadi",
+            icon: Icons.motorcycle,
           ),
           Activity(
             title: "Batasi kegiatan diluar khusus memiliki masalah pernapasan",
@@ -91,6 +100,10 @@ class Converter {
             icon: Icons.masks_outlined,
           ),
           Activity(
+            title: "Kurangi penggunaan kendaraan pribadi",
+            icon: Icons.motorcycle,
+          ),
+          Activity(
             title:
                 "Tidak diperbolehkan berkegiatan diluar khusus memiliki masalah pernapasan",
             icon: Icons.do_not_step_rounded,
@@ -106,6 +119,10 @@ class Converter {
         assetName: AppIllustration.backgroud5,
         activities: [
           Activity(title: "Pakai masker", icon: Icons.masks_outlined),
+          Activity(
+            title: "Kurangi penggunaan kendaraan pribadi",
+            icon: Icons.motorcycle,
+          ),
           Activity(
             title: "Tidak diperbolehkan berkegiatan diluar",
             icon: Icons.do_not_step_rounded,
