@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:ecohero/locator.dart';
 import 'package:ecohero/feature/feature.dart';
@@ -18,6 +19,31 @@ class ProfileScreen extends StatelessWidget {
     /// Poin
     String vPoin = "";
     bool isLoading = false;
+
+    String? encodeQueryParameters(Map<String, String> params) {
+      return params.entries
+          .map((MapEntry<String, String> e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
+    }
+
+    void launchEmail() async {
+      final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'ecohero1gemastik@gmail.com',
+        query: encodeQueryParameters(
+          <String, String>{
+            'subject': 'Saran & Masukkan Untuk EcoHero',
+          },
+        ),
+      );
+
+      if (await canLaunchUrl(emailLaunchUri)) {
+        await launchUrl(emailLaunchUri);
+      } else {
+        throw 'Could not launch $emailLaunchUri';
+      }
+    }
 
     return SingleChildScrollView(
       child: FutureBuilder<DocumentSnapshot>(
@@ -107,16 +133,19 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 14),
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const ListTile(
-                  leading: Icon(Icons.group),
-                  title: Text("Tentang Kami"),
-                  subtitle: Text("Cari tahu lebih banyak"),
+              GestureDetector(
+                onTap: launchEmail,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const ListTile(
+                    leading: Icon(Icons.mail),
+                    title: Text("Hubungi Kami"),
+                    subtitle: Text("ecohero1gemastik@gmail.com"),
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
