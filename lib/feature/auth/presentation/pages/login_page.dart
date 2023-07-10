@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:ecohero/feature/feature.dart';
 
@@ -13,13 +14,20 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 60),
-            const Text(
-              'Eco Hero',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(backgroundImage: AssetImage(AppIcons.icon)),
+                SizedBox(width: 8),
+                Text(
+                  'EcoHero',
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            const SizedBox(height: 40),
-            const FlutterLogo(size: 400),
-            const SizedBox(height: 60),
+            const Spacer(),
+            Lottie.asset('assets/lottie/landscape.json'),
+            const Spacer(),
             BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
               listener: (context, state) {
                 if (state is GoogleAuthLoading) {
@@ -58,24 +66,29 @@ class LoginPage extends StatelessWidget {
                 }
               },
               builder: (context, state) {
-                return FilledButton(
+                return FilledButton.icon(
                   onPressed: () =>
                       context.read<GoogleAuthCubit>().googleSignIn(),
-                  child: const Row(
+                  icon: SizedBox(
+                    height: 24,
+                    child: Image.asset('assets/icons/google.png'),
+                  ),
+                  label: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.flutter_dash),
-                      SizedBox(width: 8),
                       Text(
-                        'Masuk Sekarang',
+                        'Masuk dengan Google',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 );
               },
-            )
+            ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

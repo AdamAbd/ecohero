@@ -102,15 +102,14 @@ class ProfileScreen extends StatelessWidget {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.teal[800],
-                    borderRadius: BorderRadius.circular(28),
+                    color: Colors.teal[200],
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     "$vPoin Poin",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -189,23 +188,24 @@ class ProfileScreen extends StatelessWidget {
                   }
                 },
                 builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () =>
-                        context.read<GoogleAuthCubit>().googleSignOut(),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 14),
-                      decoration: BoxDecoration(
-                        color: const Color(0xff26B4A1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text("Keluar"),
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: FilledButton.icon(
+                      onPressed: () =>
+                          context.read<GoogleAuthCubit>().googleSignOut(),
+                      icon: const Icon(Icons.logout),
+                      label: const Text(
+                        "Keluar",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   );
                 },
-              ),
+              )
             ],
           );
         },
