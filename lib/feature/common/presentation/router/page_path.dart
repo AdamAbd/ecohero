@@ -17,4 +17,7 @@ class PagePath {
 
   /// Shop Path
   static const String shop = '/shop';
+
+  /// LeaderBoard Path
+  static const String leaderboard = '/leaderboard';
 }

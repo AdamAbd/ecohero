@@ -33,24 +33,30 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 const CustomActivities(),
                 const SizedBox(height: 4),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Papan Peringkat',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text(
-                        'Lainnya',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          PagePath.leaderboard,
+                        ),
+                        child: const Text(
+                          'Lainnya',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
                     ],

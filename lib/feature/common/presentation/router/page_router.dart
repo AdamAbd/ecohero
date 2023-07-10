@@ -8,7 +8,7 @@ class PageRouter {
     RouteSettings settings,
   ) {
     switch (settings.name) {
-      //* Splash
+      /// Splash
       case PagePath.splash:
         {
           return _buildRouter(
@@ -17,7 +17,7 @@ class PageRouter {
           );
         }
 
-      //* Login
+      /// Login
       case PagePath.login:
         {
           return _buildRouter(
@@ -26,7 +26,7 @@ class PageRouter {
           );
         }
 
-      //* Home
+      /// Home
       case PagePath.home:
         {
           return _buildRouter(
@@ -35,7 +35,7 @@ class PageRouter {
           );
         }
 
-      //* Challenge
+      /// Challenge
       case PagePath.challengeCategory:
         {
           return _buildRouter(
@@ -71,12 +71,21 @@ class PageRouter {
           );
         }
 
-      //* Shop
+      /// Shop
       case PagePath.shop:
         {
           return _buildRouter(
             settings: settings,
             builder: (Object? args) => const ShopPage(),
+          );
+        }
+
+      /// LeaderBoard
+      case PagePath.leaderboard:
+        {
+          return _buildRouter(
+            settings: settings,
+            builder: (Object? args) => const LeaderBoardPage(),
           );
         }
 
