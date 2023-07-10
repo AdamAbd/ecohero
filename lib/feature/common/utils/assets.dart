@@ -21,7 +21,7 @@ class AppIllustration {
       "./assets/illustrations/factory_pollution.jpg";
   static const factory = "./assets/illustrations/factory.png";
   static const wasteElectric = "./assets/illustrations/waste_electric.jpg";
-  static const tableLamp = "./assets/illustrations/table_lamp.png";
+  static const lamp = "./assets/illustrations/lamp.png";
   static const burningPollution =
       "./assets/illustrations/burning_pollution.jpg";
   static const burning = "./assets/illustrations/burning.png";

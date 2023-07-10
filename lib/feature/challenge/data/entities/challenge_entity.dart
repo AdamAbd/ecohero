@@ -48,7 +48,7 @@ class ChallengeEntity {
     ChallengeEntity(
       title: 'Listrik Terbuang',
       image: AppIllustration.wasteElectric,
-      imageIll: AppIllustration.tableLamp,
+      imageIll: AppIllustration.lamp,
       desc:
           'Challenge ini bertujuan untuk mengurangi konsumsi listrik yang berlebihan dan tidak efisien yang menyebabkan polusi udara. Kegiatan yang direkomendasikan adalah:',
       act: [

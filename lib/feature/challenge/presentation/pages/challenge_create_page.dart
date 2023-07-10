@@ -100,10 +100,10 @@ class _ChallengeCreatePageState extends State<ChallengeCreatePage> {
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 14),
                         child: Text(
-                          "POIN",
+                          "Informasi Tambahan",
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
