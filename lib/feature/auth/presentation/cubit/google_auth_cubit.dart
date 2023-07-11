@@ -61,6 +61,7 @@ class GoogleAuthCubit extends Cubit<GoogleAuthState> {
         transaction.set(userDocRef, {
           ...userEntity.toMap(),
           'poin': 0,
+          'isDeleted': false,
           'updatedAt': DateTime.now(),
         });
       } else {
